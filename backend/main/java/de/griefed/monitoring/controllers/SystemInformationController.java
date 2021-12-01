@@ -20,16 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.griefed.monitoring;
+package de.griefed.monitoring.controllers;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import de.griefed.monitoring.services.InformationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
-public class MonitoringJavaApplication {
+@RestController
+@CrossOrigin(origins = "{*}")
+@RequestMapping("/api/v1")
+public class SystemInformationController {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MonitoringJavaApplication.class, args);
+    private final InformationService INFORMATION_SERVICE;
+
+    @Autowired
+    public SystemInformationController(InformationService injectedInformationService) {
+        this.INFORMATION_SERVICE = injectedInformationService;
     }
 
+    @CrossOrigin(origins = "{*}")
+    @RequestMapping(value = "host", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getHostInformation() {
+        return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
+    }
 }

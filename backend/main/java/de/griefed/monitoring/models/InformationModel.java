@@ -20,16 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.griefed.monitoring;
+package de.griefed.monitoring.models;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+public interface InformationModel {
 
-@SpringBootApplication
-public class MonitoringJavaApplication {
+    public String getName();
 
-    public static void main(String[] args) {
-        SpringApplication.run(MonitoringJavaApplication.class, args);
-    }
+    public String getValue();
+
 
 }
