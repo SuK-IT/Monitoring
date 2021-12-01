@@ -1,0 +1,49 @@
+{
+  "name": "monitoring",
+  "version": "0.0.1",
+  "description": "Simple monitoring app. Serves as monitor and agent",
+  "productName": "Monitoring",
+  "private": true,
+  "author": {
+    "name": "Griefed",
+    "email": "griefed@griefed.de",
+    "url": "https://griefed.de/"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "test": "echo \"No test specified\" && exit 0",
+    "clean": "quasar clean",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "1.12.1",
+    "axios": "0.24.0",
+    "core-js": "3.19.1",
+    "quasar": "2.3.3"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.3",
+    "@quasar/app": "^3.2.3",
+    "eslint": "~8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-vue": "^8.1.1",
+    "eslint-webpack-plugin": "^3.1.1"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": "^16.9.1",
+    "npm": "^7.23.0",
+    "yarn": "^1.22.11"
+  }
+}
