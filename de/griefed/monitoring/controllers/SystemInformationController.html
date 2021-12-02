@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -134,6 +134,10 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#INFORMATION_SERVICE">INFORMATION_SERVICE</a></span></code>&nbsp;</td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#PROPERTIES">PROPERTIES</a></span></code>&nbsp;</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -149,7 +153,8 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#SystemInformationController-de.griefed.monitoring.services.InformationService-">SystemInformationController</a></span>(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#SystemInformationController-de.griefed.monitoring.services.InformationService-de.griefed.monitoring.ApplicationProperties-">SystemInformationController</a></span>(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService,
+                           <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -167,6 +172,14 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getAgentInformation--">getAgentInformation</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getAgentsInformation--">getAgentsInformation</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getHostInformation--">getHostInformation</a></span>()</code>&nbsp;</td>
 </tr>
@@ -195,10 +208,19 @@ extends java.lang.Object</pre>
 <a name="INFORMATION_SERVICE">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>INFORMATION_SERVICE</h4>
 <pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a> INFORMATION_SERVICE</pre>
+</li>
+</ul>
+<a name="PROPERTIES">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>PROPERTIES</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a> PROPERTIES</pre>
 </li>
 </ul>
 </li>
@@ -209,14 +231,15 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="SystemInformationController-de.griefed.monitoring.services.InformationService-">
+<a name="SystemInformationController-de.griefed.monitoring.services.InformationService-de.griefed.monitoring.ApplicationProperties-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SystemInformationController</h4>
 <pre>@Autowired
-public&nbsp;SystemInformationController(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService)</pre>
+public&nbsp;SystemInformationController(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService,
+                                              <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties)</pre>
 </li>
 </ul>
 </li>
@@ -230,7 +253,7 @@ public&nbsp;SystemInformationController(<a href="../../../../de/griefed/monitori
 <a name="getHostInformation--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getHostInformation</h4>
 <pre>@CrossOrigin(origins="{*}")
@@ -238,6 +261,32 @@ public&nbsp;SystemInformationController(<a href="../../../../de/griefed/monitori
                 method=GET,
                 produces="application/json")
 public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp;getHostInformation()</pre>
+</li>
+</ul>
+<a name="getAgentInformation--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAgentInformation</h4>
+<pre>@CrossOrigin(origins="{*}")
+ @RequestMapping(value="agent",
+                method=GET,
+                produces="application/json")
+public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp;getAgentInformation()</pre>
+</li>
+</ul>
+<a name="getAgentsInformation--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getAgentsInformation</h4>
+<pre>@CrossOrigin(origins="{*}")
+ @RequestMapping(value="agents",
+                method=GET,
+                produces="application/json")
+public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp;getAgentsInformation()</pre>
 </li>
 </ul>
 </li>
