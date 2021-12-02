@@ -22,28 +22,50 @@
  */
 package de.griefed.monitoring.services;
 
+import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.components.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class InformationService {
 
+    private static final Logger LOG = LogManager.getLogger(InformationService.class);
+
     private final CpuComponent CPU_COMPONENT;
     private final DiskComponent DISK_COMPONENT;
     private final HostComponent HOST_COMPONENT;
     private final OsComponent OS_COMPONENT;
     private final RamComponent RAM_COMPONENT;
-
+    private final ApplicationProperties PROPERTIES;
     private final StringBuilder INFORMATION = new StringBuilder();
+    private final StringBuilder AGENTS = new StringBuilder();
 
     @Autowired
-    public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent, OsComponent injectedOsComponent, RamComponent injectedRamComponent) {
+    public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent, OsComponent injectedOsComponent, RamComponent injectedRamComponent, ApplicationProperties injectedApplicationProperties) {
         this.CPU_COMPONENT = injectedCpuComponent;
         this.DISK_COMPONENT = injectedDiskComponent;
         this.HOST_COMPONENT = injectedHostComponent;
         this.OS_COMPONENT = injectedOsComponent;
         this.RAM_COMPONENT = injectedRamComponent;
+        this.PROPERTIES = injectedApplicationProperties;
+
+        if (PROPERTIES.getAgents().size() > 1) {
+
+            AGENTS.append(PROPERTIES.getAgents().get(0).split(",")[0]).append(",");
+            for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
+                AGENTS.append(PROPERTIES.getAgents().get(i).split(",")[0]).append(",");
+            }
+            AGENTS.append(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]);
+
+        } else {
+
+            AGENTS.append(PROPERTIES.getAgents().get(0).split(",")[0]);
+
+        }
+
     }
 
     public String retrieveHostInformation() {
@@ -62,5 +84,22 @@ public class InformationService {
         INFORMATION.append("}");
 
         return INFORMATION.toString();
+    }
+
+    public String retrieveAgentsInformation() {
+
+        if (PROPERTIES.getAgents().get(0).split(",")[0].equals("127.0.0.1") && PROPERTIES.getAgents().size() == 1) {
+
+            LOG.warn("WARNING! Agents are not configured! Not retrieving information.");
+
+            return "{\"message\": \"Agents are not configured! Not retrieving information.\"}";
+
+        } else {
+
+            LOG.info(String.format("Retrieving information for %s", AGENTS));
+
+            return null;
+
+        }
     }
 }

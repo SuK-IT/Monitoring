@@ -22,14 +22,29 @@
  */
 package de.griefed.monitoring;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
+@PropertySources({
+        @PropertySource("classpath:application.properties"),
+        @PropertySource(value = "file:./application.properties", ignoreResourceNotFound = true)
+})
 public class MonitoringJavaApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MonitoringJavaApplication.class, args);
-    }
+    private static final Logger LOG = LogManager.getLogger(MonitoringJavaApplication.class);
 
+    public static void main(String[] args) {
+
+        if (Boolean.parseBoolean(args[0])) {
+            LOG.info("Running Monitoring as agent.");
+        }
+
+        SpringApplication.run(MonitoringJavaApplication.class, args);
+
+    }
 }

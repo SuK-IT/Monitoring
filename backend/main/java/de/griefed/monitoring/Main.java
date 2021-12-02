@@ -27,8 +27,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
+import java.util.Properties;
 
 public class Main {
 
@@ -43,6 +46,18 @@ public class Main {
         //Create our log4j2.xml and application.properties
         createFile(log4j2xml);
         createFile(properties);
+
+        Properties properties = new Properties();
+
+        try (InputStream inputStream = new FileInputStream("application.properties")) {
+            new Properties();
+            properties.load(inputStream);
+        } catch (
+                IOException ex) {
+            LOG.error("Couldn't read properties file.", ex);
+        }
+
+        args = new String[]{properties.getProperty("de.griefed.monitoring.agent", "false")};
 
         MonitoringJavaApplication.main(args);
     }

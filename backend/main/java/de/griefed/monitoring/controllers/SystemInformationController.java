@@ -22,6 +22,7 @@
  */
 package de.griefed.monitoring.controllers;
 
+import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.services.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,15 +38,43 @@ import org.springframework.web.bind.annotation.RestController;
 public class SystemInformationController {
 
     private final InformationService INFORMATION_SERVICE;
+    private final ApplicationProperties PROPERTIES;
 
     @Autowired
-    public SystemInformationController(InformationService injectedInformationService) {
+    public SystemInformationController(InformationService injectedInformationService, ApplicationProperties injectedApplicationProperties) {
         this.INFORMATION_SERVICE = injectedInformationService;
+        this.PROPERTIES = injectedApplicationProperties;
     }
 
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "host", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getHostInformation() {
-        return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
+        if (PROPERTIES.isAgent()) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
+        }
     }
+
+    @CrossOrigin(origins = "{*}")
+    @RequestMapping(value = "agent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAgentInformation() {
+        if (!PROPERTIES.isAgent()) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
+        }
+    }
+
+    @CrossOrigin(origins = "{*}")
+    @RequestMapping(value = "agents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAgentsInformation() {
+        if (PROPERTIES.isAgent()) {
+            return ResponseEntity.ok(INFORMATION_SERVICE.retrieveAgentsInformation());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }
