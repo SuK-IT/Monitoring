@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -134,46 +134,50 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#AGENT_DOWN">AGENT_DOWN</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#agentInformation">agentInformation</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>private java.lang.StringBuilder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#AGENTS">AGENTS</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private java.lang.StringBuilder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#AGENTS_INFORMATION">AGENTS_INFORMATION</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components">CpuComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#CPU_COMPONENT">CPU_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components">DiskComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#DISK_COMPONENT">DISK_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#HOST_COMPONENT">HOST_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private java.lang.StringBuilder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#INFORMATION">INFORMATION</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private static org.apache.logging.log4j.Logger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#LOG">LOG</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components">OsComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#OS_COMPONENT">OS_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#PROPERTIES">PROPERTIES</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#RAM_COMPONENT">RAM_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private org.springframework.web.client.RestTemplate</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#REST_TEMPLATE">REST_TEMPLATE</a></span></code>&nbsp;</td>
 </tr>
@@ -232,6 +236,12 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#retrieveHostInformation--">retrieveHostInformation</a></span>()</code>
 <div class="block">Retrieve all information about the host.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#setInformation--">setInformation</a></span>()</code>
+<div class="block">Set agent information.</div>
 </td>
 </tr>
 </table>
@@ -358,7 +368,7 @@ extends java.lang.Object</pre>
 <a name="AGENT_DOWN">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>AGENT_DOWN</h4>
 <pre>private final&nbsp;java.lang.String AGENT_DOWN</pre>
@@ -366,6 +376,15 @@ extends java.lang.Object</pre>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#de.griefed.monitoring.services.InformationService.AGENT_DOWN">Constant Field Values</a></dd>
 </dl>
+</li>
+</ul>
+<a name="agentInformation">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>agentInformation</h4>
+<pre>private&nbsp;java.lang.String agentInformation</pre>
 </li>
 </ul>
 </li>
@@ -421,6 +440,16 @@ public&nbsp;InformationService(<a href="../../../../de/griefed/monitoring/compon
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>String in JSON format. Returns all information about the host.</dd>
 </dl>
+</li>
+</ul>
+<a name="setInformation--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setInformation</h4>
+<pre>public&nbsp;void&nbsp;setInformation()</pre>
+<div class="block">Set agent information.</div>
 </li>
 </ul>
 <a name="retrieveAgentsInformation--">

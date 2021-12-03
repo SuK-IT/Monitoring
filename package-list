@@ -1,5 +1,6 @@
 de.griefed.monitoring
 de.griefed.monitoring.components
+de.griefed.monitoring.configurations
 de.griefed.monitoring.controllers
 de.griefed.monitoring.models
 de.griefed.monitoring.services
