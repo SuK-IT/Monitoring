@@ -117,7 +117,7 @@ public class InformationService {
     }
 
     /**
-     * Set agent information.
+     * Retrieve all information about the configured agent(s) and stores it in memory for retrieval by {@link #retrieveAgentsInformation()}.
      * @author Griefed
      */
     public void setInformation() {
@@ -167,56 +167,12 @@ public class InformationService {
     }
 
     /**
-     * Retrieve all information about the configured agent(s).
+     * Retrieve agents information.
      * @author Griefed
      * @return String in JSON format. Returns information about the configured agent(s).
      */
     public String retrieveAgentsInformation() {
         return agentInformation;
-        /*
-        if (AGENTS_INFORMATION.length() > 0) {
-            AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
-        }
-
-        // If agent-configuration is default, do not retrieve anything.
-        if (PROPERTIES.getAgents().get(0).split(",")[0].equals("127.0.0.1") && PROPERTIES.getAgents().size() == 1) {
-
-            LOG.warn("WARNING! Agents are not configured! Not retrieving information.");
-
-            return "{\"status\": " + 1 + ",\"message\": \"Agents are not configured! Not retrieving information.\"}";
-
-        } else {
-
-            for (String agent : AGENTS.toString().split(",")) {
-                LOG.info(String.format("Retrieving information for %s", agent));
-            }
-
-            // Retrieve all information for all agents if more than one is configured
-            if (PROPERTIES.getAgents().size() > 1) {
-
-                AGENTS_INFORMATION.append("{\"agents").append("\": [");
-
-                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0])).append(",");
-
-                for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
-
-                    AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(i).split(",")[0])).append(",");
-
-                }
-
-                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]));
-
-            // Retrieve information for agent if only one is configured
-            } else {
-
-                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0]));
-
-            }
-
-            AGENTS_INFORMATION.append("]}");
-
-            return AGENTS_INFORMATION.toString();
-        }*/
     }
 
     /**
