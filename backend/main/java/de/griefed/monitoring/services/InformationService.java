@@ -78,7 +78,7 @@ public class InformationService {
             INFORMATION.delete(0, INFORMATION.length());
         }
 
-        INFORMATION.append("{");
+        INFORMATION.append("{\"status\": " + 0 + ",\"message\": \"This is a host.\",");
 
         INFORMATION.append(HOST_COMPONENT.toString()).append(",");
         INFORMATION.append(OS_COMPONENT.toString()).append(",");
@@ -100,14 +100,18 @@ public class InformationService {
 
             LOG.warn("WARNING! Agents are not configured! Not retrieving information.");
 
-            return "{\"message\": \"Agents are not configured! Not retrieving information.\"}";
+            return "{\"status\": " + 1 + ",\"message\": \"Agents are not configured! Not retrieving information.\"}";
 
         } else {
 
-            LOG.info(String.format("Retrieving information for %s", AGENTS));
+            for (String agent : AGENTS.toString().split(",")) {
+                LOG.info(String.format("Retrieving information for %s", agent));
+            }
 
+            // Retrieve all information for all agents
             if (PROPERTIES.getAgents().size() > 1) {
 
+                AGENTS_INFORMATION.append("{\"agents").append("\": [");
 
                 AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
                         PROPERTIES.getAgents().get(0).split(",")[0] + "/api/v1/agent",
@@ -115,7 +119,6 @@ public class InformationService {
                 ).append(",");
 
                 for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
-
 
                     AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
                             PROPERTIES.getAgents().get(i).split(",")[0] + "/api/v1/agent",
@@ -129,6 +132,7 @@ public class InformationService {
                         String.class)
                 );
 
+            // Retrieve information for agent
             } else {
 
                 AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
@@ -137,6 +141,10 @@ public class InformationService {
                 );
 
             }
+
+            //AGENTS_INFORMATION.delete(AGENTS_INFORMATION.length()-1,AGENTS_INFORMATION.length());
+
+            AGENTS_INFORMATION.append("],\"status\": " + 0 + ",\"message\": \"Agents information retrieved successfully.\"}");
 
             return AGENTS_INFORMATION.toString();
         }

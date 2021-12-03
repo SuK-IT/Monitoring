@@ -99,7 +99,8 @@ module.exports = configure(function (ctx) {
         'Notify',
         'Loading',
         'LoadingBar',
-        'AppFullscreen'
+        'AppFullscreen',
+        'Cookies'
       ],
 
       config: {
@@ -168,7 +169,7 @@ module.exports = configure(function (ctx) {
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#027be3',
+        theme_color: '#325358',
         icons: [
           {
             src: 'icons/icon-128x128.png',
