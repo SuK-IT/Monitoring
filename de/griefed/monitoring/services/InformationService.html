@@ -229,7 +229,7 @@ extends java.lang.Object</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--">retrieveAgentsInformation</a></span>()</code>
-<div class="block">Retrieve all information about the configured agent(s).</div>
+<div class="block">Retrieve agents information.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -241,7 +241,7 @@ extends java.lang.Object</pre>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#setInformation--">setInformation</a></span>()</code>
-<div class="block">Set agent information.</div>
+<div class="block">Retrieve all information about the configured agent(s) and stores it in memory for retrieval by <a href="../../../../de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--"><code>retrieveAgentsInformation()</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -449,7 +449,7 @@ public&nbsp;InformationService(<a href="../../../../de/griefed/monitoring/compon
 <li class="blockList">
 <h4>setInformation</h4>
 <pre>public&nbsp;void&nbsp;setInformation()</pre>
-<div class="block">Set agent information.</div>
+<div class="block">Retrieve all information about the configured agent(s) and stores it in memory for retrieval by <a href="../../../../de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--"><code>retrieveAgentsInformation()</code></a>.</div>
 </li>
 </ul>
 <a name="retrieveAgentsInformation--">
@@ -459,7 +459,7 @@ public&nbsp;InformationService(<a href="../../../../de/griefed/monitoring/compon
 <li class="blockList">
 <h4>retrieveAgentsInformation</h4>
 <pre>public&nbsp;java.lang.String&nbsp;retrieveAgentsInformation()</pre>
-<div class="block">Retrieve all information about the configured agent(s).</div>
+<div class="block">Retrieve agents information.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>String in JSON format. Returns information about the configured agent(s).</dd>
