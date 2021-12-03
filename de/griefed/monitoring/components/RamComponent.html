@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -134,12 +134,32 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private static org.apache.logging.log4j.Logger</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#LOG">LOG</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#OSHI_VM_MAC_ADDR_PROPERTIES">OSHI_VM_MAC_ADDR_PROPERTIES</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>private java.lang.StringBuilder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#RAM_INFORMATION">RAM_INFORMATION</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>private oshi.SystemInfo</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private java.util.Properties</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmMacAddressProps">vmMacAddressProps</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private java.lang.String[]</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmModelArray">vmModelArray</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private java.util.Map&lt;java.lang.String,java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmVendor">vmVendor</a></span></code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -182,6 +202,10 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#getValue--">getValue</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>private boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#identifyVM--">identifyVM</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -207,6 +231,15 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <!--   -->
 </a>
 <h3>Field Detail</h3>
+<a name="LOG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LOG</h4>
+<pre>private static final&nbsp;org.apache.logging.log4j.Logger LOG</pre>
+</li>
+</ul>
 <a name="RAM_INFORMATION">
 <!--   -->
 </a>
@@ -219,10 +252,50 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <a name="SYSTEM_INFO">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>SYSTEM_INFO</h4>
 <pre>private final&nbsp;oshi.SystemInfo SYSTEM_INFO</pre>
+</li>
+</ul>
+<a name="vmVendor">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>vmVendor</h4>
+<pre>private final&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt; vmVendor</pre>
+</li>
+</ul>
+<a name="vmModelArray">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>vmModelArray</h4>
+<pre>private final&nbsp;java.lang.String[] vmModelArray</pre>
+</li>
+</ul>
+<a name="OSHI_VM_MAC_ADDR_PROPERTIES">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>OSHI_VM_MAC_ADDR_PROPERTIES</h4>
+<pre>private final&nbsp;java.lang.String OSHI_VM_MAC_ADDR_PROPERTIES</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#de.griefed.monitoring.components.RamComponent.OSHI_VM_MAC_ADDR_PROPERTIES">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="vmMacAddressProps">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>vmMacAddressProps</h4>
+<pre>private final&nbsp;java.util.Properties vmMacAddressProps</pre>
 </li>
 </ul>
 </li>
@@ -275,6 +348,15 @@ public&nbsp;RamComponent()</pre>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#getValue--">getValue</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
 </dl>
+</li>
+</ul>
+<a name="identifyVM--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>identifyVM</h4>
+<pre>private&nbsp;boolean&nbsp;identifyVM()</pre>
 </li>
 </ul>
 <a name="toString--">
