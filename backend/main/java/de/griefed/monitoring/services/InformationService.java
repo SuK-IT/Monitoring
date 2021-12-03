@@ -27,7 +27,9 @@ import de.griefed.monitoring.components.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class InformationService {
@@ -42,6 +44,8 @@ public class InformationService {
     private final ApplicationProperties PROPERTIES;
     private final StringBuilder INFORMATION = new StringBuilder();
     private final StringBuilder AGENTS = new StringBuilder();
+    private final StringBuilder AGENTS_INFORMATION = new StringBuilder();
+    private final RestTemplate REST_TEMPLATE;
 
     @Autowired
     public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent, OsComponent injectedOsComponent, RamComponent injectedRamComponent, ApplicationProperties injectedApplicationProperties) {
@@ -51,6 +55,7 @@ public class InformationService {
         this.OS_COMPONENT = injectedOsComponent;
         this.RAM_COMPONENT = injectedRamComponent;
         this.PROPERTIES = injectedApplicationProperties;
+        this.REST_TEMPLATE = new RestTemplateBuilder().build();
 
         if (PROPERTIES.getAgents().size() > 1) {
 
@@ -87,6 +92,9 @@ public class InformationService {
     }
 
     public String retrieveAgentsInformation() {
+        if (AGENTS_INFORMATION.length() > 0) {
+            AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
+        }
 
         if (PROPERTIES.getAgents().get(0).split(",")[0].equals("127.0.0.1") && PROPERTIES.getAgents().size() == 1) {
 
@@ -98,8 +106,39 @@ public class InformationService {
 
             LOG.info(String.format("Retrieving information for %s", AGENTS));
 
-            return null;
+            if (PROPERTIES.getAgents().size() > 1) {
 
+
+                AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
+                        PROPERTIES.getAgents().get(0).split(",")[0] + "/api/v1/agent",
+                        String.class)
+                ).append(",");
+
+                for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
+
+
+                    AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
+                            PROPERTIES.getAgents().get(i).split(",")[0] + "/api/v1/agent",
+                            String.class)
+                    ).append(",");
+
+                }
+
+                AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
+                        PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0] + "/api/v1/agent",
+                        String.class)
+                );
+
+            } else {
+
+                AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
+                        PROPERTIES.getAgents().get(0).split(",")[0] + "/api/v1/agent",
+                        String.class)
+                );
+
+            }
+
+            return AGENTS_INFORMATION.toString();
         }
     }
 }

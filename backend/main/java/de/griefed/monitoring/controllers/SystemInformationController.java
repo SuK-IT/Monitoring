@@ -69,7 +69,7 @@ public class SystemInformationController {
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "agents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAgentsInformation() {
-        if (PROPERTIES.isAgent()) {
+        if (!PROPERTIES.isAgent()) {
             return ResponseEntity.ok(INFORMATION_SERVICE.retrieveAgentsInformation());
         } else {
             return ResponseEntity.badRequest().build();

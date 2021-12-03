@@ -23,22 +23,58 @@
 package de.griefed.monitoring.components;
 
 import de.griefed.monitoring.models.InformationModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.NetworkIF;
 import oshi.hardware.PhysicalMemory;
+import oshi.util.FileUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 @Service
 public class RamComponent implements InformationModel {
 
+    private static final Logger LOG = LogManager.getLogger(RamComponent.class);
+
     private final StringBuilder RAM_INFORMATION = new StringBuilder();
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
+    private final Map<String, String> vmVendor = new HashMap<>();
+    private final String[] vmModelArray = new String[] {
+            "Linux KVM",
+            "Linux lguest",
+            "OpenVZ",
+            "Qemu",
+            "Microsoft Virtual PC",
+            "VMWare",
+            "linux-vserver",
+            "Xen",
+            "FreeBSD Jail",
+            "VirtualBox",
+            "Parallels",
+            "Linux Containers",
+            "LXC"};
+    private final String OSHI_VM_MAC_ADDR_PROPERTIES = "oshi.vmmacaddr.properties";
+    private final Properties vmMacAddressProps = FileUtil
+            .readPropertiesFromFilename(OSHI_VM_MAC_ADDR_PROPERTIES);
 
     @Autowired
     public RamComponent() {
-
+        vmVendor.put("bhyve bhyve", "bhyve");
+        vmVendor.put("KVMKVMKVM", "KVM");
+        vmVendor.put("TCGTCGTCGTCG", "QEMU");
+        vmVendor.put("Microsoft Hv", "Microsoft Hyper-V or Windows Virtual PC");
+        vmVendor.put("lrpepyh vr", "Parallels");
+        vmVendor.put("VMwareVMware", "VMware");
+        vmVendor.put("XenVMMXenVMM", "Xen HVM");
+        vmVendor.put("ACRNACRNACRN", "Project ACRN");
+        vmVendor.put("QNXQVMBSQG", "QNX Hypervisor");
     }
 
     @Override
@@ -53,47 +89,79 @@ public class RamComponent implements InformationModel {
         }
 
         RAM_INFORMATION.append("\"total\": \"").append(SYSTEM_INFO.getHardware().getMemory().getTotal() / 1073741824).append(" GB\",");
-        RAM_INFORMATION.append("\"available\": \"").append(SYSTEM_INFO.getHardware().getMemory().getAvailable() / 1073741824).append(" GB\",");
+        RAM_INFORMATION.append("\"available\": \"").append(SYSTEM_INFO.getHardware().getMemory().getAvailable() / 1073741824).append(" GB\"");
 
-        List<PhysicalMemory> physicalMemoryList = SYSTEM_INFO.getHardware().getMemory().getPhysicalMemory();
+        if (!identifyVM() && SYSTEM_INFO.getHardware().getMemory().getPhysicalMemory().size() >= 1) {
 
-        RAM_INFORMATION.append("\"physical_memory\": [");
+            List<PhysicalMemory> physicalMemoryList = SYSTEM_INFO.getHardware().getMemory().getPhysicalMemory();
 
-        if (physicalMemoryList.size() > 1) {
+            RAM_INFORMATION.append(",").append("\"physical_memory\": [");
 
-            RAM_INFORMATION.append("{");
-            RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
-            RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
-            RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
-            RAM_INFORMATION.append("},");
+            if (physicalMemoryList.size() > 1) {
 
-            for (int i = 1; i < physicalMemoryList.size() -1; i++) {
                 RAM_INFORMATION.append("{");
-                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(i).getBankLabel()).append("\",");
-                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(i).getCapacity() / 1073741824).append(" GB\",");
-                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(i).getMemoryType()).append("\"");
+                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
+                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
+                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
                 RAM_INFORMATION.append("},");
+
+                for (int i = 1; i < physicalMemoryList.size() - 1; i++) {
+                    RAM_INFORMATION.append("{");
+                    RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(i).getBankLabel()).append("\",");
+                    RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(i).getCapacity() / 1073741824).append(" GB\",");
+                    RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(i).getMemoryType()).append("\"");
+                    RAM_INFORMATION.append("},");
+                }
+
+                RAM_INFORMATION.append("{");
+                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getBankLabel()).append("\",");
+                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getCapacity() / 1073741824).append(" GB\",");
+                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getMemoryType()).append("\"");
+                RAM_INFORMATION.append("}");
+
+            } else {
+
+                RAM_INFORMATION.append("{");
+                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
+                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
+                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
+                RAM_INFORMATION.append("},");
+
             }
 
-            RAM_INFORMATION.append("{");
-            RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getBankLabel()).append("\",");
-            RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getCapacity() / 1073741824).append(" GB\",");
-            RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getMemoryType()).append("\"");
-            RAM_INFORMATION.append("}");
-
-        } else {
-
-            RAM_INFORMATION.append("{");
-            RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
-            RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
-            RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
-            RAM_INFORMATION.append("},");
+            RAM_INFORMATION.append("]");
 
         }
 
-        RAM_INFORMATION.append("]");
-
         return RAM_INFORMATION.toString();
+    }
+
+    private boolean identifyVM() {
+        SystemInfo si = new SystemInfo();
+        HardwareAbstractionLayer hw = si.getHardware();
+        // Check CPU Vendor
+        String vendor = hw.getProcessor().getProcessorIdentifier().getVendor().trim();
+        if (vmVendor.containsKey(vendor)) {
+            LOG.info("vendor: " + vendor);
+            return true;
+        }
+
+        // Try well known models
+        String model = hw.getComputerSystem().getModel();
+        for (String vm : vmModelArray) {
+            if (model.contains(vm)) {
+                LOG.info("model: " + model);
+                return true;
+            }
+        }
+        String manufacturer = hw.getComputerSystem().getManufacturer();
+        if ("Microsoft Corporation".equals(manufacturer) && "Virtual Machine".equals(model)) {
+            LOG.info("manufacturer: " + manufacturer);
+            return true;
+        }
+
+        // Couldn't find VM, return empty string
+        return false;
     }
 
     @Override
