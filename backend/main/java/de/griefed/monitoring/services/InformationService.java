@@ -28,6 +28,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -50,6 +52,8 @@ public class InformationService {
     private final StringBuilder AGENTS = new StringBuilder();
     private final StringBuilder AGENTS_INFORMATION = new StringBuilder();
     private final RestTemplate REST_TEMPLATE;
+
+    private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Down, unreachable or unavailable.\",\"agent\": \"%s\"}";
 
     /**
      * Constructor responsible for DI.
@@ -138,38 +142,48 @@ public class InformationService {
 
                 AGENTS_INFORMATION.append("{\"agents").append("\": [");
 
-                AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
-                        PROPERTIES.getAgents().get(0).split(",")[0] + "/api/v1/agent",
-                        String.class)
-                ).append(",");
+                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0])).append(",");
 
                 for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
 
-                    AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
-                            PROPERTIES.getAgents().get(i).split(",")[0] + "/api/v1/agent",
-                            String.class)
-                    ).append(",");
+                    AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(i).split(",")[0])).append(",");
 
                 }
 
-                AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
-                        PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0] + "/api/v1/agent",
-                        String.class)
-                );
+                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]));
 
             // Retrieve information for agent if only one is configured
             } else {
 
-                AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
-                        PROPERTIES.getAgents().get(0).split(",")[0] + "/api/v1/agent",
-                        String.class)
-                );
+                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0]));
 
             }
 
-            AGENTS_INFORMATION.append("],\"status\": " + 0 + ",\"message\": \"Agents information retrieved successfully.\"}");
+            AGENTS_INFORMATION.append("]}");
 
             return AGENTS_INFORMATION.toString();
+        }
+    }
+
+    /**
+     * Get information from an agent. If the HttpStatus is OK, the response is returned. If it is not, status 1 is returned,
+     * indicating that the agent has problems.
+     * @author Griefed
+     * @param agent The agent to query.
+     * @return String in JSON format. Returns the information gathered from the agent.
+     */
+    private String getResponse(String agent) {
+        ResponseEntity<String> response;
+        try {
+            response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return response.getBody();
+            } else {
+                return String.format(AGENT_DOWN, agent);
+            }
+        } catch (Exception ex) {
+            return String.format(AGENT_DOWN, agent);
         }
     }
 }
