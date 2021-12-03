@@ -28,22 +28,40 @@ import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.software.os.OperatingSystem;
 
+/**
+ * Class responsible for retrieving all interesting information about the OS.
+ * @author Griefed
+ */
 @Service
 public class OsComponent implements InformationModel {
 
     private final StringBuilder OS_INFORMATION = new StringBuilder();
     private final OperatingSystem OS_INFO = new SystemInfo().getOperatingSystem();
 
+    /**
+     * Constructor responisble for DI.
+     * @author Griefed
+     */
     @Autowired
     public OsComponent() {
 
     }
 
+    /**
+     * Getter for the name of the component.
+     * @author Griefed
+     * @return String. Returns the name of the component.
+     */
     @Override
     public String getName() {
         return "os";
     }
 
+    /**
+     * Getter for the information about the OS. Gathers information about the manufacturer, family, version, bitness and how long it's been up.
+     * @author Griefed
+     * @return String. Information about the OS in JSON format.
+     */
     @Override
     public String getValue() {
         if (OS_INFORMATION.length() > 0) {

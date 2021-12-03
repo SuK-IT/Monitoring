@@ -29,15 +29,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
-import oshi.hardware.NetworkIF;
 import oshi.hardware.PhysicalMemory;
-import oshi.util.FileUtil;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+/**
+ * Class responsible for retrieving all interesting values about the memory.
+ * @author Griefed
+ */
 @Service
 public class RamComponent implements InformationModel {
 
@@ -61,9 +62,11 @@ public class RamComponent implements InformationModel {
             "Linux Containers",
             "LXC"};
     private final String OSHI_VM_MAC_ADDR_PROPERTIES = "oshi.vmmacaddr.properties";
-    private final Properties vmMacAddressProps = FileUtil
-            .readPropertiesFromFilename(OSHI_VM_MAC_ADDR_PROPERTIES);
 
+    /**
+     * Constructor responsible for DI.
+     * @author Griefed
+     */
     @Autowired
     public RamComponent() {
         vmVendor.put("bhyve bhyve", "bhyve");
@@ -77,11 +80,22 @@ public class RamComponent implements InformationModel {
         vmVendor.put("QNXQVMBSQG", "QNX Hypervisor");
     }
 
+    /**
+     * Getter for the name of this compnent.
+     * @author Griefed
+     * @return String. Returns the name of this component.
+     */
     @Override
     public String getName() {
         return "memory";
     }
 
+    /**
+     * Getter for the information about the memory. Gathers information about the total available memory, free memory and,
+     * if applicable, gathers additional information about the physical memory sticks bank, capacity and type.
+     * @author Griefed
+     * @return String. Information about the memory in JSON format.
+     */
     @Override
     public String getValue() {
         if (RAM_INFORMATION.length() > 0) {

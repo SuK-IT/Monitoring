@@ -22,12 +22,7 @@
  */
 package de.griefed.monitoring.components;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.griefed.monitoring.Main;
 import de.griefed.monitoring.models.InformationModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
@@ -36,6 +31,10 @@ import oshi.hardware.NetworkIF;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class responsible for retrieving all interesting information about the host.
+ * @author Griefed
+ */
 @Service
 public class HostComponent implements InformationModel {
 
@@ -43,16 +42,31 @@ public class HostComponent implements InformationModel {
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final List<NetworkIF> interfaces = SYSTEM_INFO.getHardware().getNetworkIFs();
 
+    /**
+     * Constructor responsible for DI.
+     * @author Griefed
+     */
     @Autowired
     public HostComponent() {
 
     }
 
+    /**
+     * Getter for the name of this component.
+     * @author Griefed
+     * @return String. Returns the name of the component.
+     */
     @Override
     public String getName() {
         return "host";
     }
 
+    /**
+     * Getter for the information about the host. Gathers information about the host name, domain name, and for all the network
+     * interfaces respectively, it gathers the name, ipv4 address, subnet mask in CIDR notation and the mac address.
+     * @author Griefed
+     * @return String. Information about the host in JSON format.
+     */
     @Override
     public String getValue() {
         if (HOST_INFORMATION.length() > 0) {

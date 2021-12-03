@@ -30,6 +30,10 @@ import oshi.software.os.OSFileStore;
 
 import java.util.List;
 
+/**
+ * Class responsible for retrieving all interesting values about the disk drives.
+ * @author Griefed
+ */
 @Service
 public class DiskComponent implements InformationModel {
 
@@ -37,16 +41,31 @@ public class DiskComponent implements InformationModel {
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final List<OSFileStore> DISK_STORES = SYSTEM_INFO.getOperatingSystem().getFileSystem().getFileStores(true);
 
+    /**
+     * Cosntructor responsible for DI.
+     * @author Griefed
+     */
     @Autowired
     public DiskComponent() {
 
     }
 
+    /**
+     * Getter for the name of this component.
+     * @author Griefed
+     * @return String. Returns the name of the component.
+     */
     @Override
     public String getName() {
         return "disks";
     }
 
+    /**
+     * Getter for the information about the disk drives. Gathers information, for each disk, about the name, total space
+     * and free space left.
+     * @author Griefed
+     * @return String. Information about the disk drives in JSON format.
+     */
     @Override
     public String getValue() {
         if (DISK_INFORMATION.length() > 0) {

@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class responsible for handling our properties. Loaded at boot in {@link Main}.
+ * @author Griefed
+ */
 @Component
 public class ApplicationProperties {
 

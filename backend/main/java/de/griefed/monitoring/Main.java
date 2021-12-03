@@ -33,6 +33,11 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * Main class. Copies the log4j2.xml and application.properties from the JAR to the base directory where this program is
+ * being executed in.
+ * @author Griefed
+ */
 public class Main {
 
     private static final Logger LOG = LogManager.getLogger(Main.class);
@@ -41,6 +46,11 @@ public class Main {
 
     private static final File properties = new File("application.properties");
 
+    /**
+     * Runs Monitoring, creates files, then starts the Spring Boot application.
+     * @author Griefed
+     * @param args Arguments passed from the commandline. Overwritten later on, so it serves no practical use in Monitoring.
+     */
     public static void main(String[] args) {
 
         //Create our log4j2.xml and application.properties

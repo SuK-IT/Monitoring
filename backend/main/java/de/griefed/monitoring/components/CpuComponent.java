@@ -28,6 +28,10 @@ import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 
+/**
+ * Class responsible for retrieving all interesting values about the CPU.
+ * @author Griefed
+ */
 @Service
 public class CpuComponent implements InformationModel {
 
@@ -35,16 +39,31 @@ public class CpuComponent implements InformationModel {
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final CentralProcessor CPU = SYSTEM_INFO.getHardware().getProcessor();
 
+    /**
+     * Constructor responsible for DI.
+     * @author Griefed
+     */
     @Autowired
     public CpuComponent() {
 
     }
 
+    /**
+     * Getter for the name of this component.
+     * @author Griefed
+     * @return String. Returns the name of the component.
+     */
     @Override
     public String getName() {
         return "cpu";
     }
 
+    /**
+     * Getter for the information about the cpu. Gathers information about the name, whether it's a 64bit cpu, the amount
+     * of processes when queried, the number of physical cores and the number of logical cores.
+     * @author Griefed
+     * @return String. Information about the cpu in JSON format.
+     */
     @Override
     public String getValue() {
         if (CPU_INFORMATION.length() > 0) {

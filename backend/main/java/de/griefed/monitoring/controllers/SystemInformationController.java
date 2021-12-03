@@ -32,6 +32,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * RestController providing endpoints for retrieving information about the host and configured agents, if any.
+ * @author Griefed
+ */
 @RestController
 @CrossOrigin(origins = "{*}")
 @RequestMapping("/api/v1")
@@ -40,34 +44,53 @@ public class SystemInformationController {
     private final InformationService INFORMATION_SERVICE;
     private final ApplicationProperties PROPERTIES;
 
+    /**
+     * Constructor responsible for DI.
+     * @author Griefed
+     * @param injectedInformationService Instance of {@link InformationService}.
+     * @param injectedApplicationProperties Instance of {@link ApplicationProperties}.
+     */
     @Autowired
     public SystemInformationController(InformationService injectedInformationService, ApplicationProperties injectedApplicationProperties) {
         this.INFORMATION_SERVICE = injectedInformationService;
         this.PROPERTIES = injectedApplicationProperties;
     }
 
+    /**
+     * GET endpoint for retrieving the mode this instance is running in. Returns, as JSON, the mode currently active.
+     * @author Griefed
+     * @return String. <code>{"mode": true}</code> if agent, <code>{"mode": false}</code> if monitor.
+     */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "mode", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getMode() {
         return ResponseEntity.ok("{\"mode\": "+ PROPERTIES.isAgent() + "}");
     }
 
+    /**
+     * GET endpoint for retrieving information about the host this instance is running on.<br>
+     * See {@link de.griefed.monitoring.components.CpuComponent}, {@link de.griefed.monitoring.components.DiskComponent},
+     * {@link de.griefed.monitoring.components.HostComponent}, {@link de.griefed.monitoring.components.OsComponent},
+     * {@link de.griefed.monitoring.components.RamComponent} for details about the information gathered.
+     * @author Griefed
+     * @return String in JSON format. Information about the host of this instance.
+     */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "host", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getHostInformation() {
         return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
     }
 
-    @CrossOrigin(origins = "{*}")
-    @RequestMapping(value = "agent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAgentInformation() {
-        if (!PROPERTIES.isAgent()) {
-            return ResponseEntity.badRequest().build();
-        } else {
-            return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
-        }
-    }
-
+    /**
+     * GET endpoint for retrieving information about all configured agents.<br> <code>de.griefed.monitoring.agent</code>
+     * must be set to <code>false</code> in order for this endpoint to return information, otherwise a <code>400</code>-error
+     * is returned.<br>
+     * See {@link de.griefed.monitoring.components.CpuComponent}, {@link de.griefed.monitoring.components.DiskComponent},
+     * {@link de.griefed.monitoring.components.HostComponent}, {@link de.griefed.monitoring.components.OsComponent},
+     * {@link de.griefed.monitoring.components.RamComponent} for details about the information gathered.
+     * @author Griefed
+     * @return String in JSON format. Information about all configured agents.
+     */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "agents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAgentsInformation() {
@@ -77,6 +100,4 @@ public class SystemInformationController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
 }

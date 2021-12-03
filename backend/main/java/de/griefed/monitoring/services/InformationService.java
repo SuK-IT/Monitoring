@@ -31,6 +31,10 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Class responsible for collecting information from all components and building a JSON string with them.
+ * @author Griefed
+ */
 @Service
 public class InformationService {
 
@@ -47,6 +51,16 @@ public class InformationService {
     private final StringBuilder AGENTS_INFORMATION = new StringBuilder();
     private final RestTemplate REST_TEMPLATE;
 
+    /**
+     * Constructor responsible for DI.
+     * @author Griefed
+     * @param injectedCpuComponent Instance of {@link CpuComponent}.
+     * @param injectedDiskComponent Instance of {@link DiskComponent}.
+     * @param injectedHostComponent Instance of {@link HostComponent}.
+     * @param injectedOsComponent Instance of {@link OsComponent}.
+     * @param injectedRamComponent Instance of {@link RamComponent}.
+     * @param injectedApplicationProperties Instance of {@link ApplicationProperties}.
+     */
     @Autowired
     public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent, OsComponent injectedOsComponent, RamComponent injectedRamComponent, ApplicationProperties injectedApplicationProperties) {
         this.CPU_COMPONENT = injectedCpuComponent;
@@ -73,6 +87,11 @@ public class InformationService {
 
     }
 
+    /**
+     * Retrieve all information about the host.
+     * @author Griefed
+     * @return String in JSON format. Returns all information about the host.
+     */
     public String retrieveHostInformation() {
         if (INFORMATION.length() > 0) {
             INFORMATION.delete(0, INFORMATION.length());
@@ -91,11 +110,17 @@ public class InformationService {
         return INFORMATION.toString();
     }
 
+    /**
+     * Retrieve all information about the configured agent(s).
+     * @author Griefed
+     * @return String in JSON format. Returns information about the configured agent(s).
+     */
     public String retrieveAgentsInformation() {
         if (AGENTS_INFORMATION.length() > 0) {
             AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
         }
 
+        // If agent-configuration is default, do not retrieve anything.
         if (PROPERTIES.getAgents().get(0).split(",")[0].equals("127.0.0.1") && PROPERTIES.getAgents().size() == 1) {
 
             LOG.warn("WARNING! Agents are not configured! Not retrieving information.");
@@ -108,7 +133,7 @@ public class InformationService {
                 LOG.info(String.format("Retrieving information for %s", agent));
             }
 
-            // Retrieve all information for all agents
+            // Retrieve all information for all agents if more than one is configured
             if (PROPERTIES.getAgents().size() > 1) {
 
                 AGENTS_INFORMATION.append("{\"agents").append("\": [");
@@ -132,7 +157,7 @@ public class InformationService {
                         String.class)
                 );
 
-            // Retrieve information for agent
+            // Retrieve information for agent if only one is configured
             } else {
 
                 AGENTS_INFORMATION.append(REST_TEMPLATE.getForObject(
@@ -141,8 +166,6 @@ public class InformationService {
                 );
 
             }
-
-            //AGENTS_INFORMATION.delete(AGENTS_INFORMATION.length()-1,AGENTS_INFORMATION.length());
 
             AGENTS_INFORMATION.append("],\"status\": " + 0 + ",\"message\": \"Agents information retrieved successfully.\"}");
 
