@@ -115,6 +115,7 @@ var activeTableTab = "activeTableTab";
 public class <span class="typeNameLabel">CpuComponent</span>
 extends java.lang.Object
 implements <a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></pre>
+<div class="block">Class responsible for retrieving all interesting values about the CPU.</div>
 </li>
 </ul>
 </div>
@@ -160,7 +161,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#CpuComponent--">CpuComponent</a></span>()</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#CpuComponent--">CpuComponent</a></span>()</code>
+<div class="block">Constructor responsible for DI.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -179,11 +182,15 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#getName--">getName</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#getName--">getName</a></span>()</code>
+<div class="block">Getter for the name of this component.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#getValue--">getValue</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#getValue--">getValue</a></span>()</code>
+<div class="block">Getter for the information about the cpu.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -254,6 +261,7 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <h4>CpuComponent</h4>
 <pre>@Autowired
 public&nbsp;CpuComponent()</pre>
+<div class="block">Constructor responsible for DI.</div>
 </li>
 </ul>
 </li>
@@ -271,9 +279,12 @@ public&nbsp;CpuComponent()</pre>
 <li class="blockList">
 <h4>getName</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getName()</pre>
+<div class="block">Getter for the name of this component.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#getName--">getName</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>String. Returns the name of the component.</dd>
 </dl>
 </li>
 </ul>
@@ -284,9 +295,13 @@ public&nbsp;CpuComponent()</pre>
 <li class="blockList">
 <h4>getValue</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getValue()</pre>
+<div class="block">Getter for the information about the cpu. Gathers information about the name, whether it's a 64bit cpu, the amount
+ of processes when queried, the number of physical cores and the number of logical cores.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#getValue--">getValue</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>String. Information about the cpu in JSON format.</dd>
 </dl>
 </li>
 </ul>

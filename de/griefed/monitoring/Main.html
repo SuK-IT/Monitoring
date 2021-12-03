@@ -109,6 +109,8 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public class <span class="typeNameLabel">Main</span>
 extends java.lang.Object</pre>
+<div class="block">Main class. Copies the log4j2.xml and application.properties from the JAR to the base directory where this program is
+ being executed in.</div>
 </li>
 </ul>
 </div>
@@ -179,7 +181,9 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/Main.html#main-java.lang.String:A-">main</a></span>(java.lang.String[]&nbsp;args)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/Main.html#main-java.lang.String:A-">main</a></span>(java.lang.String[]&nbsp;args)</code>
+<div class="block">Runs Monitoring, creates files, then starts the Spring Boot application.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -262,6 +266,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>main</h4>
 <pre>public static&nbsp;void&nbsp;main(java.lang.String[]&nbsp;args)</pre>
+<div class="block">Runs Monitoring, creates files, then starts the Spring Boot application.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>args</code> - Arguments passed from the commandline. Overwritten later on, so it serves no practical use in Monitoring.</dd>
+</dl>
 </li>
 </ul>
 <a name="createFile-java.io.File-">

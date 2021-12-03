@@ -85,7 +85,9 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#AGENTS_INFORMATION">AGENTS_INFORMATION</a></span> - Variable in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring"><span class="typeNameLink">ApplicationProperties</span></a> - Class in <a href="de/griefed/monitoring/package-summary.html">de.griefed.monitoring</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for handling our properties.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/ApplicationProperties.html#ApplicationProperties--">ApplicationProperties()</a></span> - Constructor for class de.griefed.monitoring.<a href="de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -101,9 +103,13 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/CpuComponent.html#CPU_INFORMATION">CPU_INFORMATION</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components">CpuComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components"><span class="typeNameLink">CpuComponent</span></a> - Class in <a href="de/griefed/monitoring/components/package-summary.html">de.griefed.monitoring.components</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for retrieving all interesting values about the CPU.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/CpuComponent.html#CpuComponent--">CpuComponent()</a></span> - Constructor for class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components">CpuComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Constructor responsible for DI.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/Main.html#createFile-java.io.File-">createFile(File)</a></span> - Static method in class de.griefed.monitoring.<a href="de/griefed/monitoring/Main.html" title="class in de.griefed.monitoring">Main</a></dt>
 <dd>
 <div class="block">Copy a file from inside our JAR to the host filesystem.</div>
@@ -131,49 +137,85 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/DiskComponent.html#DISK_STORES">DISK_STORES</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components">DiskComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components"><span class="typeNameLink">DiskComponent</span></a> - Class in <a href="de/griefed/monitoring/components/package-summary.html">de.griefed.monitoring.components</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for retrieving all interesting values about the disk drives.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/DiskComponent.html#DiskComponent--">DiskComponent()</a></span> - Constructor for class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components">DiskComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Cosntructor responsible for DI.</div>
+</dd>
 </dl>
 <a name="I:G">
 <!--   -->
 </a>
 <h2 class="title">G</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#getAgentInformation--">getAgentInformation()</a></span> - Method in class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/ApplicationProperties.html#getAgents--">getAgents()</a></span> - Method in class de.griefed.monitoring.<a href="de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></dt>
 <dd>
 <div class="block">Getter for a list of agents to gather information from.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#getAgentsInformation--">getAgentsInformation()</a></span> - Method in class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">GET endpoint for retrieving information about all configured agents.<br> <code>de.griefed.monitoring.agent</code>
+ must be set to <code>false</code> in order for this endpoint to return information, otherwise a <code>400</code>-error
+ is returned.<br>
+ See <a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components"><code>CpuComponent</code></a>, <a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components"><code>DiskComponent</code></a>,
+ <a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components"><code>HostComponent</code></a>, <a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components"><code>OsComponent</code></a>,
+ <a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><code>RamComponent</code></a> for details about the information gathered.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#getHostInformation--">getHostInformation()</a></span> - Method in class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">GET endpoint for retrieving information about the host this instance is running on.<br>
+ See <a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components"><code>CpuComponent</code></a>, <a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components"><code>DiskComponent</code></a>,
+ <a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components"><code>HostComponent</code></a>, <a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components"><code>OsComponent</code></a>,
+ <a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><code>RamComponent</code></a> for details about the information gathered.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#getMode--">getMode()</a></span> - Method in class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">GET endpoint for retrieving the mode this instance is running in.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/CpuComponent.html#getName--">getName()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components">CpuComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the name of this component.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/DiskComponent.html#getName--">getName()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components">DiskComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the name of this component.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/HostComponent.html#getName--">getName()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the name of this component.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/OsComponent.html#getName--">getName()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components">OsComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the name of the component.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#getName--">getName()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the name of this compnent.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/models/InformationModel.html#getName--">getName()</a></span> - Method in interface de.griefed.monitoring.models.<a href="de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/CpuComponent.html#getValue--">getValue()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components">CpuComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the information about the cpu.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/DiskComponent.html#getValue--">getValue()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/DiskComponent.html" title="class in de.griefed.monitoring.components">DiskComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the information about the disk drives.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/HostComponent.html#getValue--">getValue()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the information about the host.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/OsComponent.html#getValue--">getValue()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components">OsComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the information about the OS.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#getValue--">getValue()</a></span> - Method in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Getter for the information about the memory.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/models/InformationModel.html#getValue--">getValue()</a></span> - Method in interface de.griefed.monitoring.models.<a href="de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -187,9 +229,13 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/HostComponent.html#HOST_INFORMATION">HOST_INFORMATION</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components"><span class="typeNameLink">HostComponent</span></a> - Class in <a href="de/griefed/monitoring/components/package-summary.html">de.griefed.monitoring.components</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for retrieving all interesting information about the host.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/HostComponent.html#HostComponent--">HostComponent()</a></span> - Constructor for class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Constructor responsible for DI.</div>
+</dd>
 </dl>
 <a name="I:I">
 <!--   -->
@@ -205,9 +251,13 @@
 <dt><a href="de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models"><span class="typeNameLink">InformationModel</span></a> - Interface in <a href="de/griefed/monitoring/models/package-summary.html">de.griefed.monitoring.models</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services"><span class="typeNameLink">InformationService</span></a> - Class in <a href="de/griefed/monitoring/services/package-summary.html">de.griefed.monitoring.services</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for collecting information from all components and building a JSON string with them.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#InformationService-de.griefed.monitoring.components.CpuComponent-de.griefed.monitoring.components.DiskComponent-de.griefed.monitoring.components.HostComponent-de.griefed.monitoring.components.OsComponent-de.griefed.monitoring.components.RamComponent-de.griefed.monitoring.ApplicationProperties-">InformationService(CpuComponent, DiskComponent, HostComponent, OsComponent, RamComponent, ApplicationProperties)</a></span> - Constructor for class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Constructor responsible for DI.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/HostComponent.html#interfaces">interfaces</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/ApplicationProperties.html#isAgent--">isAgent()</a></span> - Method in class de.griefed.monitoring.<a href="de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></dt>
@@ -239,11 +289,15 @@
 <h2 class="title">M</h2>
 <dl>
 <dt><a href="de/griefed/monitoring/Main.html" title="class in de.griefed.monitoring"><span class="typeNameLink">Main</span></a> - Class in <a href="de/griefed/monitoring/package-summary.html">de.griefed.monitoring</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Main class.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/Main.html#Main--">Main()</a></span> - Constructor for class de.griefed.monitoring.<a href="de/griefed/monitoring/Main.html" title="class in de.griefed.monitoring">Main</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/Main.html#main-java.lang.String:A-">main(String[])</a></span> - Static method in class de.griefed.monitoring.<a href="de/griefed/monitoring/Main.html" title="class in de.griefed.monitoring">Main</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Runs Monitoring, creates files, then starts the Spring Boot application.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/MonitoringJavaApplication.html#main-java.lang.String:A-">main(String[])</a></span> - Static method in class de.griefed.monitoring.<a href="de/griefed/monitoring/MonitoringJavaApplication.html" title="class in de.griefed.monitoring">MonitoringJavaApplication</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/MonitoringJavaApplication.html" title="class in de.griefed.monitoring"><span class="typeNameLink">MonitoringJavaApplication</span></a> - Class in <a href="de/griefed/monitoring/package-summary.html">de.griefed.monitoring</a></dt>
@@ -263,9 +317,13 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/OsComponent.html#OS_INFORMATION">OS_INFORMATION</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components">OsComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components"><span class="typeNameLink">OsComponent</span></a> - Class in <a href="de/griefed/monitoring/components/package-summary.html">de.griefed.monitoring.components</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for retrieving all interesting information about the OS.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/OsComponent.html#OsComponent--">OsComponent()</a></span> - Constructor for class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components">OsComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Constructor responisble for DI.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#OSHI_VM_MAC_ADDR_PROPERTIES">OSHI_VM_MAC_ADDR_PROPERTIES</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -291,15 +349,23 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#RAM_INFORMATION">RAM_INFORMATION</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><span class="typeNameLink">RamComponent</span></a> - Class in <a href="de/griefed/monitoring/components/package-summary.html">de.griefed.monitoring.components</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class responsible for retrieving all interesting values about the memory.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#RamComponent--">RamComponent()</a></span> - Constructor for class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Constructor responsible for DI.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#REST_TEMPLATE">REST_TEMPLATE</a></span> - Variable in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--">retrieveAgentsInformation()</a></span> - Method in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieve all information about the configured agent(s).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#retrieveHostInformation--">retrieveHostInformation()</a></span> - Method in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieve all information about the host.</div>
+</dd>
 </dl>
 <a name="I:S">
 <!--   -->
@@ -315,9 +381,13 @@
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers"><span class="typeNameLink">SystemInformationController</span></a> - Class in <a href="de/griefed/monitoring/controllers/package-summary.html">de.griefed.monitoring.controllers</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">RestController providing endpoints for retrieving information about the host and configured agents, if any.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#SystemInformationController-de.griefed.monitoring.services.InformationService-de.griefed.monitoring.ApplicationProperties-">SystemInformationController(InformationService, ApplicationProperties)</a></span> - Constructor for class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Constructor responsible for DI.</div>
+</dd>
 </dl>
 <a name="I:T">
 <!--   -->
@@ -340,8 +410,6 @@
 </a>
 <h2 class="title">V</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#vmMacAddressProps">vmMacAddressProps</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#vmModelArray">vmModelArray</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/RamComponent.html#vmVendor">vmVendor</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></dt>
