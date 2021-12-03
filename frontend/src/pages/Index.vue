@@ -60,7 +60,7 @@
       </q-card>
     </q-intersection>
 
-    <div class="row">
+    <div class="row" v-if="!isAgent">
       <q-card style="margin: 10px; max-width: 500px;" v-for="agent in agentsInformation" v-bind:key="agent">
 
         <q-card-section class="row flex-center wrap">
@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import { host,agents } from "boot/axios";
+import { host,agents,api } from "boot/axios";
 import { defineComponent } from 'vue';
 import { ref } from 'vue';
 
@@ -141,20 +141,18 @@ export default defineComponent({
       hostCpu: ref(Object),
       hostDisks: ref(Object),
       hostMemory: ref(Object),
-      agents: ref([100])
-    }
-  },
-  methods: {
-    getAgents() {
-      let answer;
-      agents.get().then(response => (
-        answer = response.data
-      ))
-      console.log("answer is: " + answer);
-      return answer;
+      agents: ref([100]),
+      isAgent: false
     }
   },
   mounted() {
+    api.get('/mode').then(response => {
+      this.isAgent = response.data.mode;
+      console.log(response.data.mode);
+  }).catch(error => {
+      console.log("Couldn't fetch mode: " + error);
+    });
+
     host.get().then(response => {
 
       if (response.data.status === 0) {
@@ -203,7 +201,7 @@ export default defineComponent({
 
       console.log("Encountered an error fetching host information: " + error);
 
-    })
+    });
   }
 })
 </script>

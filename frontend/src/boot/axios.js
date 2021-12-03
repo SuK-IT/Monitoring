@@ -30,7 +30,7 @@ const api = axios.create(
     headers: {
       'Content-Type': 'application/json'
     },
-    baseURL: '/api/v1/'
+    baseURL: '/api/v1'
   }
 );
 

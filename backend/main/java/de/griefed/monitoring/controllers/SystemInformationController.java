@@ -47,13 +47,15 @@ public class SystemInformationController {
     }
 
     @CrossOrigin(origins = "{*}")
+    @RequestMapping(value = "mode", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getMode() {
+        return ResponseEntity.ok("{\"mode\": "+ PROPERTIES.isAgent() + "}");
+    }
+
+    @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "host", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getHostInformation() {
-        if (PROPERTIES.isAgent()) {
-            return ResponseEntity.badRequest().build();
-        } else {
-            return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
-        }
+        return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
     }
 
     @CrossOrigin(origins = "{*}")
