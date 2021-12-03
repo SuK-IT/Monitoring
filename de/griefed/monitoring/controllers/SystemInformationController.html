@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -183,6 +183,10 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getHostInformation--">getHostInformation</a></span>()</code>&nbsp;</td>
 </tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getMode--">getMode</a></span>()</code>&nbsp;</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -250,6 +254,19 @@ public&nbsp;SystemInformationController(<a href="../../../../de/griefed/monitori
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getMode--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMode</h4>
+<pre>@CrossOrigin(origins="{*}")
+ @RequestMapping(value="mode",
+                method=GET,
+                produces="application/json")
+public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp;getMode()</pre>
+</li>
+</ul>
 <a name="getHostInformation--">
 <!--   -->
 </a>
