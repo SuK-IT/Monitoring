@@ -55,6 +55,8 @@ public class InformationService {
 
     private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Down, unreachable or unavailable.\",\"agent\": \"%s\"}";
 
+    private String agentInformation;
+
     /**
      * Constructor responsible for DI.
      * @author Griefed
@@ -115,11 +117,63 @@ public class InformationService {
     }
 
     /**
+     * Set agent information.
+     * @author Griefed
+     */
+    public void setInformation() {
+        if (AGENTS_INFORMATION.length() > 0) {
+            AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
+        }
+
+        // If agent-configuration is default, do not retrieve anything.
+        if (PROPERTIES.getAgents().get(0).split(",")[0].equals("127.0.0.1") && PROPERTIES.getAgents().size() == 1) {
+
+            LOG.warn("WARNING! Agents are not configured! Not retrieving information.");
+
+            agentInformation = "{\"status\": " + 1 + ",\"message\": \"Agents are not configured! Not retrieving information.\"}";
+
+        } else {
+
+            for (String agent : AGENTS.toString().split(",")) {
+                LOG.info(String.format("Retrieving information for %s", agent));
+            }
+
+            // Retrieve all information for all agents if more than one is configured
+            if (PROPERTIES.getAgents().size() > 1) {
+
+                AGENTS_INFORMATION.append("{\"agents").append("\": [");
+
+                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0])).append(",");
+
+                for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
+
+                    AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(i).split(",")[0])).append(",");
+
+                }
+
+                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]));
+
+                // Retrieve information for agent if only one is configured
+            } else {
+
+                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0]));
+
+            }
+
+            AGENTS_INFORMATION.append("]}");
+
+            agentInformation = AGENTS_INFORMATION.toString();
+        }
+    }
+
+    /**
      * Retrieve all information about the configured agent(s).
      * @author Griefed
      * @return String in JSON format. Returns information about the configured agent(s).
      */
     public String retrieveAgentsInformation() {
+        return agentInformation;
+        /*
         if (AGENTS_INFORMATION.length() > 0) {
             AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
         }
@@ -162,7 +216,7 @@ public class InformationService {
             AGENTS_INFORMATION.append("]}");
 
             return AGENTS_INFORMATION.toString();
-        }
+        }*/
     }
 
     /**
