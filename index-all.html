@@ -158,6 +158,10 @@
 </a>
 <h2 class="title">G</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#getAgentInformation--">getAgentInformation()</a></span> - Method in class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
+<dd>
+<div class="block">GET endpoint called by monitors if they are configured as such.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/ApplicationProperties.html#getAgents--">getAgents()</a></span> - Method in class de.griefed.monitoring.<a href="de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></dt>
 <dd>
 <div class="block">Getter for a list of agents to gather information from.</div>
@@ -248,6 +252,8 @@
 <dd>
 <div class="block">Constructor responsible for DI.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#hostInformation">hostInformation</a></span> - Variable in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:I">
 <!--   -->
@@ -348,6 +354,8 @@
 </a>
 <h2 class="title">P</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/configurations/Schedules.html#PROPERTIES">PROPERTIES</a></span> - Variable in class de.griefed.monitoring.configurations.<a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations">Schedules</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/controllers/SystemInformationController.html#PROPERTIES">PROPERTIES</a></span> - Variable in class de.griefed.monitoring.controllers.<a href="de/griefed/monitoring/controllers/SystemInformationController.html" title="class in de.griefed.monitoring.controllers">SystemInformationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/Main.html#properties">properties</a></span> - Static variable in class de.griefed.monitoring.<a href="de/griefed/monitoring/Main.html" title="class in de.griefed.monitoring">Main</a></dt>
@@ -372,7 +380,9 @@
 <dd>
 <div class="block">Constructor responsible for DI.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="de/griefed/monitoring/configurations/Schedules.html#refreshInformation--">refreshInformation()</a></span> - Method in class de.griefed.monitoring.configurations.<a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations">Schedules</a></dt>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/configurations/Schedules.html#refreshAgentsInformation--">refreshAgentsInformation()</a></span> - Method in class de.griefed.monitoring.configurations.<a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations">Schedules</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/configurations/Schedules.html#refreshHostInformation--">refreshHostInformation()</a></span> - Method in class de.griefed.monitoring.configurations.<a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations">Schedules</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#REST_TEMPLATE">REST_TEMPLATE</a></span> - Variable in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
 <dd>&nbsp;</dd>
@@ -392,11 +402,15 @@
 <dl>
 <dt><a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations"><span class="typeNameLink">Schedules</span></a> - Class in <a href="de/griefed/monitoring/configurations/package-summary.html">de.griefed.monitoring.configurations</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="de/griefed/monitoring/configurations/Schedules.html#Schedules-de.griefed.monitoring.services.InformationService-">Schedules(InformationService)</a></span> - Constructor for class de.griefed.monitoring.configurations.<a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations">Schedules</a></dt>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/configurations/Schedules.html#Schedules-de.griefed.monitoring.services.InformationService-de.griefed.monitoring.ApplicationProperties-">Schedules(InformationService, ApplicationProperties)</a></span> - Constructor for class de.griefed.monitoring.configurations.<a href="de/griefed/monitoring/configurations/Schedules.html" title="class in de.griefed.monitoring.configurations">Schedules</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#setInformation--">setInformation()</a></span> - Method in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#setAgentsInformation--">setAgentsInformation()</a></span> - Method in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
 <dd>
 <div class="block">Retrieve all information about the configured agent(s) and stores it in memory for retrieval by <a href="de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--"><code>InformationService.retrieveAgentsInformation()</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="de/griefed/monitoring/services/InformationService.html#setHostInformation--">setHostInformation()</a></span> - Method in class de.griefed.monitoring.services.<a href="de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a></dt>
+<dd>
+<div class="block">Retrieve all information about the host.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="de/griefed/monitoring/components/CpuComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span> - Variable in class de.griefed.monitoring.components.<a href="de/griefed/monitoring/components/CpuComponent.html" title="class in de.griefed.monitoring.components">CpuComponent</a></dt>
 <dd>&nbsp;</dd>

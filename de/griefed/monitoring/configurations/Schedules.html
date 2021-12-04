@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -141,6 +141,10 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>private static org.apache.logging.log4j.Logger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#LOG">LOG</a></span></code>&nbsp;</td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#PROPERTIES">PROPERTIES</a></span></code>&nbsp;</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -156,7 +160,8 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#Schedules-de.griefed.monitoring.services.InformationService-">Schedules</a></span>(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#Schedules-de.griefed.monitoring.services.InformationService-de.griefed.monitoring.ApplicationProperties-">Schedules</a></span>(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService,
+         <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -175,7 +180,11 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#refreshInformation--">refreshInformation</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#refreshAgentsInformation--">refreshAgentsInformation</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/configurations/Schedules.html#refreshHostInformation--">refreshHostInformation</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -220,10 +229,19 @@ extends java.lang.Object</pre>
 <a name="INFORMATION_SERVICE">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>INFORMATION_SERVICE</h4>
 <pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a> INFORMATION_SERVICE</pre>
+</li>
+</ul>
+<a name="PROPERTIES">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>PROPERTIES</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a> PROPERTIES</pre>
 </li>
 </ul>
 </li>
@@ -234,13 +252,14 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="Schedules-de.griefed.monitoring.services.InformationService-">
+<a name="Schedules-de.griefed.monitoring.services.InformationService-de.griefed.monitoring.ApplicationProperties-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Schedules</h4>
-<pre>public&nbsp;Schedules(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService)</pre>
+<pre>public&nbsp;Schedules(<a href="../../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services">InformationService</a>&nbsp;injectedInformationService,
+                 <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties)</pre>
 </li>
 </ul>
 </li>
@@ -251,14 +270,24 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="refreshInformation--">
+<a name="refreshAgentsInformation--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>refreshAgentsInformation</h4>
+<pre>@Scheduled(cron="${de.griefed.monitoring.schedule}")
+public&nbsp;void&nbsp;refreshAgentsInformation()</pre>
+</li>
+</ul>
+<a name="refreshHostInformation--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>refreshInformation</h4>
+<h4>refreshHostInformation</h4>
 <pre>@Scheduled(cron="${de.griefed.monitoring.schedule}")
-public&nbsp;void&nbsp;refreshInformation()</pre>
+public&nbsp;void&nbsp;refreshHostInformation()</pre>
 </li>
 </ul>
 </li>

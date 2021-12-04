@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -158,26 +158,30 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#HOST_COMPONENT">HOST_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#hostInformation">hostInformation</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>private java.lang.StringBuilder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#INFORMATION">INFORMATION</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private static org.apache.logging.log4j.Logger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#LOG">LOG</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/OsComponent.html" title="class in de.griefed.monitoring.components">OsComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#OS_COMPONENT">OS_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#PROPERTIES">PROPERTIES</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components">RamComponent</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#RAM_COMPONENT">RAM_COMPONENT</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private org.springframework.web.client.RestTemplate</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#REST_TEMPLATE">REST_TEMPLATE</a></span></code>&nbsp;</td>
 </tr>
@@ -240,8 +244,14 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#setInformation--">setInformation</a></span>()</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#setAgentsInformation--">setAgentsInformation</a></span>()</code>
 <div class="block">Retrieve all information about the configured agent(s) and stores it in memory for retrieval by <a href="../../../../de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--"><code>retrieveAgentsInformation()</code></a>.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/services/InformationService.html#setHostInformation--">setHostInformation</a></span>()</code>
+<div class="block">Retrieve all information about the host.</div>
 </td>
 </tr>
 </table>
@@ -381,10 +391,19 @@ extends java.lang.Object</pre>
 <a name="agentInformation">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>agentInformation</h4>
 <pre>private&nbsp;java.lang.String agentInformation</pre>
+</li>
+</ul>
+<a name="hostInformation">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>hostInformation</h4>
+<pre>private&nbsp;java.lang.String hostInformation</pre>
 </li>
 </ul>
 </li>
@@ -428,6 +447,16 @@ public&nbsp;InformationService(<a href="../../../../de/griefed/monitoring/compon
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="setHostInformation--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setHostInformation</h4>
+<pre>public&nbsp;void&nbsp;setHostInformation()</pre>
+<div class="block">Retrieve all information about the host.</div>
+</li>
+</ul>
 <a name="retrieveHostInformation--">
 <!--   -->
 </a>
@@ -442,13 +471,13 @@ public&nbsp;InformationService(<a href="../../../../de/griefed/monitoring/compon
 </dl>
 </li>
 </ul>
-<a name="setInformation--">
+<a name="setAgentsInformation--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setInformation</h4>
-<pre>public&nbsp;void&nbsp;setInformation()</pre>
+<h4>setAgentsInformation</h4>
+<pre>public&nbsp;void&nbsp;setAgentsInformation()</pre>
 <div class="block">Retrieve all information about the configured agent(s) and stores it in memory for retrieval by <a href="../../../../de/griefed/monitoring/services/InformationService.html#retrieveAgentsInformation--"><code>retrieveAgentsInformation()</code></a>.</div>
 </li>
 </ul>

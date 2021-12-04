@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -176,6 +176,12 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getAgentInformation--">getAgentInformation</a></span>()</code>
+<div class="block">GET endpoint called by monitors if they are configured as such.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getAgentsInformation--">getAgentsInformation</a></span>()</code>
 <div class="block">GET endpoint for retrieving information about all configured agents.<br> <code>de.griefed.monitoring.agent</code>
  must be set to <code>false</code> in order for this endpoint to return information, otherwise a <code>400</code>-error
@@ -185,7 +191,7 @@ extends java.lang.Object</pre>
  <a href="../../../../de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><code>RamComponent</code></a> for details about the information gathered.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getHostInformation--">getHostInformation</a></span>()</code>
 <div class="block">GET endpoint for retrieving information about the host this instance is running on.<br>
@@ -194,7 +200,7 @@ extends java.lang.Object</pre>
  <a href="../../../../de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><code>RamComponent</code></a> for details about the information gathered.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getMode--">getMode</a></span>()</code>
 <div class="block">GET endpoint for retrieving the mode this instance is running in.</div>
@@ -287,7 +293,7 @@ public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp
 <div class="block">GET endpoint for retrieving the mode this instance is running in. Returns, as JSON, the mode currently active.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>String. <code>{"mode": true}</code> if agent, <code>{"mode": false}</code> if monitor.</dd>
+<dd>String. <code>{"mode": true}</code> if agent, <code>{"mode": false}</code> if monitor. Wrapped in a ResponseEntity as application/json.</dd>
 </dl>
 </li>
 </ul>
@@ -308,7 +314,25 @@ public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp
  <a href="../../../../de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><code>RamComponent</code></a> for details about the information gathered.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>String in JSON format. Information about the host of this instance.</dd>
+<dd>String in JSON format. Information about the host of this instance.  Wrapped in a ResponseEntity as application/json.</dd>
+</dl>
+</li>
+</ul>
+<a name="getAgentInformation--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAgentInformation</h4>
+<pre>@CrossOrigin(origins="{*}")
+ @RequestMapping(value="agent",
+                method=GET,
+                produces="application/json")
+public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp;getAgentInformation()</pre>
+<div class="block">GET endpoint called by monitors if they are configured as such. Activated on agents if <code>de.griefed.monitoring.agent=true</code>.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>String in JSON format. Returns information about the agent. Wrapped in a ResponseEntity as application/json.</dd>
 </dl>
 </li>
 </ul>
@@ -331,7 +355,7 @@ public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp
  <a href="../../../../de/griefed/monitoring/components/RamComponent.html" title="class in de.griefed.monitoring.components"><code>RamComponent</code></a> for details about the information gathered.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>String in JSON format. Information about all configured agents.</dd>
+<dd>String in JSON format. Information about all configured agents. Wrapped in a ResponseEntity as application/json.</dd>
 </dl>
 </li>
 </ul>
