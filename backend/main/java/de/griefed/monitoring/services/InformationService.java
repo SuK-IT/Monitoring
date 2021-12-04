@@ -55,7 +55,8 @@ public class InformationService {
 
     private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Down, unreachable or unavailable.\",\"agent\": \"%s\"}";
 
-    private String agentInformation;
+    private String agentInformation = "";
+    private String hostInformation = "";
 
     /**
      * Constructor responsible for DI.
@@ -96,9 +97,8 @@ public class InformationService {
     /**
      * Retrieve all information about the host.
      * @author Griefed
-     * @return String in JSON format. Returns all information about the host.
      */
-    public String retrieveHostInformation() {
+    public void setHostInformation() {
         if (INFORMATION.length() > 0) {
             INFORMATION.delete(0, INFORMATION.length());
         }
@@ -113,14 +113,29 @@ public class InformationService {
 
         INFORMATION.append("}");
 
-        return INFORMATION.toString();
+        this.hostInformation = INFORMATION.toString();
+    }
+
+    /**
+     * Retrieve all information about the host.
+     * @author Griefed
+     * @return String in JSON format. Returns all information about the host.
+     */
+    public String retrieveHostInformation() {
+
+        if (hostInformation.length() == 0) {
+            setHostInformation();
+        }
+
+        return hostInformation;
+
     }
 
     /**
      * Retrieve all information about the configured agent(s) and stores it in memory for retrieval by {@link #retrieveAgentsInformation()}.
      * @author Griefed
      */
-    public void setInformation() {
+    public void setAgentsInformation() {
         if (AGENTS_INFORMATION.length() > 0) {
             AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
         }
@@ -172,6 +187,11 @@ public class InformationService {
      * @return String in JSON format. Returns information about the configured agent(s).
      */
     public String retrieveAgentsInformation() {
+
+        if (agentInformation.length() == 0) {
+            setAgentsInformation();
+        }
+
         return agentInformation;
     }
 
@@ -183,6 +203,7 @@ public class InformationService {
      * @return String in JSON format. Returns the information gathered from the agent.
      */
     private String getResponse(String agent) {
+        // TODO: Implement token passing
         ResponseEntity<String> response;
         try {
             response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);

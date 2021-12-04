@@ -22,6 +22,7 @@
  */
 package de.griefed.monitoring.configurations;
 
+import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.services.InformationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,14 +42,24 @@ public class Schedules {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     private final InformationService INFORMATION_SERVICE;
+    private final ApplicationProperties PROPERTIES;
 
-    public Schedules(InformationService injectedInformationService) {
+    public Schedules(InformationService injectedInformationService, ApplicationProperties injectedApplicationProperties) {
         this.INFORMATION_SERVICE = injectedInformationService;
+        this.PROPERTIES = injectedApplicationProperties;
     }
 
     @Scheduled(cron = "${de.griefed.monitoring.schedule}")
-    public void refreshInformation() {
+    public void refreshAgentsInformation() {
+        if (!PROPERTIES.isAgent()) {
+            LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing information.");
+            INFORMATION_SERVICE.setAgentsInformation();
+        }
+    }
+
+    @Scheduled(cron = "${de.griefed.monitoring.schedule}")
+    public void refreshHostInformation() {
         LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing information.");
-        INFORMATION_SERVICE.setInformation();
+        INFORMATION_SERVICE.setHostInformation();
     }
 }
