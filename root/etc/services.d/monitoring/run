@@ -1,8 +1,8 @@
 #!/usr/bin/with-contenv bash
 
-cd /app/monitoring
+cd /config
 
 exec \
   s6-setuidgid grfd \
     /usr/bin/java -jar \
-      monitoring.jar
+      /app/monitoring/monitoring.jar
