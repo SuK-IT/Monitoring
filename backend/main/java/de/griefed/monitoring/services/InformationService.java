@@ -142,10 +142,12 @@ public class InformationService {
 
         } else {
 
+            stringBuilder.append("{\"agents").append("\": [");
+
             // Retrieve all information for all agents if more than one is configured
             if (PROPERTIES.getAgents().size() > 1) {
 
-                stringBuilder.append("{\"agents").append("\": [");
+
 
                 stringBuilder.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0])).append(",");
 
@@ -156,6 +158,8 @@ public class InformationService {
                 }
 
                 stringBuilder.append(getResponse(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]));
+
+
 
                 // Retrieve information for agent if only one is configured
             } else {
