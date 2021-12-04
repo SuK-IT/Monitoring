@@ -52,14 +52,14 @@ public class Schedules {
     @Scheduled(cron = "${de.griefed.monitoring.schedule}")
     public void refreshAgentsInformation() {
         if (!PROPERTIES.isAgent()) {
-            LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing information.");
+            LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing agents information.");
             INFORMATION_SERVICE.setAgentsInformation();
         }
     }
 
     @Scheduled(cron = "${de.griefed.monitoring.schedule}")
     public void refreshHostInformation() {
-        LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing information.");
+        LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing host information.");
         INFORMATION_SERVICE.setHostInformation();
     }
 }

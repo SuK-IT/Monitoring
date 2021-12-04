@@ -53,6 +53,18 @@ public class ApplicationProperties {
     private String agents = "127.0.0.1,123456789";
 
     /**
+     * Seconds to wait until a connection timeout is triggered for getting information from agents.
+     */
+    @Value("${de.griefed.monitoring.timeout.connect}")
+    private int timeoutConnect = 5;
+
+    /**
+     * Seconds to wait until a read timeout is triggered for getting information from agents.
+     */
+    @Value("${de.griefed.monitoring.timeout.read}")
+    private int timeoutRead = 5;
+
+    /**
      * Getter for whether this instance is a monitor or an agent.
      * @author Griefed
      * @return boolean. <code>true</code> = agent. <code>false</code> = monitor.
@@ -84,4 +96,21 @@ public class ApplicationProperties {
         return new ArrayList<String>(Arrays.asList(agents.split(";")));
     }
 
+    /**
+     * Getter for the number of seconds to wait until a connection timeout is triggered for getting information from agents.
+     * @author Griefed
+     * @return Integer. Returns the number of seconds as an int.
+     */
+    public int getTimeoutConnect() {
+        return timeoutConnect;
+    }
+
+    /**
+     * Getter for the number of seconds to wait until a read timeout is triggered for getting information from agents.
+     * @author Griefed
+     * @return Integer. Returns the number of seconds as an int.
+     */
+    public int getTimeoutRead() {
+        return timeoutRead;
+    }
 }

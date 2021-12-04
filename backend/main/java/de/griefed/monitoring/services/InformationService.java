@@ -33,6 +33,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+
 /**
  * Class responsible for collecting information from all components and building a JSON string with them.
  * @author Griefed
@@ -48,9 +50,7 @@ public class InformationService {
     private final OsComponent OS_COMPONENT;
     private final RamComponent RAM_COMPONENT;
     private final ApplicationProperties PROPERTIES;
-    private final StringBuilder INFORMATION = new StringBuilder();
     private final StringBuilder AGENTS = new StringBuilder();
-    private final StringBuilder AGENTS_INFORMATION = new StringBuilder();
     private final RestTemplate REST_TEMPLATE;
 
     private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Down, unreachable or unavailable.\",\"agent\": \"%s\"}";
@@ -76,7 +76,10 @@ public class InformationService {
         this.OS_COMPONENT = injectedOsComponent;
         this.RAM_COMPONENT = injectedRamComponent;
         this.PROPERTIES = injectedApplicationProperties;
-        this.REST_TEMPLATE = new RestTemplateBuilder().build();
+        this.REST_TEMPLATE = new RestTemplateBuilder()
+                .setConnectTimeout(Duration.ofSeconds(PROPERTIES.getTimeoutConnect()))
+                .setReadTimeout(Duration.ofSeconds(PROPERTIES.getTimeoutRead()))
+                .build();
 
         if (PROPERTIES.getAgents().size() > 1) {
 
@@ -99,21 +102,13 @@ public class InformationService {
      * @author Griefed
      */
     public void setHostInformation() {
-        if (INFORMATION.length() > 0) {
-            INFORMATION.delete(0, INFORMATION.length());
-        }
-
-        INFORMATION.append("{\"status\": " + 0 + ",\"message\": \"This is a host.\",");
-
-        INFORMATION.append(HOST_COMPONENT.toString()).append(",");
-        INFORMATION.append(OS_COMPONENT.toString()).append(",");
-        INFORMATION.append(CPU_COMPONENT.toString()).append(",");
-        INFORMATION.append(DISK_COMPONENT.toString()).append(",");
-        INFORMATION.append(RAM_COMPONENT.toString());
-
-        INFORMATION.append("}");
-
-        this.hostInformation = INFORMATION.toString();
+        this.hostInformation = "{\"status\": " + 0 + ",\"message\": \"This is a host.\"," +
+                HOST_COMPONENT.toString() + "," +
+                OS_COMPONENT.toString() + "," +
+                CPU_COMPONENT.toString() + "," +
+                DISK_COMPONENT.toString() + "," +
+                RAM_COMPONENT.toString() +
+                "}";
     }
 
     /**
@@ -136,9 +131,7 @@ public class InformationService {
      * @author Griefed
      */
     public void setAgentsInformation() {
-        if (AGENTS_INFORMATION.length() > 0) {
-            AGENTS_INFORMATION.delete(0, AGENTS_INFORMATION.length());
-        }
+        StringBuilder stringBuilder = new StringBuilder();
 
         // If agent-configuration is default, do not retrieve anything.
         if (PROPERTIES.getAgents().get(0).split(",")[0].equals("127.0.0.1") && PROPERTIES.getAgents().size() == 1) {
@@ -149,36 +142,36 @@ public class InformationService {
 
         } else {
 
-            for (String agent : AGENTS.toString().split(",")) {
-                LOG.info(String.format("Retrieving information for %s", agent));
-            }
-
             // Retrieve all information for all agents if more than one is configured
             if (PROPERTIES.getAgents().size() > 1) {
 
-                AGENTS_INFORMATION.append("{\"agents").append("\": [");
+                stringBuilder.append("{\"agents").append("\": [");
 
-                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0])).append(",");
+                stringBuilder.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0])).append(",");
 
                 for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
 
-                    AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(i).split(",")[0])).append(",");
+                    stringBuilder.append(getResponse(PROPERTIES.getAgents().get(i).split(",")[0])).append(",");
 
                 }
 
-                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]));
+                stringBuilder.append(getResponse(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]));
 
                 // Retrieve information for agent if only one is configured
             } else {
 
-                AGENTS_INFORMATION.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0]));
+                stringBuilder.append(getResponse(PROPERTIES.getAgents().get(0).split(",")[0]));
 
             }
 
-            AGENTS_INFORMATION.append("]}");
+            stringBuilder.append("]}");
 
-            agentInformation = AGENTS_INFORMATION.toString();
+            agentInformation = stringBuilder.toString();
+
         }
+
+        LOG.info("Retrieved information.");
+
     }
 
     /**
@@ -206,6 +199,9 @@ public class InformationService {
         // TODO: Implement token passing
         ResponseEntity<String> response;
         try {
+
+            LOG.info(String.format("Retrieving information for %s", agent));
+
             response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);
 
             if (response.getStatusCode() == HttpStatus.OK) {
