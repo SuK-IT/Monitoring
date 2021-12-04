@@ -59,7 +59,7 @@ public class SystemInformationController {
     /**
      * GET endpoint for retrieving the mode this instance is running in. Returns, as JSON, the mode currently active.
      * @author Griefed
-     * @return String. <code>{"mode": true}</code> if agent, <code>{"mode": false}</code> if monitor.
+     * @return String. <code>{"mode": true}</code> if agent, <code>{"mode": false}</code> if monitor. Wrapped in a ResponseEntity as application/json.
      */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "mode", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,12 +73,28 @@ public class SystemInformationController {
      * {@link de.griefed.monitoring.components.HostComponent}, {@link de.griefed.monitoring.components.OsComponent},
      * {@link de.griefed.monitoring.components.RamComponent} for details about the information gathered.
      * @author Griefed
-     * @return String in JSON format. Information about the host of this instance.
+     * @return String in JSON format. Information about the host of this instance.  Wrapped in a ResponseEntity as application/json.
      */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "host", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getHostInformation() {
+        // TODO: if agent, require token
         return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
+    }
+
+    /**
+     * GET endpoint called by monitors if they are configured as such. Activated on agents if <code>de.griefed.monitoring.agent=true</code>.
+     * @author Griefed
+     * @return String in JSON format. Returns information about the agent. Wrapped in a ResponseEntity as application/json.
+     */
+    @CrossOrigin(origins = "{*}")
+    @RequestMapping(value = "agent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAgentInformation() {
+        if (PROPERTIES.isAgent()) {
+            return ResponseEntity.ok(INFORMATION_SERVICE.retrieveHostInformation());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     /**
@@ -89,7 +105,7 @@ public class SystemInformationController {
      * {@link de.griefed.monitoring.components.HostComponent}, {@link de.griefed.monitoring.components.OsComponent},
      * {@link de.griefed.monitoring.components.RamComponent} for details about the information gathered.
      * @author Griefed
-     * @return String in JSON format. Information about all configured agents.
+     * @return String in JSON format. Information about all configured agents. Wrapped in a ResponseEntity as application/json.
      */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "agents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
