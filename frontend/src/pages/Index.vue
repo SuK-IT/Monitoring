@@ -74,67 +74,69 @@
           </q-card-section>
         </q-card>
       </q-intersection>
+
     </div>
 
     <div class="row flex-center" v-if="!isAgent">
-      <q-card style="margin: 10px; max-width: 500px;" v-for="agent in agentsInformation" v-bind:key="agent">
+        <q-card style="margin: 10px; max-width: 500px;" v-for="agent in agentsInformation" v-bind:key="agent">
 
-        <div v-if="agent.status === 0">
-          <q-card-section class="row flex-center wrap">
-            <div>
-              <b>Hostname:</b> {{ agent.host.host_name }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>Domain name:</b> {{ agent.host.domain_name }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>OS manufacturer:</b> {{ agent.os.manufacturer }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>OS:</b> {{ agent.os.os }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>OS version:</b> {{ agent.os.version }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>Uptime:</b> {{ agent.os.uptime }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>Disks:</b> {{ agent.disks.length }}
-            </div>
-            <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-            <div>
-              <b>Memory total:</b> {{ agent.disks.total }} Memory free: {{ hostMemory.available }}
-            </div>
-          </q-card-section>
+          <div v-if="agent.status === 0">
+            <q-card-section class="row flex-center wrap">
+              <div>
+                <b>Hostname:</b> {{ agent.host.host_name }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>Domain name:</b> {{ agent.host.domain_name }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>OS manufacturer:</b> {{ agent.os.manufacturer }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>OS:</b> {{ agent.os.os }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>OS version:</b> {{ agent.os.version }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>Uptime:</b> {{ agent.os.uptime }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>Disks:</b> {{ agent.disks.length }}
+              </div>
+              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
+              <div>
+                <b>Memory total:</b> {{ agent.memory.total }} <b>Memory free:</b> {{ agent.memory.available }}
+              </div>
+            </q-card-section>
 
-          <q-card-section class="row flex-center">
-            <div v-for="hostInterface in hostInterfaces" v-bind:key="hostInterface.interface_name">
-              <ul>
-                <li><b>{{ hostInterface.interface_name }}</b></li>
-                <li><b>IP: </b>{{ hostInterface.ip }} / {{ hostInterface.subnet_mask }}</li>
-                <li><b>MAC: </b>{{ hostInterface.mac }}</li>
-              </ul>
-            </div>
-          </q-card-section>
+            <q-card-section class="row flex-center">
+              <div v-for="agentInterface in agent.host.interfaces" v-bind:key="agentInterface.interface_name">
+                <ul>
+                  <li><b>{{ agentInterface.interface_name }}</b></li>
+                  <li><b>IP: </b>{{ agentInterface.ip }} / {{ agentInterface.subnet_mask }}</li>
+                  <li><b>MAC: </b>{{ agentInterface.mac }}</li>
+                </ul>
+              </div>
+            </q-card-section>
 
-          <q-card-section class="row flex-center">
-            <div v-for="hostDisk in hostDisks" v-bind:key="hostDisk.name">
-              <ul>
-                <li><b>{{ hostDisk.name }}</b></li>
-                <li><b>Total space: </b>{{ hostDisk.size }}</li>
-                <li><b>Free space: </b>{{ hostDisk.free }}</li>
-              </ul>
-            </div>
-          </q-card-section>
-        </div>
-      </q-card>
+            <q-card-section class="row flex-center">
+              <div v-for="agentDisk in agent.disks" v-bind:key="agentDisk.name">
+                <ul>
+                  <li><b>{{ agentDisk.name }}</b></li>
+                  <li><b>Total space: </b>{{ agentDisk.size }}</li>
+                  <li><b>Free space: </b>{{ agentDisk.free }}</li>
+                </ul>
+              </div>
+            </q-card-section>
+          </div>
+
+        </q-card>
     </div>
 
   </q-page>
