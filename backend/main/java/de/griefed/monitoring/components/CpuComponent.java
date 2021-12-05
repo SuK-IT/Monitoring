@@ -39,7 +39,6 @@ public class CpuComponent implements InformationModel {
     private final CentralProcessor CPU = SYSTEM_INFO.getHardware().getProcessor();
 
     private String cpuInformation;
-
     private String model;
     private String x64;
     private int processes;
@@ -62,6 +61,10 @@ public class CpuComponent implements InformationModel {
 
     @Override
     public void setValues() {
+        if (model == null || x64 == null || processes == 0 || physical_cores == 0 || logical_cores == 0) {
+            updateValues();
+        }
+
         this.cpuInformation = "\"model\": \"" + model + "\"," +
                 "\"x64\": \"" + x64 + "\"," +
                 "\"processes\": " + processes + "," +

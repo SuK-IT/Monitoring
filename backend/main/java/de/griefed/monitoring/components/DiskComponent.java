@@ -28,6 +28,9 @@ import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.software.os.OSFileStore;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,17 +40,132 @@ import java.util.List;
 @Service
 public class DiskComponent implements InformationModel {
 
-    private final StringBuilder DISK_INFORMATION = new StringBuilder();
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final List<OSFileStore> DISK_STORES = SYSTEM_INFO.getOperatingSystem().getFileSystem().getFileStores(true);
+    private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+
+    private List<HashMap<String, String>> diskInformationList = new ArrayList<>();
+    private String diskInformation;
 
     /**
-     * Cosntructor responsible for DI.
+     * Constructor responsible for DI.
      * @author Griefed
      */
     @Autowired
     public DiskComponent() {
+        updateValues();
+    }
 
+    @Override
+    public void sendNotification() {
+
+    }
+
+    @Override
+    public void setValues() {
+        if (diskInformationList.isEmpty()) {
+            updateValues();
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (diskInformationList.size() > 1) {
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"name\": \"").append(diskInformationList.get(0).get("name")).append("\",");
+            stringBuilder.append("\"size\": \"").append(diskInformationList.get(0).get("size")).append("\",");
+            stringBuilder.append("\"free\": \"").append(diskInformationList.get(0).get("free")).append("\",");
+            stringBuilder.append("\"used\": \"").append(diskInformationList.get(0).get("used")).append("\"");
+            stringBuilder.append("},");
+
+            for (int i = 1; i < DISK_STORES.size() -1; i++) {
+
+                stringBuilder.append("{");
+                stringBuilder.append("\"name\": \"").append(diskInformationList.get(i).get("name")).append("\",");
+                stringBuilder.append("\"size\": \"").append(diskInformationList.get(i).get("size")).append("\",");
+                stringBuilder.append("\"free\": \"").append(diskInformationList.get(i).get("free")).append("\",");
+                stringBuilder.append("\"used\": \"").append(diskInformationList.get(i).get("used")).append("\"");
+                stringBuilder.append("},");
+            }
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"name\": \"").append(diskInformationList.get(diskInformationList.size() - 1).get("name")).append("\",");
+            stringBuilder.append("\"size\": \"").append(diskInformationList.get(diskInformationList.size() - 1).get("size")).append("\",");
+            stringBuilder.append("\"free\": \"").append(diskInformationList.get(diskInformationList.size() - 1).get("free")).append("\",");
+            stringBuilder.append("\"used\": \"").append(diskInformationList.get(diskInformationList.size() - 1).get("used")).append("\"");
+            stringBuilder.append("}");
+
+        } else {
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"name\": \"").append(diskInformationList.get(0).get("name")).append("\",");
+            stringBuilder.append("\"size\": \"").append(diskInformationList.get(0).get("size")).append("\",");
+            stringBuilder.append("\"free\": \"").append(diskInformationList.get(0).get("free")).append("\",");
+            stringBuilder.append("\"used\": \"").append(diskInformationList.get(0).get("used")).append("\"");
+            stringBuilder.append("},");
+
+        }
+
+        this.diskInformation = stringBuilder.toString();
+    }
+
+    @Override
+    public void updateValues() {
+        List<HashMap<String, String>> list = new ArrayList<>();
+
+        if (DISK_STORES.size() > 1) {
+
+            list.add(
+                    new HashMap<String, String>() {
+                {
+                    put("name", DISK_STORES.get(0).getName() + " " + DISK_STORES.get(0).getLabel());
+                    put("size", (DISK_STORES.get(0).getTotalSpace() / 1073741824) + " GB");
+                    put("free", (DISK_STORES.get(0).getFreeSpace() / 1073741824) + " GB");
+                    put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(0).getTotalSpace()) * DISK_STORES.get(0).getFreeSpace())) + " %");
+                }
+            });
+
+            for (int i = 1; i < DISK_STORES.size() -1; i++) {
+
+                int finalI = i;
+                list.add(
+                        new HashMap<String, String>() {
+                            {
+                                put("name", DISK_STORES.get(finalI).getName() + " " + DISK_STORES.get(finalI).getLabel());
+                                put("size", (DISK_STORES.get(finalI).getTotalSpace() / 1073741824) + " GB");
+                                put("free", (DISK_STORES.get(finalI).getFreeSpace() / 1073741824) + " GB");
+                                put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(finalI).getTotalSpace()) * DISK_STORES.get(finalI).getFreeSpace())) + " %");
+                            }
+                        });
+
+            }
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("name", DISK_STORES.get(DISK_STORES.size() - 1).getName() + " " + DISK_STORES.get(DISK_STORES.size() - 1).getLabel());
+                            put("size", (DISK_STORES.get(DISK_STORES.size() - 1).getTotalSpace() / 1073741824) + " GB");
+                            put("free", (DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace() / 1073741824) + " GB");
+                            put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(DISK_STORES.size() - 1).getTotalSpace()) * DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace())) + " %");
+                        }
+                    });
+
+
+        } else {
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("name", DISK_STORES.get(0).getName() + " " + DISK_STORES.get(0).getLabel());
+                            put("size", (DISK_STORES.get(0).getTotalSpace() / 1073741824) + " GB");
+                            put("free", (DISK_STORES.get(0).getFreeSpace() / 1073741824) + " GB");
+                            put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(0).getTotalSpace()) * DISK_STORES.get(0).getFreeSpace())) + " %");
+                        }
+                    });
+
+        }
+
+        diskInformationList = list;
     }
 
     /**
@@ -67,48 +185,16 @@ public class DiskComponent implements InformationModel {
      * @return String. Information about the disk drives in JSON format.
      */
     @Override
-    public String getValue() {
-        if (DISK_INFORMATION.length() > 0) {
-            DISK_INFORMATION.delete(0, DISK_INFORMATION.length());
+    public String getValues() {
+        if (diskInformation == null) {
+            setValues();
         }
 
-        if (DISK_STORES.size() > 1) {
-
-            DISK_INFORMATION.append("{");
-            DISK_INFORMATION.append("\"name\": \"").append(DISK_STORES.get(0).getName()).append(" ").append(DISK_STORES.get(0).getLabel()).append("\",");
-            DISK_INFORMATION.append("\"size\": \"").append(DISK_STORES.get(0).getTotalSpace() / 1073741824).append(" GB\",");
-            DISK_INFORMATION.append("\"free\": \"").append(DISK_STORES.get(0).getFreeSpace() / 1073741824).append(" GB\"");
-            DISK_INFORMATION.append("},");
-
-            for (int i = 1; i < DISK_STORES.size() -1; i++) {
-                DISK_INFORMATION.append("{");
-                DISK_INFORMATION.append("\"name\": \"").append(DISK_STORES.get(i).getName()).append(" ").append(DISK_STORES.get(i).getLabel()).append("\",");
-                DISK_INFORMATION.append("\"size\": \"").append(DISK_STORES.get(i).getTotalSpace() / 1073741824).append(" GB\",");
-                DISK_INFORMATION.append("\"free\": \"").append(DISK_STORES.get(i).getFreeSpace() / 1073741824).append(" GB\"");
-                DISK_INFORMATION.append("},");
-            }
-
-            DISK_INFORMATION.append("{");
-            DISK_INFORMATION.append("\"name\": \"").append(DISK_STORES.get(DISK_STORES.size() - 1).getName()).append(" ").append(DISK_STORES.get(DISK_STORES.size() - 1).getLabel()).append("\",");
-            DISK_INFORMATION.append("\"size\": \"").append(DISK_STORES.get(DISK_STORES.size() - 1).getTotalSpace() / 1073741824).append(" GB\",");
-            DISK_INFORMATION.append("\"free\": \"").append(DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace() / 1073741824).append(" GB\"");
-            DISK_INFORMATION.append("}");
-
-        } else {
-
-            DISK_INFORMATION.append("{");
-            DISK_INFORMATION.append("\"name\": \"").append(DISK_STORES.get(0).getName()).append(" ").append(DISK_STORES.get(0).getLabel()).append("\",");
-            DISK_INFORMATION.append("\"size\": \"").append(DISK_STORES.get(0).getTotalSpace() / 1073741824).append(" GB\",");
-            DISK_INFORMATION.append("\"free\": \"").append(DISK_STORES.get(0).getFreeSpace() / 1073741824).append(" GB\"");
-            DISK_INFORMATION.append("},");
-
-        }
-
-        return DISK_INFORMATION.toString();
+        return diskInformation;
     }
 
     @Override
     public String toString() {
-        return "\"" + getName() + "\": [" + getValue() + "]";
+        return "\"" + getName() + "\": [" + getValues() + "]";
     }
 }
