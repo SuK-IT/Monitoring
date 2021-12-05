@@ -80,6 +80,21 @@ public class RamComponent implements InformationModel {
         vmVendor.put("QNXQVMBSQG", "QNX Hypervisor");
     }
 
+    @Override
+    public void sendNotification() {
+
+    }
+
+    @Override
+    public void setValues() {
+
+    }
+
+    @Override
+    public void updateValues() {
+
+    }
+
     /**
      * Getter for the name of this compnent.
      * @author Griefed
@@ -97,7 +112,7 @@ public class RamComponent implements InformationModel {
      * @return String. Information about the memory in JSON format.
      */
     @Override
-    public String getValue() {
+    public String getValues() {
         if (RAM_INFORMATION.length() > 0) {
             RAM_INFORMATION.delete(0, RAM_INFORMATION.length());
         }
@@ -180,6 +195,6 @@ public class RamComponent implements InformationModel {
 
     @Override
     public String toString() {
-        return "\"" + getName() + "\": {" + getValue() + "}";
+        return "\"" + getName() + "\": {" + getValues() + "}";
     }
 }

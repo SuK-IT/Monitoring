@@ -47,6 +47,21 @@ public class OsComponent implements InformationModel {
 
     }
 
+    @Override
+    public void sendNotification() {
+
+    }
+
+    @Override
+    public void setValues() {
+
+    }
+
+    @Override
+    public void updateValues() {
+
+    }
+
     /**
      * Getter for the name of the component.
      * @author Griefed
@@ -63,7 +78,7 @@ public class OsComponent implements InformationModel {
      * @return String. Information about the OS in JSON format.
      */
     @Override
-    public String getValue() {
+    public String getValues() {
         if (OS_INFORMATION.length() > 0) {
             OS_INFORMATION.delete(0, OS_INFORMATION.length());
         }
@@ -79,7 +94,7 @@ public class OsComponent implements InformationModel {
 
     @Override
     public String toString() {
-        return "\"" + getName() + "\": {" + getValue() + "}";
+        return "\"" + getName() + "\": {" + getValues() + "}";
     }
 
 }

@@ -51,6 +51,21 @@ public class HostComponent implements InformationModel {
 
     }
 
+    @Override
+    public void sendNotification() {
+
+    }
+
+    @Override
+    public void setValues() {
+
+    }
+
+    @Override
+    public void updateValues() {
+
+    }
+
     /**
      * Getter for the name of this component.
      * @author Griefed
@@ -68,7 +83,7 @@ public class HostComponent implements InformationModel {
      * @return String. Information about the host in JSON format.
      */
     @Override
-    public String getValue() {
+    public String getValues() {
         if (HOST_INFORMATION.length() > 0) {
             HOST_INFORMATION.delete(0, HOST_INFORMATION.length());
         }
@@ -121,6 +136,6 @@ public class HostComponent implements InformationModel {
 
     @Override
     public String toString() {
-        return "\"" + getName() + "\": {" + getValue() + "}";
+        return "\"" + getName() + "\": {" + getValues() + "}";
     }
 }
