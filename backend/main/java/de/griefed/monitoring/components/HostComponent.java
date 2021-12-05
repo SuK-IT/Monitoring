@@ -28,7 +28,9 @@ import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,9 +40,13 @@ import java.util.List;
 @Service
 public class HostComponent implements InformationModel {
 
-    private final StringBuilder HOST_INFORMATION = new StringBuilder();
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final List<NetworkIF> interfaces = SYSTEM_INFO.getHardware().getNetworkIFs();
+
+    private List<HashMap<String, String>> interfacesInformationList = new ArrayList<>(100);
+    private String hostInformation;
+    private String hostName;
+    private String domainName;
 
     /**
      * Constructor responsible for DI.
@@ -48,7 +54,7 @@ public class HostComponent implements InformationModel {
      */
     @Autowired
     public HostComponent() {
-
+        updateValues();
     }
 
     @Override
@@ -58,12 +64,118 @@ public class HostComponent implements InformationModel {
 
     @Override
     public void setValues() {
+        if (hostName == null || domainName == null || interfacesInformationList.isEmpty()) {
+            updateValues();
+        }
+        StringBuilder stringBuilder = new StringBuilder();
 
+        stringBuilder.append("\"host_name\": \"").append(hostName).append("\",");
+        stringBuilder.append("\"domain_name\": \"").append(domainName).append("\",");
+        stringBuilder.append("\"interfaces\": [");
+        if (interfacesInformationList.size() > 1) {
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"interface_name\": \"").append(interfacesInformationList.get(0).get("interface_name")).append("\",");
+            stringBuilder.append("\"ip\": \"").append(interfacesInformationList.get(0).get("ip")).append("\",");
+            stringBuilder.append("\"subnet_mask\": \"").append(interfacesInformationList.get(0).get("subnet_mask")).append("\",");
+            stringBuilder.append("\"mac\": \"").append(interfacesInformationList.get(0).get("mac")).append("\"");
+            stringBuilder.append("},");
+
+            for (int i = 1; i < interfaces.size() - 1; i++) {
+
+                stringBuilder.append("{");
+                stringBuilder.append("\"interface_name\": \"").append(interfacesInformationList.get(i).get("interface_name")).append("\",");
+                stringBuilder.append("\"ip\": \"").append(interfacesInformationList.get(i).get("ip")).append("\",");
+                stringBuilder.append("\"subnet_mask\": \"").append(interfacesInformationList.get(i).get("subnet_mask")).append("\",");
+                stringBuilder.append("\"mac\": \"").append(interfacesInformationList.get(i).get("mac")).append("\"");
+                stringBuilder.append("},");
+
+            }
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"interface_name\": \"").append(interfacesInformationList.get(interfacesInformationList.size() - 1).get("interface_name")).append("\",");
+            stringBuilder.append("\"ip\": \"").append(interfacesInformationList.get(interfacesInformationList.size() - 1).get("ip")).append("\",");
+            stringBuilder.append("\"subnet_mask\": \"").append(interfacesInformationList.get(interfacesInformationList.size() - 1).get("subnet_mask")).append("\",");
+            stringBuilder.append("\"mac\": \"").append(interfacesInformationList.get(interfacesInformationList.size() - 1).get("mac")).append("\"");
+            stringBuilder.append("}");
+
+        } else {
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"interface_name\": \"").append(interfacesInformationList.get(0).get("interface_name")).append("\",");
+            stringBuilder.append("\"ip\": \"").append(interfacesInformationList.get(0).get("ip")).append("\",");
+            stringBuilder.append("\"subnet_mask\": \"").append(interfacesInformationList.get(0).get("subnet_mask")).append("\",");
+            stringBuilder.append("\"mac\": \"").append(interfacesInformationList.get(0).get("mac")).append("\"");
+            stringBuilder.append("}");
+
+        }
+
+        stringBuilder.append("]");
+
+        this.hostInformation = stringBuilder.toString();
     }
 
     @Override
     public void updateValues() {
 
+        this.hostName = SYSTEM_INFO.getOperatingSystem().getNetworkParams().getHostName();
+        this.domainName = SYSTEM_INFO.getOperatingSystem().getNetworkParams().getDomainName();
+
+        List<HashMap<String, String>> list = new ArrayList<>();
+
+        if (interfaces.size() > 1) {
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("interface_name", interfaces.get(0).getName());
+                            put("ip", Arrays.toString(interfaces.get(0).getIPv4addr()).replace("[","").replace("]",""));
+                            put("subnet_mask", Arrays.toString(interfaces.get(0).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("mac", interfaces.get(0).getMacaddr());
+                        }
+                    });
+
+            for (int i = 1; i < interfaces.size() -1; i++) {
+
+                int finalI = i;
+                list.add(
+                        new HashMap<String, String>() {
+                            {
+                                put("interface_name", interfaces.get(finalI).getName());
+                                put("ip", Arrays.toString(interfaces.get(finalI).getIPv4addr()).replace("[","").replace("]",""));
+                                put("subnet_mask", Arrays.toString(interfaces.get(finalI).getSubnetMasks()).replace("[","").replace("]",""));
+                                put("mac", interfaces.get(finalI).getMacaddr());
+                            }
+                        });
+
+            }
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("interface_name", interfaces.get(interfaces.size() - 1).getName());
+                            put("ip", Arrays.toString(interfaces.get(interfaces.size() - 1).getIPv4addr()).replace("[","").replace("]",""));
+                            put("subnet_mask", Arrays.toString(interfaces.get(interfaces.size() - 1).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("mac", interfaces.get(interfaces.size() - 1).getMacaddr());
+                        }
+                    });
+
+
+        } else {
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("interface_name", interfaces.get(0).getName());
+                            put("ip", Arrays.toString(interfaces.get(0).getIPv4addr()).replace("[","").replace("]",""));
+                            put("subnet_mask", Arrays.toString(interfaces.get(0).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("mac", interfaces.get(0).getMacaddr());
+                        }
+                    });
+
+        }
+
+        this.interfacesInformationList = list;
     }
 
     /**
@@ -84,54 +196,11 @@ public class HostComponent implements InformationModel {
      */
     @Override
     public String getValues() {
-        if (HOST_INFORMATION.length() > 0) {
-            HOST_INFORMATION.delete(0, HOST_INFORMATION.length());
+        if (hostInformation == null) {
+            setValues();
         }
 
-        HOST_INFORMATION.append("\"host_name\": \"").append(SYSTEM_INFO.getOperatingSystem().getNetworkParams().getHostName()).append("\",");
-        HOST_INFORMATION.append("\"domain_name\": \"").append(SYSTEM_INFO.getOperatingSystem().getNetworkParams().getDomainName()).append("\",");
-        HOST_INFORMATION.append("\"interfaces\": [");
-        if (interfaces.size() > 1) {
-
-            HOST_INFORMATION.append("{");
-            HOST_INFORMATION.append("\"interface_name\": \"").append(interfaces.get(0).getName()).append("\",");
-            HOST_INFORMATION.append("\"ip\": \"").append(Arrays.toString(interfaces.get(0).getIPv4addr()).replace("[","").replace("]","")).append("\",");
-            HOST_INFORMATION.append("\"subnet_mask\": \"").append(Arrays.toString(interfaces.get(0).getSubnetMasks()).replace("[","").replace("]","")).append("\",");
-            HOST_INFORMATION.append("\"mac\": \"").append(interfaces.get(0).getMacaddr()).append("\"");
-            HOST_INFORMATION.append("},");
-
-            for (int i = 1; i < interfaces.size() - 1; i++) {
-
-                HOST_INFORMATION.append("{");
-                HOST_INFORMATION.append("\"interface_name\": \"").append(interfaces.get(i).getName()).append("\",");
-                HOST_INFORMATION.append("\"ip\": \"").append(Arrays.toString(interfaces.get(i).getIPv4addr()).replace("[","").replace("]","")).append("\",");
-                HOST_INFORMATION.append("\"subnet_mask\": \"").append(Arrays.toString(interfaces.get(i).getSubnetMasks()).replace("[","").replace("]","")).append("\",");
-                HOST_INFORMATION.append("\"mac\": \"").append(interfaces.get(i).getMacaddr()).append("\"");
-                HOST_INFORMATION.append("},");
-
-            }
-
-            HOST_INFORMATION.append("{");
-            HOST_INFORMATION.append("\"interface_name\": \"").append(interfaces.get(interfaces.size() - 1).getName()).append("\",");
-            HOST_INFORMATION.append("\"ip\": \"").append(Arrays.toString(interfaces.get(interfaces.size() - 1).getIPv4addr()).replace("[","").replace("]","")).append("\",");
-            HOST_INFORMATION.append("\"subnet_mask\": \"").append(Arrays.toString(interfaces.get(interfaces.size() - 1).getSubnetMasks()).replace("[","").replace("]","")).append("\",");
-            HOST_INFORMATION.append("\"mac\": \"").append(interfaces.get(interfaces.size() - 1).getMacaddr()).append("\"");
-            HOST_INFORMATION.append("}");
-
-        } else {
-
-            HOST_INFORMATION.append("{");
-            HOST_INFORMATION.append("\"interface_name\": \"").append(interfaces.get(0).getName()).append("\",");
-            HOST_INFORMATION.append("\"ip\": \"").append(Arrays.toString(interfaces.get(0).getIPv4addr()).replace("[","").replace("]","")).append("\",");
-            HOST_INFORMATION.append("\"subnet_mask\": \"").append(Arrays.toString(interfaces.get(0).getSubnetMasks()).replace("[","").replace("]","")).append("\",");
-            HOST_INFORMATION.append("\"mac\": \"").append(interfaces.get(0).getMacaddr()).append("\"");
-            HOST_INFORMATION.append("}");
-
-        }
-
-        HOST_INFORMATION.append("]");
-
-        return HOST_INFORMATION.toString();
+        return hostInformation;
     }
 
     @Override
