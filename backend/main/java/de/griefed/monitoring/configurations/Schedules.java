@@ -49,17 +49,17 @@ public class Schedules {
         this.PROPERTIES = injectedApplicationProperties;
     }
 
-    @Scheduled(cron = "${de.griefed.monitoring.schedule}")
+    @Scheduled(cron = "${de.griefed.monitoring.schedule.agents}")
     public void refreshAgentsInformation() {
         if (!PROPERTIES.isAgent()) {
-            LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing agents information.");
+            LOG.debug("Current Time: " + dateFormat.format(new Date()) + " - Refreshing agents information.");
             INFORMATION_SERVICE.setAgentsInformation();
         }
     }
 
-    @Scheduled(cron = "${de.griefed.monitoring.schedule}")
+    @Scheduled(cron = "${de.griefed.monitoring.schedule.host}")
     public void refreshHostInformation() {
-        LOG.info("Current Time: " + dateFormat.format(new Date()) + " - Refreshing host information.");
+        LOG.debug("Current Time: " + dateFormat.format(new Date()) + " - Refreshing host information.");
         INFORMATION_SERVICE.setHostInformation();
     }
 }
