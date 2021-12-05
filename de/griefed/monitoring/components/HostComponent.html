@@ -135,14 +135,26 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>private java.lang.StringBuilder</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#HOST_INFORMATION">HOST_INFORMATION</a></span></code>&nbsp;</td>
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#domainName">domainName</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#hostInformation">hostInformation</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#hostName">hostName</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>private java.util.List&lt;oshi.hardware.NetworkIF&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#interfaces">interfaces</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#interfacesInformationList">interfacesInformationList</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>private oshi.SystemInfo</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span></code>&nbsp;</td>
 </tr>
@@ -230,15 +242,6 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <!--   -->
 </a>
 <h3>Field Detail</h3>
-<a name="HOST_INFORMATION">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>HOST_INFORMATION</h4>
-<pre>private final&nbsp;java.lang.StringBuilder HOST_INFORMATION</pre>
-</li>
-</ul>
 <a name="SYSTEM_INFO">
 <!--   -->
 </a>
@@ -251,10 +254,46 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <a name="interfaces">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>interfaces</h4>
 <pre>private final&nbsp;java.util.List&lt;oshi.hardware.NetworkIF&gt; interfaces</pre>
+</li>
+</ul>
+<a name="interfacesInformationList">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>interfacesInformationList</h4>
+<pre>private&nbsp;java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt; interfacesInformationList</pre>
+</li>
+</ul>
+<a name="hostInformation">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hostInformation</h4>
+<pre>private&nbsp;java.lang.String hostInformation</pre>
+</li>
+</ul>
+<a name="hostName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hostName</h4>
+<pre>private&nbsp;java.lang.String hostName</pre>
+</li>
+</ul>
+<a name="domainName">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>domainName</h4>
+<pre>private&nbsp;java.lang.String domainName</pre>
 </li>
 </ul>
 </li>
