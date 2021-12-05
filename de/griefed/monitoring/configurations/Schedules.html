@@ -276,7 +276,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>refreshAgentsInformation</h4>
-<pre>@Scheduled(cron="${de.griefed.monitoring.schedule}")
+<pre>@Scheduled(cron="${de.griefed.monitoring.schedule.agents}")
 public&nbsp;void&nbsp;refreshAgentsInformation()</pre>
 </li>
 </ul>
@@ -286,7 +286,7 @@ public&nbsp;void&nbsp;refreshAgentsInformation()</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>refreshHostInformation</h4>
-<pre>@Scheduled(cron="${de.griefed.monitoring.schedule}")
+<pre>@Scheduled(cron="${de.griefed.monitoring.schedule.host}")
 public&nbsp;void&nbsp;refreshHostInformation()</pre>
 </li>
 </ul>
