@@ -27,14 +27,12 @@ import de.griefed.monitoring.services.InformationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Configuration
-@EnableScheduling
 public class Schedules {
 
     private static final Logger LOG = LogManager.getLogger(Schedules.class);
