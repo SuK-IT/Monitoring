@@ -35,9 +35,16 @@ import oshi.hardware.CentralProcessor;
 @Service
 public class CpuComponent implements InformationModel {
 
-    private final StringBuilder CPU_INFORMATION = new StringBuilder();
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final CentralProcessor CPU = SYSTEM_INFO.getHardware().getProcessor();
+
+    private String cpuInformation;
+
+    private String model;
+    private String x64;
+    private int processes;
+    private int physical_cores;
+    private int logical_cores;
 
     /**
      * Constructor responsible for DI.
@@ -45,7 +52,33 @@ public class CpuComponent implements InformationModel {
      */
     @Autowired
     public CpuComponent() {
+        updateValues();
+    }
 
+    @Override
+    public void sendNotification() {
+
+    }
+
+    @Override
+    public void setValues() {
+        this.cpuInformation = "\"model\": \"" + model + "\"," +
+                "\"x64\": \"" + x64 + "\"," +
+                "\"processes\": " + processes + "," +
+                "\"physical_cores\": " + physical_cores + "," +
+                "\"logical_cores\": " + logical_cores;
+    }
+
+    @Override
+    public void updateValues() {
+
+        this.model = CPU.getProcessorIdentifier().getName();
+        this.x64 = String.valueOf(SYSTEM_INFO.getHardware().getProcessor().getProcessorIdentifier().isCpu64bit());
+        this.processes = SYSTEM_INFO.getOperatingSystem().getProcesses().size();
+        this.physical_cores = SYSTEM_INFO.getOperatingSystem().getProcesses().size();
+        this.logical_cores = CPU.getLogicalProcessorCount();
+
+        setValues();
     }
 
     /**
@@ -65,23 +98,17 @@ public class CpuComponent implements InformationModel {
      * @return String. Information about the cpu in JSON format.
      */
     @Override
-    public String getValue() {
-        if (CPU_INFORMATION.length() > 0) {
-            CPU_INFORMATION.delete(0, CPU_INFORMATION.length());
+    public String getValues() {
+        if (cpuInformation == null) {
+            setValues();
         }
 
-        CPU_INFORMATION.append("\"model\": \"").append(CPU.getProcessorIdentifier().getName()).append("\",");
-        CPU_INFORMATION.append("\"x64\": \"").append(SYSTEM_INFO.getHardware().getProcessor().getProcessorIdentifier().isCpu64bit()).append("\",");
-        CPU_INFORMATION.append("\"processes\": ").append(SYSTEM_INFO.getOperatingSystem().getProcesses().size()).append(",");
-        CPU_INFORMATION.append("\"physical_cores\": ").append(CPU.getPhysicalProcessorCount()).append(",");
-        CPU_INFORMATION.append("\"logical_cores\": ").append(CPU.getLogicalProcessorCount());
-
-        return CPU_INFORMATION.toString();
+        return cpuInformation;
     }
 
     @Override
     public String toString() {
-        return "\"" + getName() + "\": {" + getValue() + "}";
+        return "\"" + getName() + "\": {" + getValues() + "}";
     }
 
 }
