@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -135,12 +135,20 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>private java.lang.StringBuilder</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#DISK_INFORMATION">DISK_INFORMATION</a></span></code>&nbsp;</td>
+<td class="colFirst"><code>private java.text.DecimalFormat</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#DECIMAL_FORMAT">DECIMAL_FORMAT</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>private java.util.List&lt;oshi.software.os.OSFileStore&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#DISK_STORES">DISK_STORES</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#diskInformation">diskInformation</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#diskInformationList">diskInformationList</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>private oshi.SystemInfo</code></td>
@@ -162,7 +170,7 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#DiskComponent--">DiskComponent</a></span>()</code>
-<div class="block">Cosntructor responsible for DI.</div>
+<div class="block">Constructor responsible for DI.</div>
 </td>
 </tr>
 </table>
@@ -188,13 +196,25 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#getValue--">getValue</a></span>()</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#getValues--">getValues</a></span>()</code>
 <div class="block">Getter for the information about the disk drives.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#sendNotification--">sendNotification</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#setValues--">setValues</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#toString--">toString</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#updateValues--">updateValues</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -218,15 +238,6 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <!--   -->
 </a>
 <h3>Field Detail</h3>
-<a name="DISK_INFORMATION">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>DISK_INFORMATION</h4>
-<pre>private final&nbsp;java.lang.StringBuilder DISK_INFORMATION</pre>
-</li>
-</ul>
 <a name="SYSTEM_INFO">
 <!--   -->
 </a>
@@ -239,10 +250,37 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <a name="DISK_STORES">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>DISK_STORES</h4>
 <pre>private final&nbsp;java.util.List&lt;oshi.software.os.OSFileStore&gt; DISK_STORES</pre>
+</li>
+</ul>
+<a name="DECIMAL_FORMAT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DECIMAL_FORMAT</h4>
+<pre>private final&nbsp;java.text.DecimalFormat DECIMAL_FORMAT</pre>
+</li>
+</ul>
+<a name="diskInformationList">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>diskInformationList</h4>
+<pre>private&nbsp;java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt; diskInformationList</pre>
+</li>
+</ul>
+<a name="diskInformation">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>diskInformation</h4>
+<pre>private&nbsp;java.lang.String diskInformation</pre>
 </li>
 </ul>
 </li>
@@ -261,7 +299,7 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <h4>DiskComponent</h4>
 <pre>@Autowired
 public&nbsp;DiskComponent()</pre>
-<div class="block">Cosntructor responsible for DI.</div>
+<div class="block">Constructor responsible for DI.</div>
 </li>
 </ul>
 </li>
@@ -272,6 +310,45 @@ public&nbsp;DiskComponent()</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="sendNotification--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>sendNotification</h4>
+<pre>public&nbsp;void&nbsp;sendNotification()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#sendNotification--">sendNotification</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setValues--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setValues</h4>
+<pre>public&nbsp;void&nbsp;setValues()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#setValues--">setValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="updateValues--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>updateValues</h4>
+<pre>public&nbsp;void&nbsp;updateValues()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#updateValues--">updateValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+</dl>
+</li>
+</ul>
 <a name="getName--">
 <!--   -->
 </a>
@@ -288,18 +365,18 @@ public&nbsp;DiskComponent()</pre>
 </dl>
 </li>
 </ul>
-<a name="getValue--">
+<a name="getValues--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getValue</h4>
-<pre>public&nbsp;java.lang.String&nbsp;getValue()</pre>
+<h4>getValues</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getValues()</pre>
 <div class="block">Getter for the information about the disk drives. Gathers information, for each disk, about the name, total space
  and free space left.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#getValue--">getValue</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+<dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#getValues--">getValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>String. Information about the disk drives in JSON format.</dd>
 </dl>
