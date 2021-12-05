@@ -6,7 +6,7 @@
       once
       transition="scale">
       <q-card>
-        <q-card-section class="row flex-center">
+        <q-card-section class="row flex-center" :style="this.$q.dark.isActive ? 'border-bottom: #C0FFEE 3px solid;' : 'border-bottom: #325358 3px solid;'">
           <div>
             <b>Hostname:</b> {{ hostHost.host_name }}
           </div>
@@ -39,23 +39,34 @@
             <b>Memory total:</b> {{ hostMemory.total }} <b>Memory free:</b> {{ hostMemory.available }}
           </div>
         </q-card-section>
-        <q-card-section class="row flex-center">
-          <div v-for="hostInterface in hostInterfaces" v-bind:key="hostInterface.interface_name">
-            <ul>
-              <li><b>{{ hostInterface.interface_name }}</b></li>
-              <li><b>IP: </b>{{ hostInterface.ip }} / {{ hostInterface.subnet_mask }}</li>
-              <li><b>MAC: </b>{{ hostInterface.mac }}</li>
-            </ul>
-          </div>
+        <q-expansion-item
+          dense
+          expand-icon-toggle
+          expand-separator
+          icon="info"
+          label="Details"
+          :caption="hostHost.host_name"
+          header-class="text-center"
+          v-model="store.state.expandHost"
+        >
+          <q-card-section class="row flex-center">
+            <div v-for="hostInterface in hostInterfaces" v-bind:key="hostInterface.interface_name">
+              <ul>
+                <li><b>{{ hostInterface.interface_name }}</b></li>
+                <li><b>IP: </b>{{ hostInterface.ip }} / {{ hostInterface.subnet_mask }}</li>
+                <li><b>MAC: </b>{{ hostInterface.mac }}</li>
+              </ul>
+            </div>
 
-          <div v-for="hostDisk in hostDisks" v-bind:key="hostDisk.name">
-            <ul>
-              <li><b>{{ hostDisk.name }}</b></li>
-              <li><b>Total space: </b>{{ hostDisk.size }}</li>
-              <li><b>Free space: </b>{{ hostDisk.free }}</li>
-            </ul>
-          </div>
-        </q-card-section>
+            <div v-for="hostDisk in hostDisks" v-bind:key="hostDisk.name">
+              <ul>
+                <li><b>{{ hostDisk.name }}</b></li>
+                <li><b>Total space: </b>{{ hostDisk.size }}</li>
+                <li><b>Free space: </b>{{ hostDisk.free }}</li>
+              </ul>
+            </div>
+          </q-card-section>
+        </q-expansion-item>
       </q-card>
     </q-intersection>
 
@@ -68,7 +79,18 @@
           <q-card-section class="row flex-center">
             <div v-for="agent in agentsInformation" v-bind:key="agent" class="row no-wrap">
               <div v-if="agent.status === 1">
-                <q-chip square color="red" text-color="white" icon="not_interested" :label="agent.agent"/>
+                <q-chip square color="red" text-color="white" icon="report_gmailerrorred" :label="agent.agent">
+                  <q-tooltip>
+                    {{ agent.message }}
+                  </q-tooltip>
+                </q-chip>
+              </div>
+              <div v-else-if="agent.status === 2">
+                <q-chip square color="orange" text-color="white" icon="priority_high" :label="agent.agent">
+                  <q-tooltip>
+                    {{ agent.message }}
+                  </q-tooltip>
+                </q-chip>
               </div>
             </div>
           </q-card-section>
@@ -115,25 +137,38 @@
               </div>
             </q-card-section>
 
-            <q-card-section class="row flex-center">
-              <div v-for="agentInterface in agent.host.interfaces" v-bind:key="agentInterface.interface_name">
-                <ul>
-                  <li><b>{{ agentInterface.interface_name }}</b></li>
-                  <li><b>IP: </b>{{ agentInterface.ip }} / {{ agentInterface.subnet_mask }}</li>
-                  <li><b>MAC: </b>{{ agentInterface.mac }}</li>
-                </ul>
-              </div>
-            </q-card-section>
+            <q-expansion-item
+              dense
+              expand-icon-toggle
+              expand-separator
+              icon="info"
+              label="Details"
+              :caption="agent.host.host_name"
+              header-class="text-center"
+              v-model="store.state.expandAgents"
+            >
 
-            <q-card-section class="row flex-center">
-              <div v-for="agentDisk in agent.disks" v-bind:key="agentDisk.name">
-                <ul>
-                  <li><b>{{ agentDisk.name }}</b></li>
-                  <li><b>Total space: </b>{{ agentDisk.size }}</li>
-                  <li><b>Free space: </b>{{ agentDisk.free }}</li>
-                </ul>
-              </div>
-            </q-card-section>
+              <q-card-section class="row flex-center">
+                <div v-for="agentInterface in agent.host.interfaces" v-bind:key="agentInterface.interface_name">
+                  <ul>
+                    <li><b>{{ agentInterface.interface_name }}</b></li>
+                    <li><b>IP: </b>{{ agentInterface.ip }} / {{ agentInterface.subnet_mask }}</li>
+                    <li><b>MAC: </b>{{ agentInterface.mac }}</li>
+                  </ul>
+                </div>
+              </q-card-section>
+
+              <q-card-section class="row flex-center">
+                <div v-for="agentDisk in agent.disks" v-bind:key="agentDisk.name">
+                  <ul>
+                    <li><b>{{ agentDisk.name }}</b></li>
+                    <li><b>Total space: </b>{{ agentDisk.size }}</li>
+                    <li><b>Free space: </b>{{ agentDisk.free }}</li>
+                  </ul>
+                </div>
+              </q-card-section>
+
+            </q-expansion-item>
           </div>
 
         </q-card>
@@ -144,16 +179,19 @@
 
 <script>
 import { host,agents,api } from "boot/axios";
-import { defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
 import { ref } from 'vue';
 
 export default defineComponent({
   name: 'PageIndex',
   setup() {
 
+    const store = inject('store');
+
     let agentsInformation = ref(null);
 
     return {
+      store,
       agentsInformation,
       hostHost: ref(Object),
       hostInterfaces: ref(Object),

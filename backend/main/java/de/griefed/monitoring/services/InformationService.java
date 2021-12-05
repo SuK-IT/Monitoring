@@ -33,6 +33,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Duration;
 
 /**
@@ -53,7 +56,9 @@ public class InformationService {
     private final StringBuilder AGENTS = new StringBuilder();
     private final RestTemplate REST_TEMPLATE;
 
-    private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Down, unreachable or unavailable.\",\"agent\": \"%s\"}";
+    private final String OK = "{\"status\": " + 0 + ",\"message\": \"Everything in order.\",";
+    private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Host down or unreachable.\",\"agent\": \"%s\"}";
+    private final String AGENT_UNREACHABLE = "{\"status\": " + 2 + ",\"message\": \"Host up, but agent not reachable.\",\"agent\": \"%s\"}";
 
     private String agentInformation = "";
     private String hostInformation = "";
@@ -102,7 +107,7 @@ public class InformationService {
      * @author Griefed
      */
     public void setHostInformation() {
-        this.hostInformation = "{\"status\": " + 0 + ",\"message\": \"This is a host.\"," +
+        this.hostInformation = OK +
                 HOST_COMPONENT.toString() + "," +
                 OS_COMPONENT.toString() + "," +
                 CPU_COMPONENT.toString() + "," +
@@ -202,19 +207,64 @@ public class InformationService {
     private String getResponse(String agent) {
         // TODO: Implement token passing
         ResponseEntity<String> response;
+        InetAddress address;
+
         try {
 
-            LOG.info(String.format("Retrieving information for %s", agent));
+            String ping = agent.replace("http://","").replace("https://","");
 
-            response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);
-
-            if (response.getStatusCode() == HttpStatus.OK) {
-                return response.getBody();
-            } else {
-                return String.format(AGENT_DOWN, agent);
+            if (ping.contains(":")) {
+                ping = ping.replace(ping.substring(ping.lastIndexOf(":")), "");
             }
-        } catch (Exception ex) {
+
+            LOG.info("Ping address: " + ping);
+
+            address = InetAddress.getByName(ping);
+
+        } catch (UnknownHostException ex) {
+
+            LOG.error("Host " + agent + " unreachable or down.", ex);
             return String.format(AGENT_DOWN, agent);
+
+        }
+
+        try {
+
+            if (address != null && address.isReachable(PROPERTIES.getTimeoutConnect() * 1000)) {
+
+                try {
+
+                    LOG.info(String.format("Retrieving information for %s", agent));
+
+                    response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);
+
+                    if (response.getStatusCode() == HttpStatus.OK) {
+
+                        return response.getBody();
+
+                    } else {
+
+                        return String.format(AGENT_UNREACHABLE, agent);
+
+                    }
+
+                } catch (Exception ex) {
+
+                    return String.format(AGENT_UNREACHABLE, agent);
+                }
+
+            } else {
+
+                LOG.error("Host " + agent + " unreachable or down.");
+                return String.format(AGENT_DOWN, agent);
+
+            }
+
+        } catch (IOException ex) {
+
+            LOG.error("Host " + agent + " unreachable or down.", ex);
+            return String.format(AGENT_DOWN, agent);
+
         }
     }
 }
