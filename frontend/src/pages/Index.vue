@@ -63,6 +63,7 @@
                 <li><b>{{ hostDisk.name }}</b></li>
                 <li><b>Total space: </b>{{ hostDisk.size }}</li>
                 <li><b>Free space: </b>{{ hostDisk.free }}</li>
+                <li><b>Used: </b>{{ hostDisk.used }}</li>
               </ul>
             </div>
           </q-card-section>
@@ -164,6 +165,7 @@
                     <li><b>{{ agentDisk.name }}</b></li>
                     <li><b>Total space: </b>{{ agentDisk.size }}</li>
                     <li><b>Free space: </b>{{ agentDisk.free }}</li>
+                    <li><b>Used: </b>{{ agentDisk.used }}</li>
                   </ul>
                 </div>
               </q-card-section>
