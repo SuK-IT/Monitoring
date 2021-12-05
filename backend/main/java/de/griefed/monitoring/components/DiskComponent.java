@@ -44,7 +44,7 @@ public class DiskComponent implements InformationModel {
     private final List<OSFileStore> DISK_STORES = SYSTEM_INFO.getOperatingSystem().getFileSystem().getFileStores(true);
     private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
 
-    private List<HashMap<String, String>> diskInformationList = new ArrayList<>();
+    private List<HashMap<String, String>> diskInformationList = new ArrayList<>(100);
     private String diskInformation;
 
     /**
@@ -165,7 +165,7 @@ public class DiskComponent implements InformationModel {
 
         }
 
-        diskInformationList = list;
+        this.diskInformationList = list;
     }
 
     /**
