@@ -135,26 +135,46 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#available">available</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private java.text.DecimalFormat</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#DECIMAL_FORMAT">DECIMAL_FORMAT</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>private static org.apache.logging.log4j.Logger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#LOG">LOG</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>private java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#OSHI_VM_MAC_ADDR_PROPERTIES">OSHI_VM_MAC_ADDR_PROPERTIES</a></span></code>&nbsp;</td>
+<td class="colFirst"><code>private java.util.List&lt;oshi.hardware.PhysicalMemory&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#PHYSICAL_MEMORY">PHYSICAL_MEMORY</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>private java.lang.StringBuilder</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#RAM_INFORMATION">RAM_INFORMATION</a></span></code>&nbsp;</td>
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#ramInformation">ramInformation</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>private java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#ramInformationList">ramInformationList</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>private oshi.SystemInfo</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span></code>&nbsp;</td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#total">total</a></span></code>&nbsp;</td>
+</tr>
 <tr class="altColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#used">used</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>private java.lang.String[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmModelArray">vmModelArray</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private java.util.Map&lt;java.lang.String,java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmVendor">vmVendor</a></span></code>&nbsp;</td>
 </tr>
@@ -195,7 +215,7 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#getName--">getName</a></span>()</code>
-<div class="block">Getter for the name of this compnent.</div>
+<div class="block">Getter for the name of this component.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -255,15 +275,6 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <pre>private static final&nbsp;org.apache.logging.log4j.Logger LOG</pre>
 </li>
 </ul>
-<a name="RAM_INFORMATION">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>RAM_INFORMATION</h4>
-<pre>private final&nbsp;java.lang.StringBuilder RAM_INFORMATION</pre>
-</li>
-</ul>
 <a name="SYSTEM_INFO">
 <!--   -->
 </a>
@@ -271,6 +282,24 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <li class="blockList">
 <h4>SYSTEM_INFO</h4>
 <pre>private final&nbsp;oshi.SystemInfo SYSTEM_INFO</pre>
+</li>
+</ul>
+<a name="PHYSICAL_MEMORY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>PHYSICAL_MEMORY</h4>
+<pre>private final&nbsp;java.util.List&lt;oshi.hardware.PhysicalMemory&gt; PHYSICAL_MEMORY</pre>
+</li>
+</ul>
+<a name="DECIMAL_FORMAT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DECIMAL_FORMAT</h4>
+<pre>private final&nbsp;java.text.DecimalFormat DECIMAL_FORMAT</pre>
 </li>
 </ul>
 <a name="vmVendor">
@@ -291,17 +320,49 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <pre>private final&nbsp;java.lang.String[] vmModelArray</pre>
 </li>
 </ul>
-<a name="OSHI_VM_MAC_ADDR_PROPERTIES">
+<a name="ramInformationList">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ramInformationList</h4>
+<pre>private&nbsp;java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt; ramInformationList</pre>
+</li>
+</ul>
+<a name="ramInformation">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ramInformation</h4>
+<pre>private&nbsp;java.lang.String ramInformation</pre>
+</li>
+</ul>
+<a name="total">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>total</h4>
+<pre>private&nbsp;java.lang.String total</pre>
+</li>
+</ul>
+<a name="available">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>available</h4>
+<pre>private&nbsp;java.lang.String available</pre>
+</li>
+</ul>
+<a name="used">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>OSHI_VM_MAC_ADDR_PROPERTIES</h4>
-<pre>private final&nbsp;java.lang.String OSHI_VM_MAC_ADDR_PROPERTIES</pre>
-<dl>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../constant-values.html#de.griefed.monitoring.components.RamComponent.OSHI_VM_MAC_ADDR_PROPERTIES">Constant Field Values</a></dd>
-</dl>
+<h4>used</h4>
+<pre>private&nbsp;java.lang.String used</pre>
 </li>
 </ul>
 </li>
@@ -377,7 +438,7 @@ public&nbsp;RamComponent()</pre>
 <li class="blockList">
 <h4>getName</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getName()</pre>
-<div class="block">Getter for the name of this compnent.</div>
+<div class="block">Getter for the name of this component.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#getName--">getName</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
@@ -403,19 +464,10 @@ public&nbsp;RamComponent()</pre>
 </dl>
 </li>
 </ul>
-<a name="identifyVM--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>identifyVM</h4>
-<pre>private&nbsp;boolean&nbsp;identifyVM()</pre>
-</li>
-</ul>
 <a name="toString--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
@@ -423,6 +475,15 @@ public&nbsp;RamComponent()</pre>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 </dl>
+</li>
+</ul>
+<a name="identifyVM--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>identifyVM</h4>
+<pre>private&nbsp;boolean&nbsp;identifyVM()</pre>
 </li>
 </ul>
 </li>
