@@ -144,7 +144,7 @@ public class RamComponent implements InformationModel {
 
         List<HashMap<String, String>> list = new ArrayList<>(100);
 
-        if (!identifyVM() || !PHYSICAL_MEMORY.isEmpty()) {
+        if (!identifyVM() && PHYSICAL_MEMORY.size() >= 1) {
             if (PHYSICAL_MEMORY.size() > 1) {
 
                 list.add(
