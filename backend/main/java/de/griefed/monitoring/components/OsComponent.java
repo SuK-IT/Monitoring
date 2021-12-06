@@ -38,13 +38,20 @@ public class OsComponent implements InformationModel {
     private final StringBuilder OS_INFORMATION = new StringBuilder();
     private final OperatingSystem OS_INFO = new SystemInfo().getOperatingSystem();
 
+    private String osInformation;
+    private String manufacturer;
+    private String os;
+    private String version;
+    private String arch;
+    private String uptime;
+
     /**
      * Constructor responisble for DI.
      * @author Griefed
      */
     @Autowired
     public OsComponent() {
-
+        updateValues();
     }
 
     @Override
@@ -54,12 +61,26 @@ public class OsComponent implements InformationModel {
 
     @Override
     public void setValues() {
+        if (manufacturer == null || os == null || version == null || arch == null || uptime == null) {
+            updateValues();
+        }
 
+        this.osInformation = "\"manufacturer\": \"" + manufacturer + "\"," +
+                "\"os\": \"" + os + "\"," +
+                "\"version\": \"" + version + "\"," +
+                "\"arch\": \"" + arch + " bit\"," +
+                "\"uptime\": \"" + uptime + "\"";
     }
 
     @Override
     public void updateValues() {
+        this.manufacturer = OS_INFO.getManufacturer();
+        this.os = OS_INFO.getFamily();
+        this.version = OS_INFO.getVersionInfo().toString();
+        this.arch = String.valueOf(OS_INFO.getBitness());
+        this.uptime = OS_INFO.getSystemUptime() / 3600 + " h";
 
+        setValues();
     }
 
     /**
@@ -79,17 +100,11 @@ public class OsComponent implements InformationModel {
      */
     @Override
     public String getValues() {
-        if (OS_INFORMATION.length() > 0) {
-            OS_INFORMATION.delete(0, OS_INFORMATION.length());
+        if (osInformation == null) {
+            setValues();
         }
 
-        OS_INFORMATION.append("\"manufacturer\": \"").append(OS_INFO.getManufacturer()).append("\",");
-        OS_INFORMATION.append("\"os\": \"").append(OS_INFO.getFamily()).append("\",");
-        OS_INFORMATION.append("\"version\": \"").append(OS_INFO.getVersionInfo()).append("\",");
-        OS_INFORMATION.append("\"arch\": \"").append(OS_INFO.getBitness()).append(" bit\",");
-        OS_INFORMATION.append("\"uptime\": \"").append(OS_INFO.getSystemUptime() / 3600).append(" h\"");
-
-        return OS_INFORMATION.toString();
+        return osInformation;
     }
 
     @Override
