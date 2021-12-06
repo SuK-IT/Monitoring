@@ -36,7 +36,7 @@
           </div>
           <q-separator style="margin-left: 5px; margin-right: 5px;"/>
           <div>
-            <b>Memory total:</b> {{ hostMemory.total }} <b>Memory free:</b> {{ hostMemory.available }}
+            <b>Memory total: </b>{{ hostMemory.total }}<b> Memory free: </b>{{ hostMemory.available }}<b> Memory used: </b>{{ hostMemory.used }}
           </div>
         </q-card-section>
         <q-expansion-item
@@ -134,7 +134,7 @@
               </div>
               <q-separator style="margin-left: 5px; margin-right: 5px;"/>
               <div>
-                <b>Memory total:</b> {{ agent.memory.total }} <b>Memory free:</b> {{ agent.memory.available }}
+                <b>Memory total: </b>{{ agent.memory.total }}<b> Memory free: </b>{{ agent.memory.available }}<b> Memory used: </b>{{ agent.memory.used }}
               </div>
             </q-card-section>
 

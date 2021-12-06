@@ -67,7 +67,7 @@ public class DiskComponent implements InformationModel {
             updateValues();
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder(10000);
 
         if (diskInformationList.size() > 1) {
 

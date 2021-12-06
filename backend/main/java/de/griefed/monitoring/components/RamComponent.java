@@ -31,6 +31,8 @@ import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.hardware.PhysicalMemory;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,24 +46,29 @@ public class RamComponent implements InformationModel {
 
     private static final Logger LOG = LogManager.getLogger(RamComponent.class);
 
-    private final StringBuilder RAM_INFORMATION = new StringBuilder();
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
-    private final Map<String, String> vmVendor = new HashMap<>();
-    private final String[] vmModelArray = new String[] {
-            "Linux KVM",
-            "Linux lguest",
-            "OpenVZ",
-            "Qemu",
-            "Microsoft Virtual PC",
-            "VMWare",
-            "linux-vserver",
-            "Xen",
-            "FreeBSD Jail",
-            "VirtualBox",
-            "Parallels",
-            "Linux Containers",
-            "LXC"};
-    private final String OSHI_VM_MAC_ADDR_PROPERTIES = "oshi.vmmacaddr.properties";
+    private final List<PhysicalMemory> PHYSICAL_MEMORY = SYSTEM_INFO.getHardware().getMemory().getPhysicalMemory();
+    private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+    private final Map<String, String> vmVendor = new HashMap<String, String>() {
+        {
+            put("bhyve bhyve", "bhyve");
+            put("KVMKVMKVM", "KVM");
+            put("TCGTCGTCGTCG", "QEMU");
+            put("Microsoft Hv", "Microsoft Hyper-V or Windows Virtual PC");
+            put("lrpepyh vr", "Parallels");
+            put("VMwareVMware", "VMware");
+            put("XenVMMXenVMM", "Xen HVM");
+            put("ACRNACRNACRN", "Project ACRN");
+            put("QNXQVMBSQG", "QNX Hypervisor");
+        }
+    };
+    private final String[] vmModelArray = new String[] {"Linux KVM","Linux lguest","OpenVZ","Qemu","Microsoft Virtual PC","VMWare","linux-vserver","Xen","FreeBSD Jail","VirtualBox","Parallels","Linux Containers","LXC"};
+
+    private List<HashMap<String, String>> ramInformationList = new ArrayList<>(100);
+    private String ramInformation;
+    private String total;
+    private String available;
+    private String used;
 
     /**
      * Constructor responsible for DI.
@@ -69,15 +76,7 @@ public class RamComponent implements InformationModel {
      */
     @Autowired
     public RamComponent() {
-        vmVendor.put("bhyve bhyve", "bhyve");
-        vmVendor.put("KVMKVMKVM", "KVM");
-        vmVendor.put("TCGTCGTCGTCG", "QEMU");
-        vmVendor.put("Microsoft Hv", "Microsoft Hyper-V or Windows Virtual PC");
-        vmVendor.put("lrpepyh vr", "Parallels");
-        vmVendor.put("VMwareVMware", "VMware");
-        vmVendor.put("XenVMMXenVMM", "Xen HVM");
-        vmVendor.put("ACRNACRNACRN", "Project ACRN");
-        vmVendor.put("QNXQVMBSQG", "QNX Hypervisor");
+        updateValues();
     }
 
     @Override
@@ -87,16 +86,117 @@ public class RamComponent implements InformationModel {
 
     @Override
     public void setValues() {
+        if (ramInformationList.isEmpty()) {
+            updateValues();
+        }
 
+        StringBuilder stringBuilder = new StringBuilder(10000);
+
+        stringBuilder.append("\"total\": \"").append(total).append("\",");
+        stringBuilder.append("\"available\": \"").append(available).append("\",");
+        stringBuilder.append("\"used\": \"").append(used).append("\",");
+
+        stringBuilder.append("\"physical_memory\": [");
+
+        if (ramInformationList.size() > 1) {
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"bank\": \"").append(ramInformationList.get(0).get("bank")).append("\",");
+            stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(0).get("capacity")).append("\",");
+            stringBuilder.append("\"type\": \"").append(ramInformationList.get(0).get("type")).append("\"");
+            stringBuilder.append("},");
+
+            for (int i = 1; i < ramInformationList.size() - 1; i++) {
+                stringBuilder.append("{");
+                stringBuilder.append("\"bank\": \"").append(ramInformationList.get(i).get("bank")).append("\",");
+                stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(i).get("capacity")).append("\",");
+                stringBuilder.append("\"type\": \"").append(ramInformationList.get(i).get("type")).append("\"");
+                stringBuilder.append("},");
+            }
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"bank\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("bank")).append("\",");
+            stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("capacity")).append("\",");
+            stringBuilder.append("\"type\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("type")).append("\"");
+            stringBuilder.append("}");
+
+        } else {
+
+            stringBuilder.append("{");
+            stringBuilder.append("\"bank\": \"").append(ramInformationList.get(0).get("bank")).append("\",");
+            stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(0).get("capacity")).append("\",");
+            stringBuilder.append("\"type\": \"").append(ramInformationList.get(0).get("type")).append("\"");
+            stringBuilder.append("}");
+
+        }
+
+        stringBuilder.append("]");
+
+        this.ramInformation = stringBuilder.toString();
     }
 
     @Override
     public void updateValues() {
 
+        this.total = DECIMAL_FORMAT.format(SYSTEM_INFO.getHardware().getMemory().getTotal() / 1073741824) + " GB";
+        this.available = DECIMAL_FORMAT.format(SYSTEM_INFO.getHardware().getMemory().getAvailable() / 1073741824) + " GB";
+        this.used = DECIMAL_FORMAT.format(100 - ((100F / SYSTEM_INFO.getHardware().getMemory().getTotal()) * SYSTEM_INFO.getHardware().getMemory().getAvailable())) + " %";
+
+        List<HashMap<String, String>> list = new ArrayList<>(100);
+
+        if (!identifyVM() && PHYSICAL_MEMORY.size() > 1) {
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("bank", PHYSICAL_MEMORY.get(0).getBankLabel());
+                            put("capacity", (PHYSICAL_MEMORY.get(0).getCapacity() / 1073741824) + " GB");
+                            put("type", PHYSICAL_MEMORY.get(0).getMemoryType());
+                        }
+                    });
+
+            for (int i = 1; i < PHYSICAL_MEMORY.size() -1; i++) {
+
+                int finalI = i;
+                list.add(
+                        new HashMap<String, String>() {
+                            {
+                                put("bank", PHYSICAL_MEMORY.get(finalI).getBankLabel());
+                                put("capacity", (PHYSICAL_MEMORY.get(finalI).getCapacity() / 1073741824) + " GB");
+                                put("type", PHYSICAL_MEMORY.get(finalI).getMemoryType());
+                            }
+                        });
+
+            }
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("bank", PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getBankLabel());
+                            put("capacity", (PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getCapacity() / 1073741824) + " GB");
+                            put("type", PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getMemoryType());
+                        }
+                    });
+
+
+        } else {
+
+            list.add(
+                    new HashMap<String, String>() {
+                        {
+                            put("bank", PHYSICAL_MEMORY.get(0).getBankLabel());
+                            put("capacity", (PHYSICAL_MEMORY.get(0).getCapacity() / 1073741824) + " GB");
+                            put("type", PHYSICAL_MEMORY.get(0).getMemoryType());
+                        }
+                    });
+
+        }
+
+        this.ramInformationList = list;
     }
 
     /**
-     * Getter for the name of this compnent.
+     * Getter for the name of this component.
      * @author Griefed
      * @return String. Returns the name of this component.
      */
@@ -113,56 +213,16 @@ public class RamComponent implements InformationModel {
      */
     @Override
     public String getValues() {
-        if (RAM_INFORMATION.length() > 0) {
-            RAM_INFORMATION.delete(0, RAM_INFORMATION.length());
+        if (ramInformation == null) {
+            setValues();
         }
 
-        RAM_INFORMATION.append("\"total\": \"").append(SYSTEM_INFO.getHardware().getMemory().getTotal() / 1073741824).append(" GB\",");
-        RAM_INFORMATION.append("\"available\": \"").append(SYSTEM_INFO.getHardware().getMemory().getAvailable() / 1073741824).append(" GB\"");
+        return ramInformation;
+    }
 
-        if (!identifyVM() && SYSTEM_INFO.getHardware().getMemory().getPhysicalMemory().size() >= 1) {
-
-            List<PhysicalMemory> physicalMemoryList = SYSTEM_INFO.getHardware().getMemory().getPhysicalMemory();
-
-            RAM_INFORMATION.append(",").append("\"physical_memory\": [");
-
-            if (physicalMemoryList.size() > 1) {
-
-                RAM_INFORMATION.append("{");
-                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
-                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
-                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
-                RAM_INFORMATION.append("},");
-
-                for (int i = 1; i < physicalMemoryList.size() - 1; i++) {
-                    RAM_INFORMATION.append("{");
-                    RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(i).getBankLabel()).append("\",");
-                    RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(i).getCapacity() / 1073741824).append(" GB\",");
-                    RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(i).getMemoryType()).append("\"");
-                    RAM_INFORMATION.append("},");
-                }
-
-                RAM_INFORMATION.append("{");
-                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getBankLabel()).append("\",");
-                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getCapacity() / 1073741824).append(" GB\",");
-                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(physicalMemoryList.size() - 1).getMemoryType()).append("\"");
-                RAM_INFORMATION.append("}");
-
-            } else {
-
-                RAM_INFORMATION.append("{");
-                RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
-                RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
-                RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
-                RAM_INFORMATION.append("}");
-
-            }
-
-            RAM_INFORMATION.append("]");
-
-        }
-
-        return RAM_INFORMATION.toString();
+    @Override
+    public String toString() {
+        return "\"" + getName() + "\": {" + getValues() + "}";
     }
 
     private boolean identifyVM() {
@@ -191,10 +251,5 @@ public class RamComponent implements InformationModel {
 
         // Couldn't find VM, return empty string
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "\"" + getName() + "\": {" + getValues() + "}";
     }
 }
