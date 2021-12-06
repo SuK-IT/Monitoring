@@ -61,6 +61,10 @@ public class DiskComponent implements InformationModel {
 
     }
 
+    /**
+     * Set information from previously gathered information
+     * @author Griefed
+     */
     @Override
     public void setValues() {
         if (diskInformationList.isEmpty()) {
@@ -109,6 +113,10 @@ public class DiskComponent implements InformationModel {
         this.diskInformation = stringBuilder.toString();
     }
 
+    /**
+     * Update disk information.
+     * @author Griefed
+     */
     @Override
     public void updateValues() {
         List<HashMap<String, String>> list = new ArrayList<>(1000);
@@ -117,12 +125,12 @@ public class DiskComponent implements InformationModel {
 
             list.add(
                     new HashMap<String, String>() {
-                {
-                    put("name", DISK_STORES.get(0).getName() + " " + DISK_STORES.get(0).getLabel());
-                    put("size", (DISK_STORES.get(0).getTotalSpace() / 1073741824) + " GB");
-                    put("free", (DISK_STORES.get(0).getFreeSpace() / 1073741824) + " GB");
-                    put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(0).getTotalSpace()) * DISK_STORES.get(0).getFreeSpace())) + " %");
-                }
+                        {
+                            put("name", DISK_STORES.get(0).getName() + " " + DISK_STORES.get(0).getLabel());
+                            put("size", (DISK_STORES.get(0).getTotalSpace() / 1073741824) + " GB");
+                            put("free", DECIMAL_FORMAT.format(DISK_STORES.get(0).getFreeSpace() / 1073741824F) + " GB");
+                            put("used", DECIMAL_FORMAT.format(100F - ((100F / DISK_STORES.get(0).getTotalSpace()) * DISK_STORES.get(0).getFreeSpace())) + " %");
+                        }
             });
 
             for (int i = 1; i < DISK_STORES.size() -1; i++) {
@@ -133,8 +141,8 @@ public class DiskComponent implements InformationModel {
                             {
                                 put("name", DISK_STORES.get(finalI).getName() + " " + DISK_STORES.get(finalI).getLabel());
                                 put("size", (DISK_STORES.get(finalI).getTotalSpace() / 1073741824) + " GB");
-                                put("free", (DISK_STORES.get(finalI).getFreeSpace() / 1073741824) + " GB");
-                                put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(finalI).getTotalSpace()) * DISK_STORES.get(finalI).getFreeSpace())) + " %");
+                                put("free", DECIMAL_FORMAT.format(DISK_STORES.get(finalI).getFreeSpace() / 1073741824F) + " GB");
+                                put("used", DECIMAL_FORMAT.format(100F - ((100F / DISK_STORES.get(finalI).getTotalSpace()) * DISK_STORES.get(finalI).getFreeSpace())) + " %");
                             }
                         });
 
@@ -145,8 +153,8 @@ public class DiskComponent implements InformationModel {
                         {
                             put("name", DISK_STORES.get(DISK_STORES.size() - 1).getName() + " " + DISK_STORES.get(DISK_STORES.size() - 1).getLabel());
                             put("size", (DISK_STORES.get(DISK_STORES.size() - 1).getTotalSpace() / 1073741824) + " GB");
-                            put("free", (DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace() / 1073741824) + " GB");
-                            put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(DISK_STORES.size() - 1).getTotalSpace()) * DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace())) + " %");
+                            put("free", DECIMAL_FORMAT.format(DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace() / 1073741824F) + " GB");
+                            put("used", DECIMAL_FORMAT.format(100F - ((100F / DISK_STORES.get(DISK_STORES.size() - 1).getTotalSpace()) * DISK_STORES.get(DISK_STORES.size() - 1).getFreeSpace())) + " %");
                         }
                     });
 
@@ -158,8 +166,8 @@ public class DiskComponent implements InformationModel {
                         {
                             put("name", DISK_STORES.get(0).getName() + " " + DISK_STORES.get(0).getLabel());
                             put("size", (DISK_STORES.get(0).getTotalSpace() / 1073741824) + " GB");
-                            put("free", (DISK_STORES.get(0).getFreeSpace() / 1073741824) + " GB");
-                            put("used", DECIMAL_FORMAT.format(100 - ((100F / DISK_STORES.get(0).getTotalSpace()) * DISK_STORES.get(0).getFreeSpace())) + " %");
+                            put("free", DECIMAL_FORMAT.format(DISK_STORES.get(0).getFreeSpace() / 1073741824F) + " GB");
+                            put("used", DECIMAL_FORMAT.format(100F - ((100F / DISK_STORES.get(0).getTotalSpace()) * DISK_STORES.get(0).getFreeSpace())) + " %");
                         }
                     });
 

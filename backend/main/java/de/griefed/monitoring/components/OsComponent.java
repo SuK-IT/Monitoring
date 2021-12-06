@@ -58,6 +58,10 @@ public class OsComponent implements InformationModel {
 
     }
 
+    /**
+     * Set information from previously gathered information
+     * @author Griefed
+     */
     @Override
     public void setValues() {
         if (manufacturer == null || os == null || version == null || arch == null || uptime == null) {
@@ -71,6 +75,10 @@ public class OsComponent implements InformationModel {
                 "\"uptime\": \"" + uptime + "\"";
     }
 
+    /**
+     * Update os information.
+     * @author Griefed
+     */
     @Override
     public void updateValues() {
         this.manufacturer = OS_INFO.getManufacturer();

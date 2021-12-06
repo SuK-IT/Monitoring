@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.griefed.monitoring.configurations;
+package de.griefed.monitoring.utilities;
 
 import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.services.InformationService;

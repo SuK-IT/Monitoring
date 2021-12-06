@@ -84,6 +84,10 @@ public class RamComponent implements InformationModel {
 
     }
 
+    /**
+     * Set information from previously gathered information
+     * @author Griefed
+     */
     @Override
     public void setValues() {
         if (ramInformationList.isEmpty()) {
@@ -139,6 +143,10 @@ public class RamComponent implements InformationModel {
         this.ramInformation = stringBuilder.toString();
     }
 
+    /**
+     * Update memory information.
+     * @author Griefed
+     */
     @Override
     public void updateValues() {
 

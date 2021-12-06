@@ -24,15 +24,15 @@ package de.griefed.monitoring.models;
 
 public interface InformationModel {
 
-    public void sendNotification();
+    void sendNotification();
 
-    public void setValues();
+    void setValues();
 
-    public void updateValues();
+    void updateValues();
 
-    public String getName();
+    String getName();
 
-    public String getValues();
+    String getValues();
 
 
 }

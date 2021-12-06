@@ -44,6 +44,7 @@ public class CpuComponent implements InformationModel {
     private int processes;
     private int physical_cores;
     private int logical_cores;
+    private String fasel;
 
     /**
      * Constructor responsible for DI.
@@ -59,6 +60,10 @@ public class CpuComponent implements InformationModel {
 
     }
 
+    /**
+     * Set information from previously gathered information
+     * @author Griefed
+     */
     @Override
     public void setValues() {
         if (model == null || x64 == null || processes == 0 || physical_cores == 0 || logical_cores == 0) {
@@ -72,6 +77,10 @@ public class CpuComponent implements InformationModel {
                 "\"logical_cores\": " + logical_cores;
     }
 
+    /**
+     * Update cpu information.
+     * @author Griefed
+     */
     @Override
     public void updateValues() {
 

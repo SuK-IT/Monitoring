@@ -62,6 +62,10 @@ public class HostComponent implements InformationModel {
 
     }
 
+    /**
+     * Set information from previously gathered information
+     * @author Griefed
+     */
     @Override
     public void setValues() {
         if (hostName == null || domainName == null || interfacesInformationList.isEmpty()) {
@@ -115,6 +119,10 @@ public class HostComponent implements InformationModel {
         this.hostInformation = stringBuilder.toString();
     }
 
+    /**
+     * Update host information.
+     * @author Griefed
+     */
     @Override
     public void updateValues() {
 
@@ -129,8 +137,8 @@ public class HostComponent implements InformationModel {
                     new HashMap<String, String>() {
                         {
                             put("interface_name", INTERFACES_LIST.get(0).getName());
-                            put("ip", Arrays.toString(INTERFACES_LIST.get(0).getIPv4addr()).replace("[","").replace("]",""));
-                            put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(0).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("ip", getIpAddress(0));
+                            put("subnet_mask", getSubnetMask(0));
                             put("mac", INTERFACES_LIST.get(0).getMacaddr());
                         }
                     });
@@ -142,8 +150,8 @@ public class HostComponent implements InformationModel {
                         new HashMap<String, String>() {
                             {
                                 put("interface_name", INTERFACES_LIST.get(finalI).getName());
-                                put("ip", Arrays.toString(INTERFACES_LIST.get(finalI).getIPv4addr()).replace("[","").replace("]",""));
-                                put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(finalI).getSubnetMasks()).replace("[","").replace("]",""));
+                                put("ip", getIpAddress(finalI));
+                                put("subnet_mask", getSubnetMask(finalI));
                                 put("mac", INTERFACES_LIST.get(finalI).getMacaddr());
                             }
                         });
@@ -154,8 +162,8 @@ public class HostComponent implements InformationModel {
                     new HashMap<String, String>() {
                         {
                             put("interface_name", INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getName());
-                            put("ip", Arrays.toString(INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getIPv4addr()).replace("[","").replace("]",""));
-                            put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("ip", getIpAddress(INTERFACES_LIST.size() - 1));
+                            put("subnet_mask", getSubnetMask(INTERFACES_LIST.size() - 1));
                             put("mac", INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getMacaddr());
                         }
                     });
@@ -167,8 +175,8 @@ public class HostComponent implements InformationModel {
                     new HashMap<String, String>() {
                         {
                             put("interface_name", INTERFACES_LIST.get(0).getName());
-                            put("ip", Arrays.toString(INTERFACES_LIST.get(0).getIPv4addr()).replace("[","").replace("]",""));
-                            put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(0).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("ip", getIpAddress(0));
+                            put("subnet_mask", getSubnetMask(0));
                             put("mac", INTERFACES_LIST.get(0).getMacaddr());
                         }
                     });
@@ -176,6 +184,34 @@ public class HostComponent implements InformationModel {
         }
 
         this.interfacesInformationList = list;
+    }
+
+    /**
+     * Retrieve the IP address for a given entry in the list of interfaces.
+     * @author Griefed
+     * @param entry Int. THe entry to retrieve the IP for.
+     * @return String. Returns the IP address of a network interface.
+     */
+    private String getIpAddress(int entry) {
+        if (INTERFACES_LIST.size() >= 1) {
+            return Arrays.toString(INTERFACES_LIST.get(entry).getIPv4addr()).replace("[","").replace("]","");
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Retrieve the subnet mask for a given entry in the list of interfaces.
+     * @author Griefed
+     * @param entry Int. The entry to retrieve the subnet mask for.
+     * @return String. Returns the subnet mask in CIDR notation.
+     */
+    private String getSubnetMask(int entry) {
+        if (INTERFACES_LIST.size() >= 1) {
+            return Arrays.toString(INTERFACES_LIST.get(entry).getSubnetMasks()).replace("[","").replace("]","");
+        } else {
+            return "";
+        }
     }
 
     /**
