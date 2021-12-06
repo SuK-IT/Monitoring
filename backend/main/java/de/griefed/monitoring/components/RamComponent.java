@@ -154,7 +154,7 @@ public class RamComponent implements InformationModel {
                 RAM_INFORMATION.append("\"bank\": \"").append(physicalMemoryList.get(0).getBankLabel()).append("\",");
                 RAM_INFORMATION.append("\"capacity\": \"").append(physicalMemoryList.get(0).getCapacity() / 1073741824).append(" GB\",");
                 RAM_INFORMATION.append("\"type\": \"").append(physicalMemoryList.get(0).getMemoryType()).append("\"");
-                RAM_INFORMATION.append("},");
+                RAM_INFORMATION.append("}");
 
             }
 

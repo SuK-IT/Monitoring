@@ -41,7 +41,7 @@ import java.util.List;
 public class HostComponent implements InformationModel {
 
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
-    private final List<NetworkIF> interfaces = SYSTEM_INFO.getHardware().getNetworkIFs();
+    private final List<NetworkIF> INTERFACES_LIST = SYSTEM_INFO.getHardware().getNetworkIFs();
 
     private List<HashMap<String, String>> interfacesInformationList = new ArrayList<>(100);
     private String hostInformation;
@@ -81,7 +81,7 @@ public class HostComponent implements InformationModel {
             stringBuilder.append("\"mac\": \"").append(interfacesInformationList.get(0).get("mac")).append("\"");
             stringBuilder.append("},");
 
-            for (int i = 1; i < interfaces.size() - 1; i++) {
+            for (int i = 1; i < INTERFACES_LIST.size() - 1; i++) {
 
                 stringBuilder.append("{");
                 stringBuilder.append("\"interface_name\": \"").append(interfacesInformationList.get(i).get("interface_name")).append("\",");
@@ -123,28 +123,28 @@ public class HostComponent implements InformationModel {
 
         List<HashMap<String, String>> list = new ArrayList<>();
 
-        if (interfaces.size() > 1) {
+        if (INTERFACES_LIST.size() > 1) {
 
             list.add(
                     new HashMap<String, String>() {
                         {
-                            put("interface_name", interfaces.get(0).getName());
-                            put("ip", Arrays.toString(interfaces.get(0).getIPv4addr()).replace("[","").replace("]",""));
-                            put("subnet_mask", Arrays.toString(interfaces.get(0).getSubnetMasks()).replace("[","").replace("]",""));
-                            put("mac", interfaces.get(0).getMacaddr());
+                            put("interface_name", INTERFACES_LIST.get(0).getName());
+                            put("ip", Arrays.toString(INTERFACES_LIST.get(0).getIPv4addr()).replace("[","").replace("]",""));
+                            put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(0).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("mac", INTERFACES_LIST.get(0).getMacaddr());
                         }
                     });
 
-            for (int i = 1; i < interfaces.size() -1; i++) {
+            for (int i = 1; i < INTERFACES_LIST.size() -1; i++) {
 
                 int finalI = i;
                 list.add(
                         new HashMap<String, String>() {
                             {
-                                put("interface_name", interfaces.get(finalI).getName());
-                                put("ip", Arrays.toString(interfaces.get(finalI).getIPv4addr()).replace("[","").replace("]",""));
-                                put("subnet_mask", Arrays.toString(interfaces.get(finalI).getSubnetMasks()).replace("[","").replace("]",""));
-                                put("mac", interfaces.get(finalI).getMacaddr());
+                                put("interface_name", INTERFACES_LIST.get(finalI).getName());
+                                put("ip", Arrays.toString(INTERFACES_LIST.get(finalI).getIPv4addr()).replace("[","").replace("]",""));
+                                put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(finalI).getSubnetMasks()).replace("[","").replace("]",""));
+                                put("mac", INTERFACES_LIST.get(finalI).getMacaddr());
                             }
                         });
 
@@ -153,10 +153,10 @@ public class HostComponent implements InformationModel {
             list.add(
                     new HashMap<String, String>() {
                         {
-                            put("interface_name", interfaces.get(interfaces.size() - 1).getName());
-                            put("ip", Arrays.toString(interfaces.get(interfaces.size() - 1).getIPv4addr()).replace("[","").replace("]",""));
-                            put("subnet_mask", Arrays.toString(interfaces.get(interfaces.size() - 1).getSubnetMasks()).replace("[","").replace("]",""));
-                            put("mac", interfaces.get(interfaces.size() - 1).getMacaddr());
+                            put("interface_name", INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getName());
+                            put("ip", Arrays.toString(INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getIPv4addr()).replace("[","").replace("]",""));
+                            put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("mac", INTERFACES_LIST.get(INTERFACES_LIST.size() - 1).getMacaddr());
                         }
                     });
 
@@ -166,10 +166,10 @@ public class HostComponent implements InformationModel {
             list.add(
                     new HashMap<String, String>() {
                         {
-                            put("interface_name", interfaces.get(0).getName());
-                            put("ip", Arrays.toString(interfaces.get(0).getIPv4addr()).replace("[","").replace("]",""));
-                            put("subnet_mask", Arrays.toString(interfaces.get(0).getSubnetMasks()).replace("[","").replace("]",""));
-                            put("mac", interfaces.get(0).getMacaddr());
+                            put("interface_name", INTERFACES_LIST.get(0).getName());
+                            put("ip", Arrays.toString(INTERFACES_LIST.get(0).getIPv4addr()).replace("[","").replace("]",""));
+                            put("subnet_mask", Arrays.toString(INTERFACES_LIST.get(0).getSubnetMasks()).replace("[","").replace("]",""));
+                            put("mac", INTERFACES_LIST.get(0).getMacaddr());
                         }
                     });
 

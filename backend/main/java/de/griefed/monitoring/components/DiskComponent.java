@@ -102,7 +102,7 @@ public class DiskComponent implements InformationModel {
             stringBuilder.append("\"size\": \"").append(diskInformationList.get(0).get("size")).append("\",");
             stringBuilder.append("\"free\": \"").append(diskInformationList.get(0).get("free")).append("\",");
             stringBuilder.append("\"used\": \"").append(diskInformationList.get(0).get("used")).append("\"");
-            stringBuilder.append("},");
+            stringBuilder.append("}");
 
         }
 
