@@ -98,38 +98,42 @@ public class RamComponent implements InformationModel {
 
         stringBuilder.append("\"physical_memory\": [");
 
-        if (ramInformationList.size() > 1) {
+        if (!identifyVM() && PHYSICAL_MEMORY.size() >= 1) {
 
-            stringBuilder.append("{");
-            stringBuilder.append("\"bank\": \"").append(ramInformationList.get(0).get("bank")).append("\",");
-            stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(0).get("capacity")).append("\",");
-            stringBuilder.append("\"type\": \"").append(ramInformationList.get(0).get("type")).append("\"");
-            stringBuilder.append("},");
+            if (ramInformationList.size() > 1) {
 
-            for (int i = 1; i < ramInformationList.size() - 1; i++) {
                 stringBuilder.append("{");
-                stringBuilder.append("\"bank\": \"").append(ramInformationList.get(i).get("bank")).append("\",");
-                stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(i).get("capacity")).append("\",");
-                stringBuilder.append("\"type\": \"").append(ramInformationList.get(i).get("type")).append("\"");
+                stringBuilder.append("\"bank\": \"").append(ramInformationList.get(0).get("bank")).append("\",");
+                stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(0).get("capacity")).append("\",");
+                stringBuilder.append("\"type\": \"").append(ramInformationList.get(0).get("type")).append("\"");
                 stringBuilder.append("},");
+
+                for (int i = 1; i < ramInformationList.size() - 1; i++) {
+                    stringBuilder.append("{");
+                    stringBuilder.append("\"bank\": \"").append(ramInformationList.get(i).get("bank")).append("\",");
+                    stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(i).get("capacity")).append("\",");
+                    stringBuilder.append("\"type\": \"").append(ramInformationList.get(i).get("type")).append("\"");
+                    stringBuilder.append("},");
+                }
+
+                stringBuilder.append("{");
+                stringBuilder.append("\"bank\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("bank")).append("\",");
+                stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("capacity")).append("\",");
+                stringBuilder.append("\"type\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("type")).append("\"");
+                stringBuilder.append("}");
+
+            } else {
+
+                stringBuilder.append("{");
+                stringBuilder.append("\"bank\": \"").append(ramInformationList.get(0).get("bank")).append("\",");
+                stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(0).get("capacity")).append("\",");
+                stringBuilder.append("\"type\": \"").append(ramInformationList.get(0).get("type")).append("\"");
+                stringBuilder.append("}");
+
             }
 
-            stringBuilder.append("{");
-            stringBuilder.append("\"bank\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("bank")).append("\",");
-            stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("capacity")).append("\",");
-            stringBuilder.append("\"type\": \"").append(ramInformationList.get(ramInformationList.size() - 1).get("type")).append("\"");
-            stringBuilder.append("}");
-
-        } else {
-
-            stringBuilder.append("{");
-            stringBuilder.append("\"bank\": \"").append(ramInformationList.get(0).get("bank")).append("\",");
-            stringBuilder.append("\"capacity\": \"").append(ramInformationList.get(0).get("capacity")).append("\",");
-            stringBuilder.append("\"type\": \"").append(ramInformationList.get(0).get("type")).append("\"");
-            stringBuilder.append("}");
-
         }
-
+        
         stringBuilder.append("]");
 
         this.ramInformation = stringBuilder.toString();
