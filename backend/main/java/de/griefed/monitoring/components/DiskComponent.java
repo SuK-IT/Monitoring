@@ -111,7 +111,7 @@ public class DiskComponent implements InformationModel {
 
     @Override
     public void updateValues() {
-        List<HashMap<String, String>> list = new ArrayList<>();
+        List<HashMap<String, String>> list = new ArrayList<>(1000);
 
         if (DISK_STORES.size() > 1) {
 

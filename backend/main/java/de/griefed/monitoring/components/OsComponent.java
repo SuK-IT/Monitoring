@@ -35,7 +35,6 @@ import oshi.software.os.OperatingSystem;
 @Service
 public class OsComponent implements InformationModel {
 
-    private final StringBuilder OS_INFORMATION = new StringBuilder();
     private final OperatingSystem OS_INFO = new SystemInfo().getOperatingSystem();
 
     private String osInformation;

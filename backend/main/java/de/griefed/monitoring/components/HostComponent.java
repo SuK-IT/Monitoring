@@ -67,7 +67,7 @@ public class HostComponent implements InformationModel {
         if (hostName == null || domainName == null || interfacesInformationList.isEmpty()) {
             updateValues();
         }
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder(10000);
 
         stringBuilder.append("\"host_name\": \"").append(hostName).append("\",");
         stringBuilder.append("\"domain_name\": \"").append(domainName).append("\",");
