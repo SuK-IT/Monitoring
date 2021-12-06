@@ -24,15 +24,18 @@ package de.griefed.monitoring.services;
 
 import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.components.*;
+import de.griefed.monitoring.utilities.MailNotification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -53,9 +56,8 @@ public class InformationService {
     private final OsComponent OS_COMPONENT;
     private final RamComponent RAM_COMPONENT;
     private final ApplicationProperties PROPERTIES;
-    private final StringBuilder AGENTS = new StringBuilder();
     private final RestTemplate REST_TEMPLATE;
-
+    private final MailNotification MAIL_NOTIFICATION;
     private final String OK = "{\"status\": " + 0 + ",\"message\": \"Everything in order.\",";
     private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Host down or unreachable.\",\"agent\": \"%s\"}";
     private final String AGENT_UNREACHABLE = "{\"status\": " + 2 + ",\"message\": \"Host up, but agent not reachable.\",\"agent\": \"%s\"}";
@@ -74,7 +76,10 @@ public class InformationService {
      * @param injectedApplicationProperties Instance of {@link ApplicationProperties}.
      */
     @Autowired
-    public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent, OsComponent injectedOsComponent, RamComponent injectedRamComponent, ApplicationProperties injectedApplicationProperties) {
+    public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent,
+                              OsComponent injectedOsComponent, RamComponent injectedRamComponent, ApplicationProperties injectedApplicationProperties,
+                              MailNotification injectedMailNotification
+    ) {
         this.CPU_COMPONENT = injectedCpuComponent;
         this.DISK_COMPONENT = injectedDiskComponent;
         this.HOST_COMPONENT = injectedHostComponent;
@@ -85,21 +90,7 @@ public class InformationService {
                 .setConnectTimeout(Duration.ofSeconds(PROPERTIES.getTimeoutConnect()))
                 .setReadTimeout(Duration.ofSeconds(PROPERTIES.getTimeoutRead()))
                 .build();
-
-        if (PROPERTIES.getAgents().size() > 1) {
-
-            AGENTS.append(PROPERTIES.getAgents().get(0).split(",")[0]).append(",");
-            for (int i = 1; i < PROPERTIES.getAgents().size() - 1; i++) {
-                AGENTS.append(PROPERTIES.getAgents().get(i).split(",")[0]).append(",");
-            }
-            AGENTS.append(PROPERTIES.getAgents().get(PROPERTIES.getAgents().size() - 1).split(",")[0]);
-
-        } else {
-
-            AGENTS.append(PROPERTIES.getAgents().get(0).split(",")[0]);
-
-        }
-
+        this.MAIL_NOTIFICATION = injectedMailNotification;
     }
 
     /**
@@ -244,18 +235,23 @@ public class InformationService {
 
                     } else {
 
+                        LOG.error("Host " + agent + " reachable, but agent not.");
+                        sendNotification(agent,0);
                         return String.format(AGENT_UNREACHABLE, agent);
 
                     }
 
                 } catch (Exception ex) {
 
+                    LOG.error("Host " + agent + " reachable, but agent not.");
+                    sendNotification(agent,0);
                     return String.format(AGENT_UNREACHABLE, agent);
                 }
 
             } else {
 
                 LOG.error("Host " + agent + " unreachable or down.");
+                sendNotification(agent,1);
                 return String.format(AGENT_DOWN, agent);
 
             }
@@ -263,8 +259,49 @@ public class InformationService {
         } catch (IOException ex) {
 
             LOG.error("Host " + agent + " unreachable or down.", ex);
+            sendNotification(agent,1);
             return String.format(AGENT_DOWN, agent);
 
         }
+    }
+
+    /**
+     * Sends a notification,
+     * @author Griefed
+     * @param agent The agent to mention in the notifications body.
+     */
+    private void sendNotification(String agent, int status) {
+
+        try {
+
+            switch (status) {
+                // Host up, but agent down
+                case 0:
+                    MAIL_NOTIFICATION.sendMailNotification(
+                            "WARNING! Agent unreachable!",
+                            "The host " + agent + " is reachable, but the agent is not. Is an agent setup or down?"
+                    );
+                    break;
+
+                // Host down
+                case 1:
+                    MAIL_NOTIFICATION.sendMailNotification(
+                            "CRITICAL! Host down!",
+                            "The host " + agent + " is unreachable or down!"
+                    );
+                    break;
+
+                // you what mate?
+                default:
+                    LOG.debug("Unknown status: " + status);
+                    break;
+            }
+
+        } catch (MessagingException ex) {
+
+            LOG.error("Error sending notification for agent " + agent, ex);
+
+        }
+
     }
 }

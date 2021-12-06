@@ -24,19 +24,24 @@ package de.griefed.monitoring;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Class responsible for handling our properties. Loaded at boot in {@link Main}.
  * @author Griefed
  */
 @Component
-public class ApplicationProperties {
+public class ApplicationProperties extends Properties {
 
     private static final Logger LOG = LogManager.getLogger(ApplicationProperties.class);
 
@@ -63,6 +68,22 @@ public class ApplicationProperties {
      */
     @Value("${de.griefed.monitoring.timeout.read}")
     private int timeoutRead = 5;
+
+    /**
+     * Constructor for our properties. Sets a couple of default values for use in Monitoring.
+     * @author Griefed
+     */
+    @Autowired
+    public ApplicationProperties() {
+
+        try (InputStream inputStream = new FileInputStream("application.properties")) {
+            new Properties();
+            load(inputStream);
+        } catch (
+                IOException ex) {
+            LOG.error("Couldn't read properties file.", ex);
+        }
+    }
 
     /**
      * Getter for whether this instance is a monitor or an agent.

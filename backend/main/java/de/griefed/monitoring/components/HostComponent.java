@@ -239,6 +239,10 @@ public class HostComponent implements InformationModel {
         return hostInformation;
     }
 
+    public String getHostName() {
+        return hostName;
+    }
+
     @Override
     public String toString() {
         return "\"" + getName() + "\": {" + getValues() + "}";

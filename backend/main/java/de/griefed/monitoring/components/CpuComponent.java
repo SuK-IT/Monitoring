@@ -22,11 +22,16 @@
  */
 package de.griefed.monitoring.components;
 
+import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.models.InformationModel;
+import de.griefed.monitoring.utilities.MailNotification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
+
+import javax.mail.MessagingException;
 
 /**
  * Class responsible for retrieving all interesting values about the CPU.
@@ -37,6 +42,9 @@ public class CpuComponent implements InformationModel {
 
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final CentralProcessor CPU = SYSTEM_INFO.getHardware().getProcessor();
+    private final MailNotification MAIL_NOTIFICATION;
+    private final ApplicationProperties PROPERTIES;
+    private final HostComponent HOST_COMPONENT;
 
     private String cpuInformation;
     private String model;
@@ -44,20 +52,28 @@ public class CpuComponent implements InformationModel {
     private int processes;
     private int physical_cores;
     private int logical_cores;
-    private String fasel;
 
     /**
      * Constructor responsible for DI.
      * @author Griefed
      */
     @Autowired
-    public CpuComponent() {
+    public CpuComponent(MailNotification injectedMailNotification, ApplicationProperties injectedApplicationProperties, HostComponent injectedHostComponent) {
+        this.PROPERTIES = injectedApplicationProperties;
+        this.MAIL_NOTIFICATION = injectedMailNotification;
+        this.HOST_COMPONENT = injectedHostComponent;
         updateValues();
     }
 
+    @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.cpu}")
     @Override
-    public void sendNotification() {
-
+    public void sendNotification() throws MessagingException {
+        if (processes >= Integer.parseInt(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.cpu.processes", "500"))) {
+            MAIL_NOTIFICATION.sendMailNotification(
+                    "Processes on " + HOST_COMPONENT.getHostName() + " critical!",
+                    "The number of processes on this host has reached " + processes + ". Check this system immediately!"
+            );
+        }
     }
 
     /**

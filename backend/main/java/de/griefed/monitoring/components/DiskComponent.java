@@ -22,12 +22,18 @@
  */
 package de.griefed.monitoring.components;
 
+import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.models.InformationModel;
+import de.griefed.monitoring.utilities.MailNotification;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.software.os.OSFileStore;
 
+import javax.mail.MessagingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,9 +46,14 @@ import java.util.List;
 @Service
 public class DiskComponent implements InformationModel {
 
+    private static final Logger LOG = LogManager.getLogger(DiskComponent.class);
+
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final List<OSFileStore> DISK_STORES = SYSTEM_INFO.getOperatingSystem().getFileSystem().getFileStores(true);
     private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+    private final ApplicationProperties PROPERTIES;
+    private final HostComponent HOST_COMPONENT;
+    private final MailNotification MAIL_NOTIFICATION;
 
     private List<HashMap<String, String>> diskInformationList = new ArrayList<>(100);
     private String diskInformation;
@@ -52,13 +63,31 @@ public class DiskComponent implements InformationModel {
      * @author Griefed
      */
     @Autowired
-    public DiskComponent() {
+    public DiskComponent(ApplicationProperties injectedApplicationProperties, MailNotification injectedMailNotification, HostComponent injectedHostComponent) {
+        this.PROPERTIES = injectedApplicationProperties;
+        this.MAIL_NOTIFICATION = injectedMailNotification;
+        this.HOST_COMPONENT = injectedHostComponent;
         updateValues();
     }
 
+    @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.disk}")
     @Override
-    public void sendNotification() {
+    public void sendNotification() throws MessagingException {
 
+        List<HashMap<String, String>> disks = diskInformationList;
+
+        for (HashMap<String, String> disk : disks) {
+
+            if (Float.parseFloat(disk.get("used").replace(" %","").replace(",",".")) >= Float.parseFloat(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.disk.usage"))) {
+                MAIL_NOTIFICATION.sendMailNotification(
+                        "Disk on " + HOST_COMPONENT.getHostName() + " at critical capacity!",
+                        "The usage for disk " + disk.get("name") + " has reached critical usage levels of " + disk.get("used") + ".\n" +
+                        "Free space remaining: " + disk.get("free") + "."
+                );
+            }
+        }
+
+        disks.clear();
     }
 
     /**
