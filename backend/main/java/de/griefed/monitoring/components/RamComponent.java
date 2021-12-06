@@ -144,53 +144,56 @@ public class RamComponent implements InformationModel {
 
         List<HashMap<String, String>> list = new ArrayList<>(100);
 
-        if (!identifyVM() && PHYSICAL_MEMORY.size() > 1) {
+        if (!identifyVM() || !PHYSICAL_MEMORY.isEmpty()) {
+            if (PHYSICAL_MEMORY.size() > 1) {
 
-            list.add(
-                    new HashMap<String, String>() {
-                        {
-                            put("bank", PHYSICAL_MEMORY.get(0).getBankLabel());
-                            put("capacity", (PHYSICAL_MEMORY.get(0).getCapacity() / 1073741824) + " GB");
-                            put("type", PHYSICAL_MEMORY.get(0).getMemoryType());
-                        }
-                    });
-
-            for (int i = 1; i < PHYSICAL_MEMORY.size() -1; i++) {
-
-                int finalI = i;
                 list.add(
                         new HashMap<String, String>() {
                             {
-                                put("bank", PHYSICAL_MEMORY.get(finalI).getBankLabel());
-                                put("capacity", (PHYSICAL_MEMORY.get(finalI).getCapacity() / 1073741824) + " GB");
-                                put("type", PHYSICAL_MEMORY.get(finalI).getMemoryType());
+                                put("bank", PHYSICAL_MEMORY.get(0).getBankLabel());
+                                put("capacity", (PHYSICAL_MEMORY.get(0).getCapacity() / 1073741824) + " GB");
+                                put("type", PHYSICAL_MEMORY.get(0).getMemoryType());
+                            }
+                        });
+
+                for (int i = 1; i < PHYSICAL_MEMORY.size() -1; i++) {
+
+                    int finalI = i;
+                    list.add(
+                            new HashMap<String, String>() {
+                                {
+                                    put("bank", PHYSICAL_MEMORY.get(finalI).getBankLabel());
+                                    put("capacity", (PHYSICAL_MEMORY.get(finalI).getCapacity() / 1073741824) + " GB");
+                                    put("type", PHYSICAL_MEMORY.get(finalI).getMemoryType());
+                                }
+                            });
+
+                }
+
+                list.add(
+                        new HashMap<String, String>() {
+                            {
+                                put("bank", PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getBankLabel());
+                                put("capacity", (PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getCapacity() / 1073741824) + " GB");
+                                put("type", PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getMemoryType());
+                            }
+                        });
+
+
+            } else {
+
+                list.add(
+                        new HashMap<String, String>() {
+                            {
+                                put("bank", PHYSICAL_MEMORY.get(0).getBankLabel());
+                                put("capacity", (PHYSICAL_MEMORY.get(0).getCapacity() / 1073741824) + " GB");
+                                put("type", PHYSICAL_MEMORY.get(0).getMemoryType());
                             }
                         });
 
             }
-
-            list.add(
-                    new HashMap<String, String>() {
-                        {
-                            put("bank", PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getBankLabel());
-                            put("capacity", (PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getCapacity() / 1073741824) + " GB");
-                            put("type", PHYSICAL_MEMORY.get(PHYSICAL_MEMORY.size() - 1).getMemoryType());
-                        }
-                    });
-
-
-        } else {
-
-            list.add(
-                    new HashMap<String, String>() {
-                        {
-                            put("bank", PHYSICAL_MEMORY.get(0).getBankLabel());
-                            put("capacity", (PHYSICAL_MEMORY.get(0).getCapacity() / 1073741824) + " GB");
-                            put("type", PHYSICAL_MEMORY.get(0).getMemoryType());
-                        }
-                    });
-
         }
+
 
         this.ramInformationList = list;
     }
