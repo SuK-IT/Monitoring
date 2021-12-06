@@ -98,19 +98,42 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li>java.util.Dictionary&lt;K,V&gt;</li>
+<li>
+<ul class="inheritance">
+<li>java.util.Hashtable&lt;java.lang.Object,java.lang.Object&gt;</li>
+<li>
+<ul class="inheritance">
+<li>java.util.Properties</li>
+<li>
+<ul class="inheritance">
 <li>de.griefed.monitoring.ApplicationProperties</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.io.Serializable, java.lang.Cloneable, java.util.Map&lt;java.lang.Object,java.lang.Object&gt;</dd>
+</dl>
 <hr>
 <br>
 <pre>@Component
 public class <span class="typeNameLabel">ApplicationProperties</span>
-extends java.lang.Object</pre>
+extends java.util.Properties</pre>
 <div class="block">Class responsible for handling our properties. Loaded at boot in <a href="../../../de/griefed/monitoring/Main.html" title="class in de.griefed.monitoring"><code>Main</code></a>.</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../serialized-form.html#de.griefed.monitoring.ApplicationProperties">Serialized Form</a></dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -158,6 +181,13 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="fields.inherited.from.class.java.util.Properties">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;java.util.Properties</h3>
+<code>defaults</code></li>
+</ul>
 </li>
 </ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -172,7 +202,9 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/ApplicationProperties.html#ApplicationProperties--">ApplicationProperties</a></span>()</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/ApplicationProperties.html#ApplicationProperties--">ApplicationProperties</a></span>()</code>
+<div class="block">Constructor for our properties.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -215,11 +247,25 @@ extends java.lang.Object</pre>
 </tr>
 </table>
 <ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.java.util.Properties">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.util.Properties</h3>
+<code>getProperty, getProperty, list, list, load, load, loadFromXML, propertyNames, save, setProperty, store, store, storeToXML, storeToXML, stringPropertyNames</code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.java.util.Hashtable">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.util.Hashtable</h3>
+<code>clear, clone, compute, computeIfAbsent, computeIfPresent, contains, containsKey, containsValue, elements, entrySet, equals, forEach, get, getOrDefault, hashCode, isEmpty, keys, keySet, merge, put, putAll, putIfAbsent, rehash, remove, remove, replace, replace, replaceAll, size, toString, values</code></li>
+</ul>
+<ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<code>finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -302,7 +348,9 @@ private&nbsp;int timeoutRead</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ApplicationProperties</h4>
-<pre>public&nbsp;ApplicationProperties()</pre>
+<pre>@Autowired
+public&nbsp;ApplicationProperties()</pre>
+<div class="block">Constructor for our properties. Sets a couple of default values for use in Monitoring.</div>
 </li>
 </ul>
 </li>

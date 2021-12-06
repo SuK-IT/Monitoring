@@ -143,8 +143,16 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#cpuInformation">cpuInformation</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#HOST_COMPONENT">HOST_COMPONENT</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>private int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#logical_cores">logical_cores</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#MAIL_NOTIFICATION">MAIL_NOTIFICATION</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>private java.lang.String</code></td>
@@ -159,10 +167,14 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#processes">processes</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#PROPERTIES">PROPERTIES</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>private oshi.SystemInfo</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#x64">x64</a></span></code>&nbsp;</td>
 </tr>
@@ -181,7 +193,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#CpuComponent--">CpuComponent</a></span>()</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#CpuComponent-de.griefed.monitoring.utilities.MailNotification-de.griefed.monitoring.ApplicationProperties-de.griefed.monitoring.components.HostComponent-">CpuComponent</a></span>(<a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a>&nbsp;injectedMailNotification,
+            <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties,
+            <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a>&nbsp;injectedHostComponent)</code>
 <div class="block">Constructor responsible for DI.</div>
 </td>
 </tr>
@@ -218,7 +232,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#setValues--">setValues</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#setValues--">setValues</a></span>()</code>
+<div class="block">Set information from previously gathered information</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -226,7 +242,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#updateValues--">updateValues</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/CpuComponent.html#updateValues--">updateValues</a></span>()</code>
+<div class="block">Update cpu information.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -266,6 +284,33 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <li class="blockList">
 <h4>CPU</h4>
 <pre>private final&nbsp;oshi.hardware.CentralProcessor CPU</pre>
+</li>
+</ul>
+<a name="MAIL_NOTIFICATION">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MAIL_NOTIFICATION</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a> MAIL_NOTIFICATION</pre>
+</li>
+</ul>
+<a name="PROPERTIES">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>PROPERTIES</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a> PROPERTIES</pre>
+</li>
+</ul>
+<a name="HOST_COMPONENT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HOST_COMPONENT</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a> HOST_COMPONENT</pre>
 </li>
 </ul>
 <a name="cpuInformation">
@@ -330,14 +375,16 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="CpuComponent--">
+<a name="CpuComponent-de.griefed.monitoring.utilities.MailNotification-de.griefed.monitoring.ApplicationProperties-de.griefed.monitoring.components.HostComponent-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CpuComponent</h4>
 <pre>@Autowired
-public&nbsp;CpuComponent()</pre>
+public&nbsp;CpuComponent(<a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a>&nbsp;injectedMailNotification,
+                               <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties,
+                               <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a>&nbsp;injectedHostComponent)</pre>
 <div class="block">Constructor responsible for DI.</div>
 </li>
 </ul>
@@ -355,10 +402,14 @@ public&nbsp;CpuComponent()</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendNotification</h4>
-<pre>public&nbsp;void&nbsp;sendNotification()</pre>
+<pre>@Scheduled(cron="${de.griefed.monitoring.schedule.email.notification.cpu}")
+public&nbsp;void&nbsp;sendNotification()
+                                                                                                  throws javax.mail.MessagingException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#sendNotification--">sendNotification</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>javax.mail.MessagingException</code></dd>
 </dl>
 </li>
 </ul>
@@ -369,6 +420,7 @@ public&nbsp;CpuComponent()</pre>
 <li class="blockList">
 <h4>setValues</h4>
 <pre>public&nbsp;void&nbsp;setValues()</pre>
+<div class="block">Set information from previously gathered information</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#setValues--">setValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
@@ -382,6 +434,7 @@ public&nbsp;CpuComponent()</pre>
 <li class="blockList">
 <h4>updateValues</h4>
 <pre>public&nbsp;void&nbsp;updateValues()</pre>
+<div class="block">Update cpu information.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#updateValues--">updateValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>

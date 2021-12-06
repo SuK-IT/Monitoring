@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -194,31 +194,51 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#getHostName--">getHostName</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#getIpAddress-int-">getIpAddress</a></span>(int&nbsp;entry)</code>
+<div class="block">Retrieve the IP address for a given entry in the list of interfaces.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#getName--">getName</a></span>()</code>
 <div class="block">Getter for the name of this component.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>private java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#getSubnetMask-int-">getSubnetMask</a></span>(int&nbsp;entry)</code>
+<div class="block">Retrieve the subnet mask for a given entry in the list of interfaces.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#getValues--">getValues</a></span>()</code>
 <div class="block">Getter for the information about the host.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#sendNotification--">sendNotification</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#setValues--">setValues</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#setValues--">setValues</a></span>()</code>
+<div class="block">Set information from previously gathered information</div>
+</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#updateValues--">updateValues</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/HostComponent.html#updateValues--">updateValues</a></span>()</code>
+<div class="block">Update host information.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -343,6 +363,7 @@ public&nbsp;HostComponent()</pre>
 <li class="blockList">
 <h4>setValues</h4>
 <pre>public&nbsp;void&nbsp;setValues()</pre>
+<div class="block">Set information from previously gathered information</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#setValues--">setValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
@@ -356,9 +377,42 @@ public&nbsp;HostComponent()</pre>
 <li class="blockList">
 <h4>updateValues</h4>
 <pre>public&nbsp;void&nbsp;updateValues()</pre>
+<div class="block">Update host information.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#updateValues--">updateValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getIpAddress-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getIpAddress</h4>
+<pre>private&nbsp;java.lang.String&nbsp;getIpAddress(int&nbsp;entry)</pre>
+<div class="block">Retrieve the IP address for a given entry in the list of interfaces.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>entry</code> - Int. THe entry to retrieve the IP for.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>String. Returns the IP address of a network interface.</dd>
+</dl>
+</li>
+</ul>
+<a name="getSubnetMask-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSubnetMask</h4>
+<pre>private&nbsp;java.lang.String&nbsp;getSubnetMask(int&nbsp;entry)</pre>
+<div class="block">Retrieve the subnet mask for a given entry in the list of interfaces.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>entry</code> - Int. The entry to retrieve the subnet mask for.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>String. Returns the subnet mask in CIDR notation.</dd>
 </dl>
 </li>
 </ul>
@@ -393,6 +447,15 @@ public&nbsp;HostComponent()</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>String. Information about the host in JSON format.</dd>
 </dl>
+</li>
+</ul>
+<a name="getHostName--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getHostName</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getHostName()</pre>
 </li>
 </ul>
 <a name="toString--">

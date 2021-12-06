@@ -143,38 +143,50 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#DECIMAL_FORMAT">DECIMAL_FORMAT</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#HOST_COMPONENT">HOST_COMPONENT</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>private static org.apache.logging.log4j.Logger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#LOG">LOG</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#MAIL_NOTIFICATION">MAIL_NOTIFICATION</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>private java.util.List&lt;oshi.hardware.PhysicalMemory&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#PHYSICAL_MEMORY">PHYSICAL_MEMORY</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>private <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#PROPERTIES">PROPERTIES</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>private java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#ramInformation">ramInformation</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private java.util.List&lt;java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#ramInformationList">ramInformationList</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private oshi.SystemInfo</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#SYSTEM_INFO">SYSTEM_INFO</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#total">total</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#used">used</a></span></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>private java.lang.String[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmModelArray">vmModelArray</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>private java.util.Map&lt;java.lang.String,java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#vmVendor">vmVendor</a></span></code>&nbsp;</td>
 </tr>
@@ -193,7 +205,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#RamComponent--">RamComponent</a></span>()</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#RamComponent-de.griefed.monitoring.ApplicationProperties-de.griefed.monitoring.components.HostComponent-de.griefed.monitoring.utilities.MailNotification-">RamComponent</a></span>(<a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties,
+            <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a>&nbsp;injectedHostComponent,
+            <a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a>&nbsp;injectedMailNotification)</code>
 <div class="block">Constructor responsible for DI.</div>
 </td>
 </tr>
@@ -234,7 +248,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#setValues--">setValues</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#setValues--">setValues</a></span>()</code>
+<div class="block">Set information from previously gathered information</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -242,7 +258,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#updateValues--">updateValues</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/RamComponent.html#updateValues--">updateValues</a></span>()</code>
+<div class="block">Update memory information.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -320,6 +338,33 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <pre>private final&nbsp;java.lang.String[] vmModelArray</pre>
 </li>
 </ul>
+<a name="PROPERTIES">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>PROPERTIES</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a> PROPERTIES</pre>
+</li>
+</ul>
+<a name="HOST_COMPONENT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HOST_COMPONENT</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a> HOST_COMPONENT</pre>
+</li>
+</ul>
+<a name="MAIL_NOTIFICATION">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MAIL_NOTIFICATION</h4>
+<pre>private final&nbsp;<a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a> MAIL_NOTIFICATION</pre>
+</li>
+</ul>
 <a name="ramInformationList">
 <!--   -->
 </a>
@@ -373,14 +418,16 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="RamComponent--">
+<a name="RamComponent-de.griefed.monitoring.ApplicationProperties-de.griefed.monitoring.components.HostComponent-de.griefed.monitoring.utilities.MailNotification-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>RamComponent</h4>
 <pre>@Autowired
-public&nbsp;RamComponent()</pre>
+public&nbsp;RamComponent(<a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring">ApplicationProperties</a>&nbsp;injectedApplicationProperties,
+                               <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a>&nbsp;injectedHostComponent,
+                               <a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a>&nbsp;injectedMailNotification)</pre>
 <div class="block">Constructor responsible for DI.</div>
 </li>
 </ul>
@@ -398,10 +445,13 @@ public&nbsp;RamComponent()</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendNotification</h4>
-<pre>public&nbsp;void&nbsp;sendNotification()</pre>
+<pre>public&nbsp;void&nbsp;sendNotification()
+                      throws javax.mail.MessagingException</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#sendNotification--">sendNotification</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>javax.mail.MessagingException</code></dd>
 </dl>
 </li>
 </ul>
@@ -412,6 +462,7 @@ public&nbsp;RamComponent()</pre>
 <li class="blockList">
 <h4>setValues</h4>
 <pre>public&nbsp;void&nbsp;setValues()</pre>
+<div class="block">Set information from previously gathered information</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#setValues--">setValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
@@ -425,6 +476,7 @@ public&nbsp;RamComponent()</pre>
 <li class="blockList">
 <h4>updateValues</h4>
 <pre>public&nbsp;void&nbsp;updateValues()</pre>
+<div class="block">Update memory information.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#updateValues--">updateValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
