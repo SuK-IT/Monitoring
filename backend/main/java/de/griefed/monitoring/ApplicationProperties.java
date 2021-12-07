@@ -22,19 +22,18 @@
  */
 package de.griefed.monitoring;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Class responsible for handling our properties. Loaded at boot in {@link Main}.
@@ -75,6 +74,16 @@ public class ApplicationProperties extends Properties {
      */
     @Autowired
     public ApplicationProperties() {
+
+        if (!new File("application.properties").exists()) {
+            try {
+                FileUtils.copyInputStreamToFile(
+                        Objects.requireNonNull(Main.class.getResourceAsStream("/" + new File("application.properties").getName())),
+                        new File("application.properties"));
+            } catch (IOException ex) {
+                LOG.error("Error creating file: " + new File("application.properties"), ex);
+            }
+        }
 
         try (InputStream inputStream = new FileInputStream("application.properties")) {
             new Properties();
