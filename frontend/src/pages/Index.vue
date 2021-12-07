@@ -78,7 +78,6 @@
     <!-- AGENTS WHICH ARE UP -->
     <div class="row flex-center" v-if="!isAgent">
       <q-card style="margin: 10px; width: 420px; max-width: 500px;" v-for="agent in agentsOk" v-bind:key="agent">
-        <!-- TODO: Make it so expanding any item does not move other items -->
 
         <q-card-section class="row flex-center">
           <q-btn @click="agent.dialog = true" class="row flex-center text-bold" size="xl" :ripple=false dense square color="green" text-color="white" icon="task_alt" :label="agent.agent"/>
@@ -131,6 +130,7 @@
         once
         transition="scale">
         <q-card>
+          <!-- TODO: Turn each chip into clickable button for dialog with information -->
           <q-card-section class="row flex-center">
             <div v-for="agent in agentsDown" v-bind:key="agent" class="row no-wrap">
               <div v-if="agent.status === 1">
