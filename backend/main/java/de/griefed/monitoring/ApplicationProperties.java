@@ -127,6 +127,32 @@ public class ApplicationProperties extends Properties {
     }
 
     /**
+     * Getter for a list of ports to scan in {@link de.griefed.monitoring.services.InformationService} for host availability.
+     * @author Griefed
+     * @return List int. Returns a list of ports which will be scanned to determine host availability.
+     */
+    public List<Integer> getPorts() {
+
+        List<Integer> ports = new ArrayList<>(1000);
+
+        if (getProperty("de.griefed.monitoring.scan.ports").contains(",")) {
+
+            List<String> portsAsStrings = new ArrayList<String>(
+                    Arrays.asList(
+                            getProperty("de.griefed.monitoring.scan.ports").split(",")));
+
+            portsAsStrings.forEach(entry -> ports.add(Integer.parseInt(entry)));
+
+        } else {
+
+            ports.add(Integer.parseInt(getProperty("de.griefed.monitoring.scan.ports")));
+
+        }
+
+        return ports;
+    }
+
+    /**
      * Getter for the number of seconds to wait until a connection timeout is triggered for getting information from agents.
      * @author Griefed
      * @return Integer. Returns the number of seconds as an int.

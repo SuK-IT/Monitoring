@@ -31,13 +31,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.Duration;
 
@@ -219,50 +220,79 @@ public class InformationService {
 
         }
 
-        try {
+        boolean reachable = false;
 
-            if (address != null && address.isReachable(PROPERTIES.getTimeoutConnect() * 1000)) {
+        if (address != null) {
 
-                try {
+            /*for (int i = 1; i < 1001; i++) {
 
-                    LOG.info(String.format("Retrieving information for %s", agent));
+                try (Socket soc = new Socket()) {
 
-                    response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);
+                    soc.connect(new InetSocketAddress(address, i), 1000);
+                    reachable = true;
 
-                    if (response.getStatusCode() == HttpStatus.OK) {
+                } catch (IOException ignored) {
 
-                        return response.getBody();
-
-                    } else {
-
-                        LOG.error("Host " + agent + " reachable, but agent not.");
-                        sendNotification(agent,0);
-                        return String.format(AGENT_UNREACHABLE, agent);
-
-                    }
-
-                } catch (Exception ex) {
-
-                    LOG.error("Host " + agent + " reachable, but agent not.");
-                    sendNotification(agent,0);
-                    return String.format(AGENT_UNREACHABLE, agent);
                 }
+            }*/
 
-            } else {
+            for (int port : PROPERTIES.getPorts()) {
 
-                LOG.error("Host " + agent + " unreachable or down.");
-                sendNotification(agent,1);
-                return String.format(AGENT_DOWN, agent);
+                try (Socket soc = new Socket()) {
+
+                    soc.connect(new InetSocketAddress(address, port), 1000);
+                    reachable = true;
+
+                } catch (IOException ignored) {
+
+                }
 
             }
 
-        } catch (IOException ex) {
+        } else {
 
-            LOG.error("Host " + agent + " unreachable or down.", ex);
+            LOG.error("Host " + agent + " unreachable or down.");
             sendNotification(agent,1);
             return String.format(AGENT_DOWN, agent);
 
         }
+
+        if (reachable) {
+
+            try {
+
+                LOG.info(String.format("Retrieving information for %s", agent));
+
+                response = REST_TEMPLATE.getForEntity(agent + "/api/v1/agent", String.class);
+
+                if (response.getStatusCode() == HttpStatus.OK) {
+
+                    return response.getBody();
+
+                } else {
+
+                    LOG.error("Host " + agent + " reachable, but agent not.");
+                    sendNotification(agent,0);
+                    return String.format(AGENT_UNREACHABLE, agent);
+
+                }
+
+            } catch (Exception ex) {
+
+                LOG.error("Host " + agent + " reachable, but agent not.");
+                sendNotification(agent,0);
+                return String.format(AGENT_UNREACHABLE, agent);
+            }
+
+        } else {
+
+            LOG.error("Host " + agent + " unreachable or down.");
+            sendNotification(agent,1);
+            return String.format(AGENT_DOWN, agent);
+
+        }
+
+
     }
 
     /**

@@ -19,16 +19,6 @@
           </q-tooltip>
         </q-btn>
 
-        <q-btn
-          dense
-          class="q-mr-xs"
-          icon="real_estate_agent"
-          @click="toggleExpandAgents()">
-          <q-tooltip :disable="this.$q.platform.is.mobile">
-            Autoexpand agents information
-          </q-tooltip>
-        </q-btn>
-
         <q-btn v-if="!this.$q.platform.is.mobile" label="GitHub" style="color: #C0FFEE" type="a" target="_blank" href="https://github.com/SuK-IT/Monitoring">
           <q-tooltip>
             Visit the project on GitHub!

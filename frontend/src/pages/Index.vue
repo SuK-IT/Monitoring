@@ -104,7 +104,7 @@
         <q-card style="margin: 10px; max-width: 500px;" v-for="agent in agentsInformation" v-bind:key="agent">
 
           <div v-if="agent.status === 0">
-            <q-card-section class="row flex-center wrap">
+            <q-card-section class="row flex-center wrap"  style="height: 200px;">
               <div>
                 <b>Hostname:</b> {{ agent.host.host_name }}
               </div>
@@ -146,7 +146,7 @@
               label="Details"
               :caption="agent.host.host_name"
               header-class="text-center"
-              v-model="store.state.expandAgents"
+
             >
 
               <q-card-section class="row flex-center">
