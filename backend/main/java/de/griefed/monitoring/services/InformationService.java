@@ -60,6 +60,7 @@ public class InformationService {
     private final RestTemplate REST_TEMPLATE;
     private final MailNotification MAIL_NOTIFICATION;
     private final String OK = "{\"status\": " + 0 + ",\"message\": \"Everything in order.\",";
+    private final String AGENT_OK = "{\"agent\": \"%s\",";
     private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Host down or unreachable.\",\"agent\": \"%s\"}";
     private final String AGENT_UNREACHABLE = "{\"status\": " + 2 + ",\"message\": \"Host up, but agent not reachable.\",\"agent\": \"%s\"}";
 
@@ -135,7 +136,7 @@ public class InformationService {
 
             LOG.warn("WARNING! Agents are not configured! Not retrieving information.");
 
-            agentInformation = "{\"status\": " + 1 + ",\"message\": \"Agents are not configured! Not retrieving information.\"}";
+            this.agentInformation = "{\"status\": " + 1 + ",\"message\": \"Agents are not configured! Not retrieving information.\"}";
 
         } else {
 
@@ -167,7 +168,7 @@ public class InformationService {
 
             stringBuilder.append("]}");
 
-            agentInformation = stringBuilder.toString();
+            this.agentInformation = stringBuilder.toString();
 
         }
 
@@ -267,7 +268,7 @@ public class InformationService {
 
                 if (response.getStatusCode() == HttpStatus.OK) {
 
-                    return response.getBody();
+                    return String.format(AGENT_OK, agent) + response.getBody().substring(1);
 
                 } else {
 
