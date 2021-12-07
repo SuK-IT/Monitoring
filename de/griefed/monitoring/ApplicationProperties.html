@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -228,18 +228,24 @@ extends java.util.Properties</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.util.List&lt;java.lang.Integer&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/ApplicationProperties.html#getPorts--">getPorts</a></span>()</code>
+<div class="block">Getter for a list of ports to scan in <a href="../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services"><code>InformationService</code></a> for host availability.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/ApplicationProperties.html#getTimeoutConnect--">getTimeoutConnect</a></span>()</code>
 <div class="block">Getter for the number of seconds to wait until a connection timeout is triggered for getting information from agents.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/ApplicationProperties.html#getTimeoutRead--">getTimeoutRead</a></span>()</code>
 <div class="block">Getter for the number of seconds to wait until a read timeout is triggered for getting information from agents.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/griefed/monitoring/ApplicationProperties.html#isAgent--">isAgent</a></span>()</code>
 <div class="block">Getter for whether this instance is a monitor or an agent.</div>
@@ -386,6 +392,20 @@ public&nbsp;ApplicationProperties()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>List String. Each entry is a combination of ip and access token in the format <code>agent_ip1,access_token1</code>.</dd>
+</dl>
+</li>
+</ul>
+<a name="getPorts--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPorts</h4>
+<pre>public&nbsp;java.util.List&lt;java.lang.Integer&gt;&nbsp;getPorts()</pre>
+<div class="block">Getter for a list of ports to scan in <a href="../../../de/griefed/monitoring/services/InformationService.html" title="class in de.griefed.monitoring.services"><code>InformationService</code></a> for host availability.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>List int. Returns a list of ports which will be scanned to determine host availability.</dd>
 </dl>
 </li>
 </ul>
