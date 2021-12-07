@@ -21,6 +21,7 @@ LABEL description="Simple monitoring app. Serves as monitor and agent."
 RUN \
   echo "**** Bring system up to date ****" && \
   apt-get update && apt-get upgrade -y && \
+  apt-get install iputils-ping -y && \
   echo "**** Creating our folder(s) ****" && \
   mkdir -p \
     /app/monitoring/data && \
