@@ -71,23 +71,102 @@
       </q-card>
     </q-intersection>
 
-    <div v-if="!isAgent">
+    <div class="row flex-center" v-if="!isAgent">
+      <q-card style="margin: 10px; width: 420px; max-width: 500px;" v-for="agent in agentsOk" v-bind:key="agent">
+
+        <q-card-section class="row flex-center" :style="this.$q.dark.isActive ? 'border-bottom: #C0FFEE 3px solid;' : 'border-bottom: #325358 3px solid;'">
+          <q-chip class="row flex-center text-bold" size="xl" :ripple=false dense square color="green" text-color="white" icon="task_alt" :label="agent.agent"/>
+        </q-card-section>
+
+        <q-expansion-item
+          :style="this.$q.dark.isActive ? 'border-top: #C0FFEE 3px solid;' : 'border-top: #325358 3px solid;'"
+          dense
+          expand-icon-toggle
+          expand-separator
+          icon="info"
+          label="Details"
+          :caption="agent.host.host_name"
+          header-class="text-center"
+        >
+
+          <q-card-section class="row flex-center wrap" style="height: 200px;">
+            <b>Hostname:&nbsp;</b>{{ agent.host.host_name }}
+            <b>&nbsp;Domain name:&nbsp;</b>{{ agent.host.domain_name }}
+            <b>&nbsp;OS manufacturer:&nbsp;</b>{{ agent.os.manufacturer }}
+            <b>&nbsp;OS:&nbsp;</b>{{ agent.os.os }}
+            <b>&nbsp;OS version:&nbsp;</b>{{ agent.os.version }}
+            <b>&nbsp;Uptime:&nbsp;</b>{{ agent.os.uptime }}
+            <b>&nbsp;Disks:&nbsp;</b>{{ agent.disks.length }}
+            <b>&nbsp;Memory total:&nbsp;</b>{{ agent.memory.total }}
+            <b>&nbsp;Memory free:&nbsp;</b>{{ agent.memory.available }}
+            <b>&nbsp;Memory used:&nbsp;</b>{{ agent.memory.used }}
+          </q-card-section>
+
+          <q-expansion-item
+            :style="this.$q.dark.isActive ? 'border-top: #C0FFEE 3px solid;' : 'border-top: #325358 3px solid;'"
+            dense
+            expand-icon-toggle
+            expand-separator
+            icon="info"
+            label="Network Interfaces"
+            header-class="text-center"
+          >
+
+            <q-card-section class="row flex-center">
+              <div v-for="agentInterface in agent.host.interfaces" v-bind:key="agentInterface.interface_name">
+                <ul>
+                  <li><b>{{ agentInterface.interface_name }}</b></li>
+                  <li><b>IP: </b>{{ agentInterface.ip }} / {{ agentInterface.subnet_mask }}</li>
+                  <li><b>MAC: </b>{{ agentInterface.mac }}</li>
+                </ul>
+              </div>
+            </q-card-section>
+
+          </q-expansion-item>
+
+          <q-expansion-item
+            :style="this.$q.dark.isActive ? 'border-top: #C0FFEE 3px solid;' : 'border-top: #325358 3px solid;'"
+            dense
+            expand-icon-toggle
+            expand-separator
+            icon="info"
+            label="Storage Disks"
+            header-class="text-center"
+          >
+            <q-card-section class="row flex-center">
+              <div v-for="agentDisk in agent.disks" v-bind:key="agentDisk.name">
+                <ul>
+                  <li><b>{{ agentDisk.name }}</b></li>
+                  <li><b>Total space: </b>{{ agentDisk.size }}</li>
+                  <li><b>Free space: </b>{{ agentDisk.free }}</li>
+                  <li><b>Used: </b>{{ agentDisk.used }}</li>
+                </ul>
+              </div>
+            </q-card-section>
+          </q-expansion-item>
+
+        </q-expansion-item>
+
+      </q-card>
+    </div>
+
+    <div v-if="!isAgent" class="absolute-bottom">
 
       <q-intersection
         once
         transition="scale">
         <q-card>
           <q-card-section class="row flex-center">
-            <div v-for="agent in agentsInformation" v-bind:key="agent" class="row no-wrap">
+            <div v-for="agent in agentsDown" v-bind:key="agent" class="row no-wrap">
               <div v-if="agent.status === 1">
-                <q-chip square color="red" text-color="white" icon="report_gmailerrorred" :label="agent.agent">
+                <q-chip class="text-bold" square color="red" dense text-color="white" size="lg" :ripple=false icon="report_gmailerrorred" :label="agent.agent">
                   <q-tooltip>
                     {{ agent.message }}
                   </q-tooltip>
                 </q-chip>
               </div>
               <div v-else-if="agent.status === 2">
-                <q-chip square color="orange" text-color="white" icon="priority_high" :label="agent.agent">
+                <q-chip class="text-bold" square color="orange" dense text-color="white" size="lg" :ripple=false icon="priority_high" :label="agent.agent">
                   <q-tooltip>
                     {{ agent.message }}
                   </q-tooltip>
@@ -98,82 +177,6 @@
         </q-card>
       </q-intersection>
 
-    </div>
-
-    <div class="row flex-center" v-if="!isAgent">
-        <q-card style="margin: 10px; max-width: 500px;" v-for="agent in agentsInformation" v-bind:key="agent">
-
-          <div v-if="agent.status === 0">
-            <q-card-section class="row flex-center wrap"  style="height: 200px;">
-              <div>
-                <b>Hostname:</b> {{ agent.host.host_name }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>Domain name:</b> {{ agent.host.domain_name }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>OS manufacturer:</b> {{ agent.os.manufacturer }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>OS:</b> {{ agent.os.os }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>OS version:</b> {{ agent.os.version }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>Uptime:</b> {{ agent.os.uptime }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>Disks:</b> {{ agent.disks.length }}
-              </div>
-              <q-separator style="margin-left: 5px; margin-right: 5px;"/>
-              <div>
-                <b>Memory total: </b>{{ agent.memory.total }}<b> Memory free: </b>{{ agent.memory.available }}<b> Memory used: </b>{{ agent.memory.used }}
-              </div>
-            </q-card-section>
-
-            <q-expansion-item
-              dense
-              expand-icon-toggle
-              expand-separator
-              icon="info"
-              label="Details"
-              :caption="agent.host.host_name"
-              header-class="text-center"
-
-            >
-
-              <q-card-section class="row flex-center">
-                <div v-for="agentInterface in agent.host.interfaces" v-bind:key="agentInterface.interface_name">
-                  <ul>
-                    <li><b>{{ agentInterface.interface_name }}</b></li>
-                    <li><b>IP: </b>{{ agentInterface.ip }} / {{ agentInterface.subnet_mask }}</li>
-                    <li><b>MAC: </b>{{ agentInterface.mac }}</li>
-                  </ul>
-                </div>
-              </q-card-section>
-
-              <q-card-section class="row flex-center">
-                <div v-for="agentDisk in agent.disks" v-bind:key="agentDisk.name">
-                  <ul>
-                    <li><b>{{ agentDisk.name }}</b></li>
-                    <li><b>Total space: </b>{{ agentDisk.size }}</li>
-                    <li><b>Free space: </b>{{ agentDisk.free }}</li>
-                    <li><b>Used: </b>{{ agentDisk.used }}</li>
-                  </ul>
-                </div>
-              </q-card-section>
-
-            </q-expansion-item>
-          </div>
-
-        </q-card>
     </div>
 
   </q-page>
@@ -190,18 +193,19 @@ export default defineComponent({
 
     const store = inject('store');
 
-    let agentsInformation = ref(null);
+    let agentsOk = ref(null);
+    let agentsDown = ref(null);
 
     return {
       store,
-      agentsInformation,
+      agentsOk,
+      agentsDown,
       hostHost: ref(Object),
       hostInterfaces: ref(Object),
       hostOs: ref(Object),
       hostCpu: ref(Object),
       hostDisks: ref(Object),
       hostMemory: ref(Object),
-      agents: ref([100]),
       isAgent: false
     }
   },
@@ -233,7 +237,20 @@ export default defineComponent({
 
     agents.get().then(response => {
 
-      this.agentsInformation = response.data.agents;
+      let agents = response.data.agents;
+      let ok = [];
+      let down = [];
+
+      agents.forEach(agent => {
+          if (agent.status === 0) {
+            ok.push(agent);
+          } else {
+            down.push(agent);
+          }
+      })
+
+      this.agentsOk = ok;
+      this.agentsDown = down;
 
     }).catch(error => {
 
