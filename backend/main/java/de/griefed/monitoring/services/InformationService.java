@@ -60,7 +60,7 @@ public class InformationService {
     private final RestTemplate REST_TEMPLATE;
     private final MailNotification MAIL_NOTIFICATION;
     private final String OK = "{\"status\": " + 0 + ",\"message\": \"Everything in order.\",";
-    private final String AGENT_OK = "{\"agent\": \"%s\",";
+    private final String AGENT_OK = "{\"agent\": \"%s\",\"dialog\": false,";
     private final String AGENT_DOWN = "{\"status\": " + 1 + ",\"message\": \"Host down or unreachable.\",\"agent\": \"%s\"}";
     private final String AGENT_UNREACHABLE = "{\"status\": " + 2 + ",\"message\": \"Host up, but agent not reachable.\",\"agent\": \"%s\"}";
 

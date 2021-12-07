@@ -1,6 +1,8 @@
 <template>
   <q-page>
     <img class="flex absolute-center" alt="SUK-IT logo" src="~assets/logo.webp">
+
+    <!-- HOST -->
     <q-intersection
       class="intersection"
       once
@@ -49,6 +51,7 @@
           header-class="text-center"
           v-model="store.state.expandHost"
         >
+
           <q-card-section class="row flex-center">
             <div v-for="hostInterface in hostInterfaces" v-bind:key="hostInterface.interface_name">
               <ul>
@@ -57,7 +60,8 @@
                 <li><b>MAC: </b>{{ hostInterface.mac }}</li>
               </ul>
             </div>
-
+          </q-card-section>
+          <q-card-section class="row flex-center">
             <div v-for="hostDisk in hostDisks" v-bind:key="hostDisk.name">
               <ul>
                 <li><b>{{ hostDisk.name }}</b></li>
@@ -71,48 +75,31 @@
       </q-card>
     </q-intersection>
 
+    <!-- AGENTS WHICH ARE UP -->
     <div class="row flex-center" v-if="!isAgent">
       <q-card style="margin: 10px; width: 420px; max-width: 500px;" v-for="agent in agentsOk" v-bind:key="agent">
+        <!-- TODO: Make it so expanding any item does not move other items -->
 
-        <q-card-section class="row flex-center" :style="this.$q.dark.isActive ? 'border-bottom: #C0FFEE 3px solid;' : 'border-bottom: #325358 3px solid;'">
-          <q-chip class="row flex-center text-bold" size="xl" :ripple=false dense square color="green" text-color="white" icon="task_alt" :label="agent.agent"/>
+        <q-card-section class="row flex-center">
+          <q-btn @click="agent.dialog = true" class="row flex-center text-bold" size="xl" :ripple=false dense square color="green" text-color="white" icon="task_alt" :label="agent.agent"/>
         </q-card-section>
 
-        <q-expansion-item
-          :style="this.$q.dark.isActive ? 'border-top: #C0FFEE 3px solid;' : 'border-top: #325358 3px solid;'"
-          dense
-          expand-icon-toggle
-          expand-separator
-          icon="info"
-          label="Details"
-          :caption="agent.host.host_name"
-          header-class="text-center"
-        >
+        <q-dialog v-model="agent.dialog">
+          <q-card style="max-width: 90%;">
+            <q-card-section class="row flex-center wrap">
+              <b>Hostname:&nbsp;</b>{{ agent.host.host_name }}
+              <b>&nbsp;Domain name:&nbsp;</b>{{ agent.host.domain_name }}
+              <b>&nbsp;OS manufacturer:&nbsp;</b>{{ agent.os.manufacturer }}
+              <b>&nbsp;OS:&nbsp;</b>{{ agent.os.os }}
+              <b>&nbsp;OS version:&nbsp;</b>{{ agent.os.version }}
+              <b>&nbsp;Uptime:&nbsp;</b>{{ agent.os.uptime }}
+              <b>&nbsp;Disks:&nbsp;</b>{{ agent.disks.length }}
+              <b>&nbsp;Memory total:&nbsp;</b>{{ agent.memory.total }}
+              <b>&nbsp;Memory free:&nbsp;</b>{{ agent.memory.available }}
+              <b>&nbsp;Memory used:&nbsp;</b>{{ agent.memory.used }}
+            </q-card-section>
 
-          <q-card-section class="row flex-center wrap" style="height: 200px;">
-            <b>Hostname:&nbsp;</b>{{ agent.host.host_name }}
-            <b>&nbsp;Domain name:&nbsp;</b>{{ agent.host.domain_name }}
-            <b>&nbsp;OS manufacturer:&nbsp;</b>{{ agent.os.manufacturer }}
-            <b>&nbsp;OS:&nbsp;</b>{{ agent.os.os }}
-            <b>&nbsp;OS version:&nbsp;</b>{{ agent.os.version }}
-            <b>&nbsp;Uptime:&nbsp;</b>{{ agent.os.uptime }}
-            <b>&nbsp;Disks:&nbsp;</b>{{ agent.disks.length }}
-            <b>&nbsp;Memory total:&nbsp;</b>{{ agent.memory.total }}
-            <b>&nbsp;Memory free:&nbsp;</b>{{ agent.memory.available }}
-            <b>&nbsp;Memory used:&nbsp;</b>{{ agent.memory.used }}
-          </q-card-section>
-
-          <q-expansion-item
-            :style="this.$q.dark.isActive ? 'border-top: #C0FFEE 3px solid;' : 'border-top: #325358 3px solid;'"
-            dense
-            expand-icon-toggle
-            expand-separator
-            icon="info"
-            label="Network Interfaces"
-            header-class="text-center"
-          >
-
-            <q-card-section class="row flex-center">
+            <q-card-section class="row flex-center wrap">
               <div v-for="agentInterface in agent.host.interfaces" v-bind:key="agentInterface.interface_name">
                 <ul>
                   <li><b>{{ agentInterface.interface_name }}</b></li>
@@ -122,18 +109,7 @@
               </div>
             </q-card-section>
 
-          </q-expansion-item>
-
-          <q-expansion-item
-            :style="this.$q.dark.isActive ? 'border-top: #C0FFEE 3px solid;' : 'border-top: #325358 3px solid;'"
-            dense
-            expand-icon-toggle
-            expand-separator
-            icon="info"
-            label="Storage Disks"
-            header-class="text-center"
-          >
-            <q-card-section class="row flex-center">
+            <q-card-section class="row flex-center wrap">
               <div v-for="agentDisk in agent.disks" v-bind:key="agentDisk.name">
                 <ul>
                   <li><b>{{ agentDisk.name }}</b></li>
@@ -143,15 +119,14 @@
                 </ul>
               </div>
             </q-card-section>
-          </q-expansion-item>
-
-        </q-expansion-item>
+          </q-card>
+        </q-dialog>
 
       </q-card>
     </div>
 
+    <!-- AGENTS WHICH ARE DOWN -->
     <div v-if="!isAgent" class="absolute-bottom">
-
       <q-intersection
         once
         transition="scale">
@@ -176,7 +151,6 @@
           </q-card-section>
         </q-card>
       </q-intersection>
-
     </div>
 
   </q-page>
