@@ -59,7 +59,8 @@ public class HostComponent implements InformationModel {
 
     @Override
     public void sendNotification() {
-
+        updateValues();
+        setValues();
     }
 
     /**

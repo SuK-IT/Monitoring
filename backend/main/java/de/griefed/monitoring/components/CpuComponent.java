@@ -56,6 +56,9 @@ public class CpuComponent implements InformationModel {
     /**
      * Constructor responsible for DI.
      * @author Griefed
+     * @param injectedApplicationProperties Instance of {@link ApplicationProperties}.
+     * @param injectedHostComponent Instance of {@link HostComponent}.
+     * @param injectedMailNotification Instance of {@link MailNotification}.
      */
     @Autowired
     public CpuComponent(MailNotification injectedMailNotification, ApplicationProperties injectedApplicationProperties, HostComponent injectedHostComponent) {
@@ -65,9 +68,18 @@ public class CpuComponent implements InformationModel {
         updateValues();
     }
 
+    /**
+     * If the number of processes exceeds <code>de.griefed.monitoring.schedule.email.notification.cpu.processes</code>.
+     * @author Griefed
+     * @throws MessagingException Exception thrown if a failure occurs when sending the email.
+     */
     @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.cpu}")
     @Override
     public void sendNotification() throws MessagingException {
+
+        updateValues();
+        setValues();
+
         if (processes >= Integer.parseInt(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.cpu.processes", "500"))) {
             MAIL_NOTIFICATION.sendMailNotification(
                     "Processes on " + HOST_COMPONENT.getHostName() + " critical!",

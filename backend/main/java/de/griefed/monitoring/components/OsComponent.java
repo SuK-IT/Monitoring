@@ -55,7 +55,8 @@ public class OsComponent implements InformationModel {
 
     @Override
     public void sendNotification() {
-
+        updateValues();
+        setValues();
     }
 
     /**

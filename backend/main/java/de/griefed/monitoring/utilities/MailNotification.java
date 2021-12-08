@@ -113,6 +113,7 @@ public class MailNotification {
      * @author Griefed
      * @param subject String. Subject of the mail to send.
      * @param content String. The content which should make up the mails body.
+     * @throws MessagingException Exception thrown if an error occurs sending the email.
      */
     public void sendMailNotification(String subject, String content) throws MessagingException {
         if (this.mailEnabled) {

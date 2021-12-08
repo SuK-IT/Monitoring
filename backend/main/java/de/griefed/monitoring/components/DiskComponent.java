@@ -61,6 +61,9 @@ public class DiskComponent implements InformationModel {
     /**
      * Constructor responsible for DI.
      * @author Griefed
+     * @param injectedMailNotification Instance of {@link MailNotification}.
+     * @param injectedHostComponent Instance of {@link HostComponent}.
+     * @param injectedApplicationProperties Instance of {@link ApplicationProperties}.
      */
     @Autowired
     public DiskComponent(ApplicationProperties injectedApplicationProperties, MailNotification injectedMailNotification, HostComponent injectedHostComponent) {
@@ -70,9 +73,17 @@ public class DiskComponent implements InformationModel {
         updateValues();
     }
 
+    /**
+     * If the usage of any disk exceeds <code>de.griefed.monitoring.schedule.email.notification.disk.usage</code>.
+     * @author Griefed
+     * @throws MessagingException Exception thrown if a failure occurs when sending the email.
+     */
     @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.disk}")
     @Override
     public void sendNotification() throws MessagingException {
+
+        updateValues();
+        setValues();
 
         List<HashMap<String, String>> disks = diskInformationList;
 

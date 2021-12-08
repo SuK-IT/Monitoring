@@ -28,6 +28,7 @@ import de.griefed.monitoring.utilities.MailNotification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
@@ -79,6 +80,9 @@ public class RamComponent implements InformationModel {
     /**
      * Constructor responsible for DI.
      * @author Griefed
+     * @param injectedApplicationProperties Instance {@link ApplicationProperties}.
+     * @param injectedHostComponent Instance of {@link HostComponent}.
+     * @param injectedMailNotification Instance of {@link MailNotification}.
      */
     @Autowired
     public RamComponent(ApplicationProperties injectedApplicationProperties, HostComponent injectedHostComponent, MailNotification injectedMailNotification) {
@@ -88,8 +92,17 @@ public class RamComponent implements InformationModel {
         updateValues();
     }
 
+    /**
+     * If the memory usage exceeds <code>de.griefed.monitoring.schedule.email.notification.disk.usage</code>.
+     * @author Griefed
+     * @throws MessagingException Exception thrown if a failure occurs when sending the email.
+     */
+    @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.memory}")
     @Override
     public void sendNotification() throws MessagingException {
+
+        updateValues();
+        setValues();
 
         if (Float.parseFloat(used.replace(" %","").replace(",",".")) >= Float.parseFloat(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.disk.usage"))) {
             MAIL_NOTIFICATION.sendMailNotification(

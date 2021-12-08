@@ -76,6 +76,7 @@ public class InformationService {
      * @param injectedOsComponent Instance of {@link OsComponent}.
      * @param injectedRamComponent Instance of {@link RamComponent}.
      * @param injectedApplicationProperties Instance of {@link ApplicationProperties}.
+     * @param injectedMailNotification Instance of {@link MailNotification}.
      */
     @Autowired
     public InformationService(CpuComponent injectedCpuComponent, DiskComponent injectedDiskComponent, HostComponent injectedHostComponent,
@@ -116,9 +117,11 @@ public class InformationService {
      */
     public String retrieveHostInformation() {
 
-        if (hostInformation.length() == 0) {
+        /*if (hostInformation.length() == 0) {
             setHostInformation();
-        }
+        }*/
+
+        setHostInformation();
 
         return hostInformation;
 
@@ -225,29 +228,26 @@ public class InformationService {
 
         if (address != null) {
 
-            /*for (int i = 1; i < 1001; i++) {
+            try {
 
-                try (Socket soc = new Socket()) {
-
-                    soc.connect(new InetSocketAddress(address, i), 1000);
+                if (address.isReachable(PROPERTIES.getTimeoutConnect() * 1000)) {
                     reachable = true;
-
-                } catch (IOException ignored) {
-
-                }
-            }*/
-
-            for (int port : PROPERTIES.getPorts()) {
-
-                try (Socket soc = new Socket()) {
-
-                    soc.connect(new InetSocketAddress(address, port), 1000);
-                    reachable = true;
-
-                } catch (IOException ignored) {
-
                 }
 
+            } catch (IOException ignored) {}
+
+            if (!reachable) {
+
+                for (int port : PROPERTIES.getPorts()) {
+
+                    try (Socket soc = new Socket()) {
+
+                        soc.connect(new InetSocketAddress(address, port), 1000);
+                        reachable = true;
+
+                    } catch (IOException ignored) {}
+
+                }
             }
 
         } else {
@@ -299,7 +299,8 @@ public class InformationService {
     /**
      * Sends a notification,
      * @author Griefed
-     * @param agent The agent to mention in the notifications body.
+     * @param agent String. The agent to mention in the notifications body.
+     * @param status Integer. The statuscode of the agent.
      */
     private void sendNotification(String agent, int status) {
 
