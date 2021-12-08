@@ -54,10 +54,7 @@ public class OsComponent implements InformationModel {
     }
 
     @Override
-    public void sendNotification() {
-        updateValues();
-        setValues();
-    }
+    public void sendNotification() {}
 
     /**
      * Set information from previously gathered information
@@ -65,10 +62,6 @@ public class OsComponent implements InformationModel {
      */
     @Override
     public void setValues() {
-        if (manufacturer == null || os == null || version == null || arch == null || uptime == null) {
-            updateValues();
-        }
-
         this.osInformation = "\"manufacturer\": \"" + manufacturer + "\"," +
                 "\"os\": \"" + os + "\"," +
                 "\"version\": \"" + version + "\"," +

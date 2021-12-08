@@ -95,23 +95,21 @@ public class RamComponent implements InformationModel {
     /**
      * If the memory usage exceeds <code>de.griefed.monitoring.schedule.email.notification.disk.usage</code>.
      * @author Griefed
-     * @throws MessagingException Exception thrown if a failure occurs when sending the email.
      */
     @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.memory}")
     @Override
-    public void sendNotification() throws MessagingException {
-
-        updateValues();
-        setValues();
-
+    public void sendNotification() {
         if (Float.parseFloat(used.replace(" %","").replace(",",".")) >= Float.parseFloat(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.disk.usage"))) {
-            MAIL_NOTIFICATION.sendMailNotification(
-                    "Disk on " + HOST_COMPONENT.getHostName() + " at critical capacity!",
-                    "Memory usage has reached critical usage levels of " + used + ".\n" +
-                            "Memory remaining: " + available + "."
-            );
+            try {
+                MAIL_NOTIFICATION.sendMailNotification(
+                        "Disk on " + HOST_COMPONENT.getHostName() + " at critical capacity!",
+                        "Memory usage has reached critical usage levels of " + used + ".\n" +
+                                "Memory remaining: " + available + "."
+                );
+            } catch (MessagingException ex) {
+                LOG.error("Error sending email notification.");
+            }
         }
-
     }
 
     /**
@@ -120,9 +118,6 @@ public class RamComponent implements InformationModel {
      */
     @Override
     public void setValues() {
-        if (ramInformationList.isEmpty()) {
-            updateValues();
-        }
 
         StringBuilder stringBuilder = new StringBuilder(10000);
 
@@ -236,8 +231,9 @@ public class RamComponent implements InformationModel {
             }
         }
 
-
         this.ramInformationList = list;
+
+        setValues();
     }
 
     /**

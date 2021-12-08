@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -106,8 +107,22 @@ public class InformationService {
                 OS_COMPONENT.toString() + "," +
                 CPU_COMPONENT.toString() + "," +
                 DISK_COMPONENT.toString() + "," +
-                RAM_COMPONENT.toString() +
-                "}";
+                RAM_COMPONENT.toString() + "}";
+    }
+
+    /**
+     * Update host information.
+     * @author Griefed
+     */
+    @Scheduled(cron = "${de.griefed.monitoring.schedule.update}")
+    private void updateHostInformation() {
+        HOST_COMPONENT.updateValues();
+        OS_COMPONENT.updateValues();
+        CPU_COMPONENT.updateValues();
+        DISK_COMPONENT.updateValues();
+        RAM_COMPONENT.updateValues();
+
+        setHostInformation();
     }
 
     /**
@@ -117,14 +132,11 @@ public class InformationService {
      */
     public String retrieveHostInformation() {
 
-        /*if (hostInformation.length() == 0) {
-            setHostInformation();
-        }*/
-
-        setHostInformation();
+        if (hostInformation == null || hostInformation.length() == 0) {
+            updateHostInformation();
+        }
 
         return hostInformation;
-
     }
 
     /**
@@ -186,7 +198,7 @@ public class InformationService {
      */
     public String retrieveAgentsInformation() {
 
-        if (agentInformation.length() == 0) {
+        if (agentInformation == null || agentInformation.length() == 0) {
             setAgentsInformation();
         }
 

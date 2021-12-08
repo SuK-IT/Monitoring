@@ -22,11 +22,9 @@
  */
 package de.griefed.monitoring.models;
 
-import javax.mail.MessagingException;
-
 public interface InformationModel {
 
-    void sendNotification() throws MessagingException;
+    void sendNotification();
 
     void setValues();
 

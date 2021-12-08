@@ -76,29 +76,29 @@ public class DiskComponent implements InformationModel {
     /**
      * If the usage of any disk exceeds <code>de.griefed.monitoring.schedule.email.notification.disk.usage</code>.
      * @author Griefed
-     * @throws MessagingException Exception thrown if a failure occurs when sending the email.
      */
     @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.disk}")
     @Override
-    public void sendNotification() throws MessagingException {
-
-        updateValues();
-        setValues();
-
-        List<HashMap<String, String>> disks = diskInformationList;
-
-        for (HashMap<String, String> disk : disks) {
+    public void sendNotification() {
+        for (HashMap<String, String> disk : diskInformationList) {
 
             if (Float.parseFloat(disk.get("used").replace(" %","").replace(",",".")) >= Float.parseFloat(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.disk.usage"))) {
-                MAIL_NOTIFICATION.sendMailNotification(
-                        "Disk on " + HOST_COMPONENT.getHostName() + " at critical capacity!",
-                        "The usage for disk " + disk.get("name") + " has reached critical usage levels of " + disk.get("used") + ".\n" +
-                        "Free space remaining: " + disk.get("free") + "."
-                );
-            }
-        }
 
-        disks.clear();
+                try {
+
+                    MAIL_NOTIFICATION.sendMailNotification(
+                            "Disk on " + HOST_COMPONENT.getHostName() + " at critical capacity!",
+                            "The usage for disk " + disk.get("name") + " has reached critical usage levels of " + disk.get("used") + ".\n" +
+                                    "Free space remaining: " + disk.get("free") + "."
+                    );
+
+                } catch (MessagingException ex) {
+                    LOG.error("Error sending email notification.");
+                }
+
+            }
+
+        }
     }
 
     /**
@@ -107,9 +107,6 @@ public class DiskComponent implements InformationModel {
      */
     @Override
     public void setValues() {
-        if (diskInformationList.isEmpty()) {
-            updateValues();
-        }
 
         StringBuilder stringBuilder = new StringBuilder(10000);
 
@@ -214,6 +211,8 @@ public class DiskComponent implements InformationModel {
         }
 
         this.diskInformationList = list;
+
+        setValues();
     }
 
     /**
@@ -235,7 +234,7 @@ public class DiskComponent implements InformationModel {
     @Override
     public String getValues() {
         if (diskInformation == null) {
-            setValues();
+            updateValues();
         }
 
         return diskInformation;

@@ -57,6 +57,17 @@ public class SystemInformationController {
     }
 
     /**
+     * GET endpoint for retrieving the polling rate of this instance. Returns, as JSON, the polling rate currently set.
+     * @author Griefed
+     * @return String. . Wrapped in a ResponseEntity as application/json.
+     */
+    @CrossOrigin(origins = "{*}")
+    @RequestMapping(value = "polling", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getPolling() {
+        return ResponseEntity.ok("{\"polling\": "+ PROPERTIES.getPollingRate() + "}");
+    }
+
+    /**
      * GET endpoint for retrieving the mode this instance is running in. Returns, as JSON, the mode currently active.
      * @author Griefed
      * @return String. <code>{"mode": true}</code> if agent, <code>{"mode": false}</code> if monitor. Wrapped in a ResponseEntity as application/json.

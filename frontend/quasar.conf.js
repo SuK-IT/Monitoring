@@ -105,9 +105,9 @@ module.exports = configure(function (ctx) {
 
       config: {
         loadingBar: {
-          color: 'secondary',
-          size: '3px',
-          position: 'left'
+          color: 'accent',
+          size: '1px',
+          position: 'bottom'
         },
         brand: {
           primary:   '#325358',
@@ -172,29 +172,44 @@ module.exports = configure(function (ctx) {
         theme_color: '#325358',
         icons: [
           {
-            src: 'icons/icon-128x128.png',
+            src: 'icons/icon-16x16.gif',
+            sizes: '16x16',
+            type: 'image/gif'
+          },
+          {
+            src: 'icons/icon-32x32.gif',
+            sizes: '32x32',
+            type: 'image/gif'
+          },
+          {
+            src: 'icons/icon-96x96.gif',
+            sizes: '96x96',
+            type: 'image/gif'
+          },
+          {
+            src: 'icons/icon-128x128.gif',
             sizes: '128x128',
-            type: 'image/png'
+            type: 'image/gif'
           },
           {
-            src: 'icons/icon-192x192.png',
+            src: 'icons/icon-192x192.gif',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/gif'
           },
           {
-            src: 'icons/icon-256x256.png',
+            src: 'icons/icon-256x256.gif',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/gif'
           },
           {
-            src: 'icons/icon-384x384.png',
+            src: 'icons/icon-384x384.gif',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/gif'
           },
           {
-            src: 'icons/icon-512x512.png',
+            src: 'icons/icon-512x512.gif',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/gif'
           }
         ]
       }

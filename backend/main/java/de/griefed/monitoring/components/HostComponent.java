@@ -58,10 +58,7 @@ public class HostComponent implements InformationModel {
     }
 
     @Override
-    public void sendNotification() {
-        updateValues();
-        setValues();
-    }
+    public void sendNotification() {}
 
     /**
      * Set information from previously gathered information
@@ -69,9 +66,7 @@ public class HostComponent implements InformationModel {
      */
     @Override
     public void setValues() {
-        if (hostName == null || domainName == null || interfacesInformationList.isEmpty()) {
-            updateValues();
-        }
+
         StringBuilder stringBuilder = new StringBuilder(10000);
 
         stringBuilder.append("\"host_name\": \"").append(hostName).append("\",");
@@ -185,6 +180,8 @@ public class HostComponent implements InformationModel {
         }
 
         this.interfacesInformationList = list;
+
+        setValues();
     }
 
     /**

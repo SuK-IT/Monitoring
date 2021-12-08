@@ -25,6 +25,8 @@ package de.griefed.monitoring.components;
 import de.griefed.monitoring.ApplicationProperties;
 import de.griefed.monitoring.models.InformationModel;
 import de.griefed.monitoring.utilities.MailNotification;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,8 @@ import javax.mail.MessagingException;
  */
 @Service
 public class CpuComponent implements InformationModel {
+
+    private final Logger LOG = LogManager.getLogger(CpuComponent.class);
 
     private final SystemInfo SYSTEM_INFO = new SystemInfo();
     private final CentralProcessor CPU = SYSTEM_INFO.getHardware().getProcessor();
@@ -71,20 +75,19 @@ public class CpuComponent implements InformationModel {
     /**
      * If the number of processes exceeds <code>de.griefed.monitoring.schedule.email.notification.cpu.processes</code>.
      * @author Griefed
-     * @throws MessagingException Exception thrown if a failure occurs when sending the email.
      */
     @Scheduled(cron = "${de.griefed.monitoring.schedule.email.notification.cpu}")
     @Override
-    public void sendNotification() throws MessagingException {
-
-        updateValues();
-        setValues();
-
+    public void sendNotification() {
         if (processes >= Integer.parseInt(PROPERTIES.getProperty("de.griefed.monitoring.schedule.email.notification.cpu.processes", "500"))) {
-            MAIL_NOTIFICATION.sendMailNotification(
-                    "Processes on " + HOST_COMPONENT.getHostName() + " critical!",
-                    "The number of processes on this host has reached " + processes + ". Check this system immediately!"
-            );
+            try {
+                MAIL_NOTIFICATION.sendMailNotification(
+                        "Processes on " + HOST_COMPONENT.getHostName() + " critical!",
+                        "The number of processes on this host has reached " + processes + ". Check this system immediately!"
+                );
+            } catch (MessagingException ex) {
+                LOG.error("Error sending email notification.");
+            }
         }
     }
 
@@ -94,10 +97,6 @@ public class CpuComponent implements InformationModel {
      */
     @Override
     public void setValues() {
-        if (model == null || x64 == null || processes == 0 || physical_cores == 0 || logical_cores == 0) {
-            updateValues();
-        }
-
         this.cpuInformation = "\"model\": \"" + model + "\"," +
                 "\"x64\": \"" + x64 + "\"," +
                 "\"processes\": " + processes + "," +
@@ -140,7 +139,7 @@ public class CpuComponent implements InformationModel {
     @Override
     public String getValues() {
         if (cpuInformation == null) {
-            setValues();
+            updateValues();
         }
 
         return cpuInformation;

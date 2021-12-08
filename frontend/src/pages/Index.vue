@@ -50,6 +50,8 @@
           :caption="hostHost.host_name"
           header-class="text-center"
           v-model="store.state.expandHost"
+          @show="expand()"
+          @hide="retract()"
         >
 
           <q-card-section class="row flex-center">
@@ -83,7 +85,7 @@
           <q-btn @click="agent.dialog = true" class="row flex-center text-bold" size="xl" :ripple=false dense square color="green" text-color="white" icon="task_alt" :label="agent.agent"/>
         </q-card-section>
 
-        <q-dialog v-model="agent.dialog">
+        <q-dialog v-model="agent.dialog" transition-show="fade" transition-hide="fade" @show="show()" @update:model-value="hide()" >
           <q-card style="max-width: 90%;">
             <q-card-section class="row flex-center wrap">
               <b>Hostname:&nbsp;</b>{{ agent.host.host_name }}
@@ -180,13 +182,104 @@ export default defineComponent({
       hostCpu: ref(Object),
       hostDisks: ref(Object),
       hostMemory: ref(Object),
-      isAgent: false
+      isAgent: false,
+      polling: 5000
     }
   },
+  methods: {
+
+    show() {
+      this.store.state.autorefresh = false;
+    },
+    hide() {
+      this.store.state.autorefresh = true;
+    },
+
+    expand() {
+      console.log("expand");
+      this.store.methods.setExpandHost(true);
+      this.$q.cookies.set('toggle.host', true);
+    },
+    retract() {
+      console.log("retract");
+      this.store.methods.setExpandHost(false);
+      this.$q.cookies.set('toggle.host', false);
+    },
+
+    updateHost() {
+      host.get().then(response => {
+
+        this.hostHost = response.data.host;
+        this.hostInterfaces = this.hostHost.interfaces;
+        this.hostOs = response.data.os;
+        this.hostCpu = response.data.cpu;
+        this.hostDisks = response.data.disks;
+        this.hostMemory = response.data.memory;
+
+        this.$forceUpdate();
+
+      }).catch(error => {
+
+        console.log("Encountered an error fetching host information: " + error);
+
+      });
+    },
+
+    updateAgents() {
+      agents.get().then(response => {
+
+        let agents = response.data.agents;
+        let ok = [];
+        let down = [];
+
+        agents.forEach(agent => {
+          if (agent.status === 0) {
+            ok.push(agent);
+          } else {
+            down.push(agent);
+          }
+        })
+
+        this.agentsOk = ok;
+        this.agentsDown = down;
+
+        this.$forceUpdate();
+
+      }).catch(error => {
+
+        console.log("Encountered an error fetching host information: " + error);
+
+      });
+    },
+
+    refreshValues() {
+      if (this.store.state.autorefresh) {
+
+        this.updateHost();
+
+        if (!this.isAgent) {
+
+          this.updateAgents()
+
+        }
+      }
+    }
+
+  },
   mounted() {
+    this.store.state.autorefresh = true;
+
     api.get('/mode').then(response => {
 
       this.isAgent = response.data.mode;
+
+      if (!this.agent) {
+
+        this.updateAgents();
+
+      }
+
+      this.updateHost();
 
     }).catch(error => {
 
@@ -194,43 +287,21 @@ export default defineComponent({
 
     });
 
-    host.get().then(response => {
+    api.get('/polling').then(response => {
 
-      this.hostHost = response.data.host;
-      this.hostInterfaces = this.hostHost.interfaces;
-      this.hostOs = response.data.os;
-      this.hostCpu = response.data.cpu;
-      this.hostDisks = response.data.disks;
-      this.hostMemory = response.data.memory;
+      this.polling = response.data.polling;
+
+      console.log(this.polling);
 
     }).catch(error => {
 
-      console.log("Encountered an error fetching host information: " + error);
+      console.log("Couldn't fetch polling rate: " + error);
 
     });
 
-    agents.get().then(response => {
-
-      let agents = response.data.agents;
-      let ok = [];
-      let down = [];
-
-      agents.forEach(agent => {
-          if (agent.status === 0) {
-            ok.push(agent);
-          } else {
-            down.push(agent);
-          }
-      })
-
-      this.agentsOk = ok;
-      this.agentsDown = down;
-
-    }).catch(error => {
-
-      console.log("Encountered an error fetching host information: " + error);
-
-    });
+    setInterval(() => {
+      this.refreshValues()
+    }, this.polling);
   }
 })
 </script>

@@ -9,16 +9,6 @@
           Monitoring
         </q-toolbar-title>
 
-        <q-btn
-          dense
-          class="q-mr-xs"
-          icon="gite"
-          @click="toggleExpandHost()">
-          <q-tooltip :disable="this.$q.platform.is.mobile">
-            Autoexpand host information
-          </q-tooltip>
-        </q-btn>
-
         <q-btn v-if="!this.$q.platform.is.mobile" label="GitHub" style="color: #C0FFEE" type="a" target="_blank" href="https://github.com/SuK-IT/Monitoring">
           <q-tooltip>
             Visit the project on GitHub!
@@ -100,23 +90,12 @@ export default defineComponent({
     toggleDarkMode() {
       this.$q.dark.toggle();
       this.$q.cookies.set('dark.isActive', this.$q.dark.isActive);
-    },
-    toggleExpandHost() {
-      let status = !this.store.state.expandHost;
-      this.store.methods.setExpandHost(status);
-      this.$q.cookies.set('toggle.host', status);
-    },
-    toggleExpandAgents() {
-      let status = !this.store.state.expandAgents;
-      this.store.methods.setExpandAgents(status);
-      this.$q.cookies.set('toggle.agents', status);
     }
   },
   mounted() {
     this.$q.platform.is.mobile ? this.drawer = false : this.drawer = true;
     this.$q.dark.set(this.$q.cookies.get('dark.isActive'));
     this.store.methods.setExpandHost(this.$q.cookies.get('toggle.host'));
-    this.store.methods.setExpandAgents(this.$q.cookies.get('toggle.agents'));
     tsParticles.load("particles-js",{
       "fpsLimit": 30,
       "particles": {
