@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -206,6 +206,12 @@ extends java.lang.Object</pre>
 <div class="block">GET endpoint for retrieving the mode this instance is running in.</div>
 </td>
 </tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/controllers/SystemInformationController.html#getPolling--">getPolling</a></span>()</code>
+<div class="block">GET endpoint for retrieving the polling rate of this instance.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -279,6 +285,24 @@ public&nbsp;SystemInformationController(<a href="../../../../de/griefed/monitori
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getPolling--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPolling</h4>
+<pre>@CrossOrigin(origins="{*}")
+ @RequestMapping(value="polling",
+                method=GET,
+                produces="application/json")
+public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.String&gt;&nbsp;getPolling()</pre>
+<div class="block">GET endpoint for retrieving the polling rate of this instance. Returns, as JSON, the polling rate currently set.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>String. <code>de.griefed.monitoring.polling</code> wrapped in a ResponseEntity as application/json.</dd>
+</dl>
+</li>
+</ul>
 <a name="getMode--">
 <!--   -->
 </a>
