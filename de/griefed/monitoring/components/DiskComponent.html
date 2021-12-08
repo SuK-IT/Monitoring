@@ -220,7 +220,9 @@ implements <a href="../../../../de/griefed/monitoring/models/InformationModel.ht
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#sendNotification--">sendNotification</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/griefed/monitoring/components/DiskComponent.html#sendNotification--">sendNotification</a></span>()</code>
+<div class="block">If the usage of any disk exceeds <code>de.griefed.monitoring.schedule.email.notification.disk.usage</code>.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -360,6 +362,12 @@ public&nbsp;DiskComponent(<a href="../../../../de/griefed/monitoring/Application
                                 <a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities">MailNotification</a>&nbsp;injectedMailNotification,
                                 <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components">HostComponent</a>&nbsp;injectedHostComponent)</pre>
 <div class="block">Constructor responsible for DI.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>injectedMailNotification</code> - Instance of <a href="../../../../de/griefed/monitoring/utilities/MailNotification.html" title="class in de.griefed.monitoring.utilities"><code>MailNotification</code></a>.</dd>
+<dd><code>injectedHostComponent</code> - Instance of <a href="../../../../de/griefed/monitoring/components/HostComponent.html" title="class in de.griefed.monitoring.components"><code>HostComponent</code></a>.</dd>
+<dd><code>injectedApplicationProperties</code> - Instance of <a href="../../../../de/griefed/monitoring/ApplicationProperties.html" title="class in de.griefed.monitoring"><code>ApplicationProperties</code></a>.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -379,11 +387,12 @@ public&nbsp;DiskComponent(<a href="../../../../de/griefed/monitoring/Application
 <pre>@Scheduled(cron="${de.griefed.monitoring.schedule.email.notification.disk}")
 public&nbsp;void&nbsp;sendNotification()
                                                                                                    throws javax.mail.MessagingException</pre>
+<div class="block">If the usage of any disk exceeds <code>de.griefed.monitoring.schedule.email.notification.disk.usage</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../de/griefed/monitoring/models/InformationModel.html#sendNotification--">sendNotification</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../de/griefed/monitoring/models/InformationModel.html" title="interface in de.griefed.monitoring.models">InformationModel</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>javax.mail.MessagingException</code></dd>
+<dd><code>javax.mail.MessagingException</code> - Exception thrown if a failure occurs when sending the email.</dd>
 </dl>
 </li>
 </ul>
