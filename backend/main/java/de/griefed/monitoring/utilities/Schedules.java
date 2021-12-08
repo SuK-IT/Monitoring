@@ -54,10 +54,4 @@ public class Schedules {
             INFORMATION_SERVICE.setAgentsInformation();
         }
     }
-
-    /*@Scheduled(cron = "${de.griefed.monitoring.schedule.host}")
-    public void refreshHostInformation() {
-        LOG.debug("Current Time: " + dateFormat.format(new Date()) + " - Refreshing host information.");
-        INFORMATION_SERVICE.setHostInformation();
-    }*/
 }
