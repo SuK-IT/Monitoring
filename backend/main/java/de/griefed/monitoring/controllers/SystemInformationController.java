@@ -59,7 +59,7 @@ public class SystemInformationController {
     /**
      * GET endpoint for retrieving the polling rate of this instance. Returns, as JSON, the polling rate currently set.
      * @author Griefed
-     * @return String. . Wrapped in a ResponseEntity as application/json.
+     * @return String. <code>de.griefed.monitoring.polling</code> wrapped in a ResponseEntity as application/json.
      */
     @CrossOrigin(origins = "{*}")
     @RequestMapping(value = "polling", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
