@@ -14,7 +14,7 @@ updates:
     labels:
      - "dependencies"
      - "github-actions"
-    target-branch: "master"
+    target-branch: "dependabot"
     
   - package-ecosystem: "gradle"
     directory: "/"
@@ -25,7 +25,7 @@ updates:
     labels:
       - "dependencies"
       - "gradle"
-    target-branch: "master"
+    target-branch: "dependabot"
     
   - package-ecosystem: "npm"
     directory: "/frontend"
@@ -36,7 +36,7 @@ updates:
     labels:
       - "dependencies"
       - "npm"
-    target-branch: "master"
+    target-branch: "dependabot"
     
   - package-ecosystem: "docker"
     directory: "/"
@@ -47,4 +47,4 @@ updates:
     labels:
       - "dependencies"
       - "docker"
-    target-branch: "master"
+    target-branch: "dependabot"
