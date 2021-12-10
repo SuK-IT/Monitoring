@@ -6,10 +6,12 @@ on:
       - main
       - master
       - develop
+      - dependabot
   pull_request:
     branches:
       - main
-      - master
+      - develop
+      - dependabot
   workflow_dispatch:
 
 jobs:
