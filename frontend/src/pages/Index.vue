@@ -293,15 +293,17 @@ export default defineComponent({
 
       console.log(this.polling);
 
+      setInterval(() => {
+        this.refreshValues()
+      }, parseInt(this.polling));
+
+
+
     }).catch(error => {
 
       console.log("Couldn't fetch polling rate: " + error);
 
     });
-
-    setInterval(() => {
-      this.refreshValues()
-    }, this.polling);
   }
 })
 </script>
