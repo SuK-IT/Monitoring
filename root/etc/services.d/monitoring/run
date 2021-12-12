@@ -4,5 +4,5 @@ cd /config
 
 exec \
   s6-setuidgid grfd \
-    /usr/bin/java -jar \
+    /usr/bin/java -Dlog4j2.formatMsgNoLookups=true -jar \
       /app/monitoring/monitoring.jar
